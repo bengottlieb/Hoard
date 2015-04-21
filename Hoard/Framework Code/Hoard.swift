@@ -20,7 +20,6 @@ public class Hoard: NSObject {
 	public var maxConcurrentDownloads = 400
 	public var active = Set<PendingImage>()
 	public var pending = Array<PendingImage>()
-	public var dupes = Set<PendingImage>()
 	
 	public var directory: NSURL = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(
 		.LibraryDirectory, .UserDomainMask, true)[0] as! String, isDirectory: true)!.URLByAppendingPathComponent("CachedImages") { didSet {
@@ -34,7 +33,7 @@ public class Hoard: NSObject {
 			if pending.isCachedAvailable {
 				pending.complete()
 			} else if let existing = self.findExistingConnectionWithURL(url) {
-				self.dupes.insert(pending)
+				existing.dupes.append(pending)
 			} else {
 				self.enqueue(pending)
 			}
@@ -43,6 +42,15 @@ public class Hoard: NSObject {
 		return pending
 	}
 	
+	public func clearCache() {
+		var error: NSError?
+		
+		if !NSFileManager.defaultManager().removeItemAtURL(self.directory, error: &error) {
+			println("Error while clearing Hoard cache: \(error)")
+		}
+		
+		self.updateDirectory()
+	}
 	
 
 	//=============================================================================================
@@ -74,18 +82,11 @@ public class Hoard: NSObject {
 		return nil
 	}
 	
-	func findDupesWithURL(url: NSURL) -> [PendingImage] {
-		return filter(Array(self.dupes), { $0.URL == url })
-	}
-	
 	func completedPending(image: PendingImage) {
 		self.pending.remove(image)
 		
 		if image.isComplete {
 			self.active.remove(image)
-			for dupe in self.findDupesWithURL(image.URL) {
-				dupe.complete(image: image.image)
-			}
 		}
 		self.queue.addOperationWithBlock {
 			self.enqueue()

@@ -39,7 +39,7 @@ class ViewController: UIViewController {
 			
 			view.backgroundColor = UIColor.blackColor()
 			view.contentMode = .ScaleAspectFill
-			view.URL = NSURL(string: "http://lorempixel.com/400/200/")
+			view.URL = NSURL(string: "http://lorempixel.com/\((rand() % 2 + 80))/\((rand() % 2 + 50))/")
 			self.view.addSubview(view)
 			
 			left += width

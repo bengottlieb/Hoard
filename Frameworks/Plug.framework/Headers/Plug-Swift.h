@@ -91,19 +91,20 @@ typedef struct _NSZone NSZone;
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
 @class NSURLResponse;
+@class NSOperationQueue;
 @class NSURL;
 @class NSURLRequest;
-@class NSOperationQueue;
 @class NSDate;
 
 SWIFT_CLASS("_TtCC4Plug4Plug10Connection")
 @interface Connection : NSObject
 @property (nonatomic) NSURLRequestCachePolicy cachingPolicy;
 @property (nonatomic) NSURLResponse * __nullable response;
+@property (nonatomic) NSOperationQueue * __nullable completionQueue;
 @property (nonatomic, readonly) NSURL * __nonnull URL;
 @property (nonatomic) BOOL downloadToFile;
 @property (nonatomic) NSURLRequest * __nullable request;
-@property (nonatomic, readonly) NSOperationQueue * __nonnull completionQueue;
+@property (nonatomic, readonly) NSOperationQueue * __nonnull requestQueue;
 @property (nonatomic) NSDate * __nullable startedAt;
 @property (nonatomic) NSDate * __nullable completedAt;
 @property (nonatomic, readonly) NSTimeInterval elapsedTime;
@@ -114,8 +115,8 @@ SWIFT_CLASS("_TtCC4Plug4Plug10Connection")
 @class NSError;
 
 @interface Connection (SWIFT_EXTENSION(Plug))
-- (SWIFT_NULLABILITY(nonnull) instancetype)completionWithQueue:(NSOperationQueue * __nullable)queue completion:(void (^ __nonnull)(NSData * __nonnull))completion;
-- (SWIFT_NULLABILITY(nonnull) instancetype)errorWithQueue:(NSOperationQueue * __nullable)queue completion:(void (^ __nonnull)(NSError * __nonnull))completion;
+- (SWIFT_NULLABILITY(nonnull) instancetype)completion:(void (^ __nonnull)(NSData * __nonnull))completion;
+- (SWIFT_NULLABILITY(nonnull) instancetype)error:(void (^ __nonnull)(NSError * __nonnull))completion;
 @end
 
 @class NSDictionary;
@@ -203,7 +204,6 @@ SWIFT_CLASS("_TtC4Plug24NetworkActivityIndicator")
 SWIFT_CLASS("_TtC4Plug4Plug")
 @interface Plug : NSObject
 + (Plug * __nonnull)defaultManager;
-@property (nonatomic) NSInteger maximumActiveConnections;
 @property (nonatomic) BOOL autostartConnections;
 @property (nonatomic) NSURL * __nonnull temporaryDirectoryURL;
 @property (nonatomic) NSOperationQueue * __nonnull sessionQueue;
@@ -236,6 +236,18 @@ SWIFT_CLASS("_TtC4Plug4Plug")
 @interface Plug (SWIFT_EXTENSION(Plug))
 @end
 
+
+@interface Plug (SWIFT_EXTENSION(Plug))
+@end
+
+
+@interface Plug (SWIFT_EXTENSION(Plug))
+@end
+
+
+@interface Plug (SWIFT_EXTENSION(Plug))
+@end
+
 @class NSURLSessionDownloadTask;
 @class NSURLSessionTask;
 @class NSHTTPURLResponse;
@@ -244,25 +256,6 @@ SWIFT_CLASS("_TtC4Plug4Plug")
 - (void)URLSession:(NSURLSession * __nonnull)session downloadTask:(NSURLSessionDownloadTask * __nonnull)downloadTask didFinishDownloadingToURL:(NSURL * __nonnull)location;
 - (void)URLSession:(NSURLSession * __nonnull)session task:(NSURLSessionTask * __nonnull)task didCompleteWithError:(NSError * __nullable)error;
 - (void)URLSession:(NSURLSession * __nonnull)session task:(NSURLSessionTask * __nonnull)task willPerformHTTPRedirection:(NSHTTPURLResponse * __nonnull)response newRequest:(NSURLRequest * __nonnull)request completionHandler:(void (^ __nonnull)(NSURLRequest * __null_unspecified))completionHandler;
-@end
-
-
-@interface Plug (SWIFT_EXTENSION(Plug))
-@end
-
-
-@interface Plug (SWIFT_EXTENSION(Plug))
-@end
-
-
-@interface Plug (SWIFT_EXTENSION(Plug))
-- (void)startQueue;
-- (void)pauseQueue;
-- (void)enqueue:(Connection * __nonnull)connection;
-- (void)dequeue:(Connection * __nonnull)connection;
-- (void)connectionStarted:(Connection * __nonnull)connection;
-- (void)connectionStopped:(Connection * __nonnull)connection;
-- (void)updateQueue;
 @end
 
 #pragma clang diagnostic pop

@@ -26,10 +26,11 @@ public class PendingImage: NSObject {
 		
 		super.init()
 	}
-
+	
+	var dupes: [PendingImage] = []
 	
 	func start() {
-		Plug.request(method: .GET, URL: self.URL).completion { data in
+		Plug.request(method: .GET, URL: self.URL, channel: Plug.Channel.resourceChannel).completion { data in
 			if let image = UIImage(data: data) {
 				self.fetchedImage = image
 			}
@@ -52,6 +53,9 @@ public class PendingImage: NSObject {
 	func complete(image: UIImage? = nil) {
 		self.isComplete = true
 		if !self.isCancelled {
+			for dupe in self.dupes {
+				dupe.complete(image: self.image)
+			}
 			dispatch_async(dispatch_get_main_queue()) {
 				self.completion(self.image ?? image, self.error)
 			}
