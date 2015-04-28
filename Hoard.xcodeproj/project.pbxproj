@@ -24,6 +24,7 @@
 		B5040ECA1AEF1599008DBB12 /* HoardImageGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */; };
 		B504E69D1A896E82001B414B /* Hoard_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B504E69C1A896E82001B414B /* Hoard_Tests.swift */; };
 		B504E6A51A897087001B414B /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
+		B513D03A1AEFEE80006FABFE /* UIImage+Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B513D0391AEFEE80006FABFE /* UIImage+Hoard.swift */; };
 		B58D64791A898F89005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D64681A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
 		B58D64831A898FBE005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
@@ -85,6 +86,7 @@
 		B504E69B1A896E82001B414B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B504E69C1A896E82001B414B /* Hoard_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hoard_Tests.swift; sourceTree = "<group>"; };
 		B504E6AF1A898110001B414B /* Hoard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hoard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B513D0391AEFEE80006FABFE /* UIImage+Hoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Hoard.swift"; sourceTree = "<group>"; };
 		B58D64671A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D64681A898F81005A0002 /* Hoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hoard.h; sourceTree = "<group>"; };
 		B58D646A1A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */,
 				B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */,
 				B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */,
+				B513D0391AEFEE80006FABFE /* UIImage+Hoard.swift */,
 			);
 			name = "Framework Code";
 			path = "Hoard/Framework Code";
@@ -454,6 +457,7 @@
 				B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */,
 				B5A4824A1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */,
 				B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */,
+				B513D03A1AEFEE80006FABFE /* UIImage+Hoard.swift in Sources */,
 				B5A482461AE5B390001636BE /* PendingImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
