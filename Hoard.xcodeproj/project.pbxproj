@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		B5040ECA1AEF1599008DBB12 /* HoardImageGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */; };
 		B504E69D1A896E82001B414B /* Hoard_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B504E69C1A896E82001B414B /* Hoard_Tests.swift */; };
 		B504E6A51A897087001B414B /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
 		B58D64791A898F89005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D64681A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -76,6 +77,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageGalleryView.swift; sourceTree = "<group>"; };
 		B504E6131A89230F001B414B /* TestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B504E6461A8968DC001B414B /* Hoard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hoard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B504E66A1A896980001B414B /* BuildFramework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BuildFramework.sh; path = Hoard/BuildFramework.sh; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				B58D64751A898F81005A0002 /* Hoard.swift */,
 				B5A482451AE5B390001636BE /* PendingImage.swift */,
 				B5A4824C1AE5DB6A001636BE /* ImageURLView.swift */,
+				B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */,
 				B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */,
 			);
 			name = "Framework Code";
@@ -447,6 +450,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5040ECA1AEF1599008DBB12 /* HoardImageGalleryView.swift in Sources */,
 				B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */,
 				B5A4824A1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */,
 				B5A4824D1AE5DB6A001636BE /* ImageURLView.swift in Sources */,

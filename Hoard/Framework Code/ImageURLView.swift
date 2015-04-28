@@ -1,5 +1,5 @@
 //
-//  ImageURLView.swift
+//  HoardImageView.swift
 //  Hoard
 //
 //  Created by Ben Gottlieb on 4/20/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ImageURLView: UIImageView {
+public class HoardImageView: UIImageView {
 	public var URL: NSURL? {
 		didSet {
 			self.pendingImage?.cancel()
