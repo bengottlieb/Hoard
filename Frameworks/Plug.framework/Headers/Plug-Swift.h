@@ -115,8 +115,8 @@ SWIFT_CLASS("_TtCC4Plug4Plug10Connection")
 @class NSError;
 
 @interface Connection (SWIFT_EXTENSION(Plug))
-- (SWIFT_NULLABILITY(nonnull) instancetype)completion:(void (^ __nonnull)(NSData * __nonnull))completion;
-- (SWIFT_NULLABILITY(nonnull) instancetype)error:(void (^ __nonnull)(NSError * __nonnull))completion;
+- (SWIFT_NULLABILITY(nonnull) instancetype)completionWithQueue:(NSOperationQueue * __nullable)queue completion:(void (^ __nonnull)(NSData * __nonnull))completion;
+- (SWIFT_NULLABILITY(nonnull) instancetype)errorWithQueue:(NSOperationQueue * __nullable)queue completion:(void (^ __nonnull)(NSError * __nonnull))completion;
 @end
 
 @class NSDictionary;
