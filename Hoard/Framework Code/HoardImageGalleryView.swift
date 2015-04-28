@@ -9,8 +9,6 @@
 import UIKit
 import Hoard
 
-var s_currentImageView: HoardImageGalleryView?
-
 public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	public func setURLs(urls: [NSURL], placeholder: UIImage? = nil, duration: NSTimeInterval = 0.2) {
 		self.animationDuration = duration
@@ -19,8 +17,8 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	}
 	
 	public var imageURLs: [NSURL] = [] { didSet { if self.imageURLs != oldValue { self.setNeedsLayout() } }}
-	public var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
-	public var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
+	public var useDeviceOrientation = false
+	public var tapForFullScreen = false
 	public var placeholderImage: UIImage? { didSet { if self.placeholderImage != oldValue { self.setNeedsLayout() } }}
 	public var revealAnimationDuration = 0.2 { didSet { if self.revealAnimationDuration != oldValue { self.setNeedsLayout() } }}
 	
@@ -29,28 +27,6 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	//MARK: Private
 	deinit {
 		self.removeAsObserver()
-	}
-	
-	var tapRecognizer: UITapGestureRecognizer?
-	func updateTapForFullScren() {
-		if self.tapForFullScreen {
-			if self.tapRecognizer == nil {
-				self.tapRecognizer = UITapGestureRecognizer(target: self, action: "imageTapped:")
-				self.addGestureRecognizer(self.tapRecognizer!)
-			}
-		} else {
-			if let recog = self.tapRecognizer {
-				self.removeGestureRecognizer(recog)
-				self.tapRecognizer = nil
-			}
-		}
-	}
-	
-	func imageTapped(recog: UITapGestureRecognizer) {
-		var location = recog.locationInView(self)
-		if let tapped = self.hitTest(location, withEvent: nil) as? UIImageView {
-			if let image = tapped.image { self.makeFullScreen(image) }
-		}
 	}
 	
 	public override func didMoveToSuperview() { self.setupScrollView() }
@@ -90,6 +66,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		
 		self.setupScrollView()
 		if self.scrollView.frame != self.bounds { self.resetContents() }
+		if self.usedImageViews.count == 0 { self.updateImageViews() }
 	}
 	
 	
@@ -144,89 +121,13 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		view.clipsToBounds = true
 		view.userInteractionEnabled = true
 		view.contentMode = .ScaleAspectFill
+		view.tapForFullScreen = self.tapForFullScreen
+		view.useDeviceOrientation = self.useDeviceOrientation
 		return view
 	}
 	
 	public func scrollViewDidScroll(scrollView: UIScrollView) { self.updateImageViews() }
 	
-	
-	//=============================================================================================
-	//MARK: Full screen
-	
-	func updateDeviceOrientationNotifications() {
-		if self.useDeviceOrientation {
-			self.addAsObserver(UIDeviceOrientationDidChangeNotification, selector: "orientationChanged:", object: nil)
-		} else {
-			NSNotificationCenter.defaultCenter().removeObserver(self, name: UIDeviceOrientationDidChangeNotification, object: nil)
-		}
-	}
-	
-	var fullScreenView: UIImageView?
-	
-	func makeFullScreen(image: UIImage) {
-		if let parent = UIWindow.rootWindow()?.rootViewController {
-			
-			s_currentImageView = self
-			var host = parent.view
-			var newFrame = self.convertRect(self.bounds, toView: host)
-			self.fullScreenView = UIImageView(frame: newFrame)
-			self.fullScreenView?.backgroundColor = UIColor.blackColor()
-			self.fullScreenView?.image = image
-			self.fullScreenView?.contentMode = .ScaleAspectFit
-			self.fullScreenView?.userInteractionEnabled = true
-			self.fullScreenView?.clipsToBounds = true
-			self.fullScreenView?.alpha = 0.0
-			self.fullScreenView?.autoresizingMask = .FlexibleWidth | .FlexibleHeight
-			host.addSubview(self.fullScreenView!)
-			UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-				self.alpha = 0.0
-				self.fullScreenView?.alpha = 1.0
-				self.fullScreenView?.frame = host.frame
-				return
-				}, completion: { completed in })
-			self.fullScreenView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissFullScreen:"))
-			self.fullScreenView?.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "share:"))
-		}
-	}
-	
-	func dismissFullScreen(recog: UITapGestureRecognizer) {
-		if s_currentImageView == self { s_currentImageView = nil }
-		if let parent = UIViewController.frontmostController() {
-			var host = parent.view
-			var newFrame = self.convertRect(self.bounds, toView: host)
-			UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-				self.alpha = 1.0
-				self.fullScreenView?.alpha = 0.0
-				if let superview = self.superview { self.fullScreenView?.frame = newFrame }
-				}, completion: { completed in
-					self.alpha = 1.0
-					self.fullScreenView?.removeFromSuperview()
-					self.fullScreenView = nil
-			})
-		}
-	}
-	
-	func orientationChanged(note: NSNotification) {
-		var frame = UIScreen.mainScreen().bounds
-		var transform = CGAffineTransformIdentity
-		
-		switch (UIDevice.currentDevice().orientation) {
-		case .LandscapeLeft:
-			transform = CGAffineTransformMakeRotation(CGFloat(M_PI / 2.0))
-			frame = CGRect(x: 0, y: 0, width: frame.height, height: frame.width)
-			
-		case .LandscapeRight:
-			transform = CGAffineTransformMakeRotation(CGFloat(-M_PI / 2.0))
-			frame = CGRect(x: 0, y: 0, width: frame.height, height: frame.width)
-			
-		default: break
-			
-		}
-		UIView.animateWithDuration(0.2, animations: {
-			self.fullScreenView?.bounds = frame
-			self.fullScreenView?.transform = transform
-		})
-	}
 	
 	
 }

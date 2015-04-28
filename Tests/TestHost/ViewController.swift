@@ -23,8 +23,24 @@ class ViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 
+	var gallery: HoardImageGalleryView!
 	
 	override func viewDidLayoutSubviews() {
+		if self.gallery == nil {
+			self.gallery = HoardImageGalleryView(frame: self.view.bounds.rectByInsetting(dx: 20, dy: 30))
+			self.gallery.tapForFullScreen = true
+			self.view.addSubview(self.gallery)
+			var URLs: [NSURL] = []
+			
+			for i in 0...30 {
+				URLs.append(NSURL(string: "http://lorempixel.com/\((rand() % 40 + 300))/\((rand() % 40 + 538))/")!)
+			}
+			
+			self.gallery.imageURLs = URLs
+		}
+	}
+	
+	func layoutTiles() {
 		if self.view.subviews.count > 5 { return }
 		
 		var size = self.view.frame.size
@@ -35,11 +51,13 @@ class ViewController: UIViewController {
 		
 		while top < size.height {
 			var frame = CGRect(x: left, y: top, width: width, height: height)
-			var view = ImageURLView(frame: frame)
+			var view = HoardImageView(frame: frame)
 			
 			view.backgroundColor = UIColor.blackColor()
 			view.contentMode = .ScaleAspectFill
-			view.URL = NSURL(string: "http://lorempixel.com/\((rand() % 2 + 80))/\((rand() % 2 + 50))/")
+			view.tapForFullScreen = true
+			view.useDeviceOrientation = false
+			view.URL = NSURL(string: "http://lorempixel.com/\((rand() % 32 + 80))/\((rand() % 32 + 50))/")
 			self.view.addSubview(view)
 			
 			left += width
