@@ -26,7 +26,7 @@ public class Hoard: NSObject {
 			self.updateDirectory()
 		}}
 	
-	func requestImageURL(url: NSURL, completion: ImageCompletion) -> PendingImage {
+	func requestImageURL(url: NSURL, completion: ImageCompletion? = nil) -> PendingImage {
 		var pending = PendingImage(url: url, completion: completion)
 		
 		self.queue.addOperationWithBlock {

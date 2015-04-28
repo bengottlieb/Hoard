@@ -15,11 +15,11 @@ public class PendingImage: NSObject {
 	public class var defaultPriority: Int { return 10 }
 	
 	public let URL: NSURL
-	public let completion: ImageCompletion
+	public let completion: ImageCompletion?
 	public let priority: Int
 	public var error: NSError?
 	
-	public init(url: NSURL, completion comp: ImageCompletion, priority pri: Int = PendingImage.defaultPriority) {
+	public init(url: NSURL, completion comp: ImageCompletion?, priority pri: Int = PendingImage.defaultPriority) {
 		URL = url
 		completion = comp
 		priority = pri
@@ -30,17 +30,17 @@ public class PendingImage: NSObject {
 	var dupes: [PendingImage] = []
 	
 	func start() {
-		Plug.request(method: .GET, URL: self.URL, channel: Plug.Channel.resourceChannel).completion { data in
+		Plug.request(method: .GET, URL: self.URL, channel: Plug.Channel.resourceChannel).completion(completion: { data in
 			if let image = UIImage(data: data) {
 				self.fetchedImage = image
 			}
 			self.complete()
 			
 			data.writeToURL(self.imageLocalURL, atomically: true)
-		}.error { error in
+		}).error(completion: { error in
 			self.error = error
 			self.complete()
-		}
+		}).start()
 	}
 	
 	public func cancel() {
@@ -57,7 +57,7 @@ public class PendingImage: NSObject {
 				dupe.complete(image: self.image)
 			}
 			dispatch_async(dispatch_get_main_queue()) {
-				self.completion(self.image ?? image, self.error)
+				self.completion?(self.image ?? image, self.error)
 			}
 		}
 		

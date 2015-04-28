@@ -20,7 +20,7 @@ public class ImageURLView: UIImageView {
 					if let error = error {
 						println("Error while downloading image from \(url): \(error)")
 					}
-					if url == tempURL && image != nil {
+					if self.URL == tempURL && image != nil {
 						if self.revealAnimationDuration > 0.0 {
 							self.tempImageView = UIImageView(frame: self.bounds)
 							
@@ -48,7 +48,7 @@ public class ImageURLView: UIImageView {
 		}
 	}
 	
-	public func setURL(url: NSURL, placeholder: UIImage? = nil, duration: NSTimeInterval = 0.2) {
+	public func setURL(url: NSURL?, placeholder: UIImage? = nil, duration: NSTimeInterval = 0.2) {
 		self.URL = url
 		if self.image == nil { self.image = placeholder }
 		self.revealAnimationDuration = duration
