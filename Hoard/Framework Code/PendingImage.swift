@@ -37,7 +37,9 @@ public class PendingImage: NSObject {
 			self.complete()
 			
 			data.writeToURL(self.imageLocalURL, atomically: true)
+			//println("Finished downloading from \(self.URL)")
 		}).error(completion: { error in
+			println("error downloading from \(self.URL): \(error)")
 			self.error = error
 			self.complete()
 		}).start()

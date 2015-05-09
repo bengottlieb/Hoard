@@ -14,9 +14,14 @@ var s_currentImageView: HoardImageView?
 public class HoardImageView: UIImageView {
 	public var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
 	public var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
-
+	
+	deinit {
+		println("deinit imageView")
+	}
+	
 	public var URL: NSURL? {
 		didSet {
+			if oldValue == self.URL && (self.image != nil || self.pendingImage != nil)  { return }
 			self.pendingImage?.cancel()
 			
 			if let url = self.URL {
@@ -49,19 +54,24 @@ public class HoardImageView: UIImageView {
 						println("missing image: \(tempURL)")
 					}
 				})
-				self.image = self.pendingImage?.image
+				if self.window != nil {
+					self.image = self.pendingImage?.image
+				}
 			}
 		}
 	}
 	
 	public func setURL(url: NSURL?, placeholder: UIImage? = nil, duration: NSTimeInterval = 0.2) {
 		self.URL = url
+		
+		self.placeholder = placeholder
 		if self.image == nil { self.image = placeholder }
-		self.revealAnimationDuration = duration
+		self.revealAnimationDuration = duration * (Hoard.debugging ? 10.0 : 1.0)
 	}
 	
+	var placeholder: UIImage?
 	
-	public var revealAnimationDuration = 0.2
+	public var revealAnimationDuration = 0.0 * (Hoard.debugging ? 10.0 : 1.0)
 	public var pendingImage: PendingImage?
 	
 	var tempImageView: UIImageView?
@@ -77,40 +87,51 @@ public class HoardImageView: UIImageView {
 		}
 	}
 	
-	var fullScreenView: UIImageView?
+	var fullScreenView: HoardImageGalleryView?
+	
+	var parentGallery: HoardImageGalleryView?
 	
 	func makeFullScreen() {
+		
 		if let parent = UIWindow.rootWindow()?.rootViewController {
 			s_currentImageView = self
 			var host = parent.view
 			var newFrame = self.convertRect(self.bounds, toView: host)
-			self.fullScreenView = UIImageView(frame: newFrame)
+			self.fullScreenView = HoardImageGalleryView(frame: newFrame)
+			
+			if let parent = self.parentGallery {
+				self.fullScreenView!.setURLs(parent.imageURLs, placeholder: self.placeholder)
+				self.fullScreenView!.setCurrentIndex(parent.imageURLs.indexOf(self.URL!) ?? 0, animated: false)
+			} else {
+				self.fullScreenView?.setURLs(self.parentGallery?.imageURLs ?? [self.URL!], placeholder: self.placeholder)
+			}
 			self.fullScreenView?.backgroundColor = UIColor.blackColor()
-			self.fullScreenView?.image = self.image
+			//self.fullScreenView?.image = self.image
 			self.fullScreenView?.contentMode = .ScaleAspectFit
 			self.fullScreenView?.userInteractionEnabled = true
 			self.fullScreenView?.clipsToBounds = true
-			self.fullScreenView?.alpha = 0.0
+			self.fullScreenView?.alpha = 1.0
 			self.fullScreenView?.autoresizingMask = .FlexibleWidth | .FlexibleHeight
 			host.addSubview(self.fullScreenView!)
 			host.bringSubviewToFront(self.fullScreenView!)
-			UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+
+			UIView.animateWithDuration(0.25 * (Hoard.debugging ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
 				self.alpha = 0.0
 				self.fullScreenView?.alpha = 1.0
 				self.fullScreenView?.frame = host.frame
-				return
-				}, completion: { completed in })
+			}, completion: { completed in })
 			self.fullScreenView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissFullScreen:"))
-			self.fullScreenView?.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "share:"))
+		//	self.fullScreenView?.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "share:"))
 		}
 	}
 	
 	func dismissFullScreen(recog: UITapGestureRecognizer) {
 		if s_currentImageView == self { s_currentImageView = nil }
+		self.parentGallery?.setCurrentIndex(self.fullScreenView!.currentIndex, animated: false)
 		if let parent = UIViewController.frontmostController() {
 			var host = parent.view
 			var newFrame = self.convertRect(self.bounds, toView: host)
-			UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+			UIView.animateWithDuration(0.25 * (Hoard.debugging ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
 				self.alpha = 1.0
 				self.fullScreenView?.alpha = 0.0
 				if let superview = self.superview { self.fullScreenView?.frame = newFrame }
@@ -138,7 +159,7 @@ public class HoardImageView: UIImageView {
 		default: break
 			
 		}
-		UIView.animateWithDuration(0.2, animations: {
+		UIView.animateWithDuration(0.2 * (Hoard.debugging ? 10.0 : 1.0), animations: {
 			self.fullScreenView?.bounds = frame
 			self.fullScreenView?.transform = transform
 		})

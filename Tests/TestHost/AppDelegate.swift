@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Override point for customization after application launch
 		
 		Hoard.cache.clearCache()
+		Hoard.debugging = true
 		return true
 	}
 

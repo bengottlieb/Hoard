@@ -20,6 +20,7 @@ public class Hoard: NSObject {
 	public var maxConcurrentDownloads = 400
 	public var active = Set<PendingImage>()
 	public var pending = Array<PendingImage>()
+	public static var debugging = false
 	
 	public var directory: NSURL = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(
 		.LibraryDirectory, .UserDomainMask, true)[0] as! String, isDirectory: true)!.URLByAppendingPathComponent("CachedImages") { didSet {

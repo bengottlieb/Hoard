@@ -27,13 +27,13 @@ class ViewController: UIViewController {
 	
 	override func viewDidLayoutSubviews() {
 		if self.gallery == nil {
-			self.gallery = HoardImageGalleryView(frame: self.view.bounds.rectByInsetting(dx: 20, dy: 30))
+			self.gallery = HoardImageGalleryView(frame: CGRect(x: 50, y: 120, width: self.view.bounds.width - 100, height: 150))
 			self.gallery.tapForFullScreen = true
 			self.view.addSubview(self.gallery)
 			var URLs: [NSURL] = []
 			
 			for i in 0...30 {
-				URLs.append(NSURL(string: "http://lorempixel.com/\((rand() % 40 + 300))/\((rand() % 40 + 538))/")!)
+				URLs.append(NSURL(string: "http://lorempixel.com/\((rand() % 400 + 600))/\((rand() % 400 + 1000))/")!)
 			}
 			
 			self.gallery.imageURLs = URLs

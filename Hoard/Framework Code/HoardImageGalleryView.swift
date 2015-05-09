@@ -22,6 +22,15 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	public var placeholderImage: UIImage? { didSet { if self.placeholderImage != oldValue { self.setNeedsLayout() } }}
 	public var revealAnimationDuration = 0.2 { didSet { if self.revealAnimationDuration != oldValue { self.setNeedsLayout() } }}
 	
+	public func setCurrentIndex(index: Int, animated: Bool) {
+		self.setupScrollView()
+		self.scrollView.setContentOffset(CGPoint(x: self.scrollView.bounds.width * CGFloat(index), y: 0.0), animated: animated)
+	}
+	
+	public var currentIndex: Int {
+		if let scrollView = self.scrollView { return Int(scrollView.contentOffset.x / scrollView.bounds.width) }
+		return 0
+	}
 	
 	//=============================================================================================
 	//MARK: Private
@@ -119,8 +128,9 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		
 		var view = HoardImageView(frame: self.bounds)
 		view.clipsToBounds = true
+		view.parentGallery = self
 		view.userInteractionEnabled = true
-		view.contentMode = .ScaleAspectFill
+		view.contentMode = .ScaleAspectFit
 		view.tapForFullScreen = self.tapForFullScreen
 		view.useDeviceOrientation = self.useDeviceOrientation
 		return view
