@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 		// Override point for customization after application launch
 		
-		Hoard.cache.clearCache()
+		//Hoard.cache.clearCache()
 		Hoard.debugging = true
 		return true
 	}

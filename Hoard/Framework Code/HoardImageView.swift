@@ -11,7 +11,7 @@ import UIKit
 var s_currentImageView: HoardImageView?
 
 
-public class HoardImageView: UIImageView {
+public class HoardImageView: UIView {
 	public var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
 	public var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
 	
@@ -91,8 +91,17 @@ public class HoardImageView: UIImageView {
 		self.image = nil
 	}
 	
-	var displayedURL: NSURL?
+	var displayedURL: NSURL? { didSet {
+		if let url = self.displayedURL {
+			self.urlLabel?.text = url.absoluteString
+			self.backgroundColor = UIColor(red: CGFloat(url.absoluteString!.hash % 255) / 255.0, green: CGFloat(url.absoluteString!.hash % 253) / 255.0, blue: CGFloat(url.absoluteString!.hash % 254) / 255.0, alpha: 1.0)
+		} else {
+			self.backgroundColor = UIColor.orangeColor()
+		}
+	}}
 	var placeholder: UIImage?
+	
+	var urlLabel: UILabel?
 	
 	public var revealAnimationDuration = 0.2 * (Hoard.debugging ? 10.0 : 1.0)
 	public var pendingImage: PendingImage?
@@ -101,7 +110,7 @@ public class HoardImageView: UIImageView {
 	
 	var imageLayer: CALayer!
 	var imageView: UIImageView!
-	var image_: UIImage? {
+	var image: UIImage? {
 		didSet {
 			if let image = self.image {
 				if self.imageView == nil {
@@ -156,6 +165,16 @@ public class HoardImageView: UIImageView {
 					height = width / aspectRatio
 					return CGRect(x: (self.bounds.width - width) / 2, y: (self.bounds.height - height) / 2, width: width, height: height)
 				}
+		}
+	}
+	public override func didMoveToSuperview() {
+		super.didMoveToSuperview()
+		
+		if Hoard.debugging && self.urlLabel == nil {
+			self.urlLabel = UILabel(frame: CGRect(x: 0.0, y: self.bounds.height - 15, width: self.bounds.width, height: 15.0))
+			self.addSubview(self.urlLabel!)
+			self.urlLabel?.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
+			self.urlLabel?.backgroundColor = UIColor(white: 0.9, alpha: 0.8)
 		}
 	}
 
