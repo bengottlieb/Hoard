@@ -19,20 +19,35 @@ public class HoardImageView: UIImageView {
 		println("deinit imageView")
 	}
 	
+	var imageURL: NSURL?
 	public var URL: NSURL? {
-		didSet {
-			if oldValue == self.URL && (self.image != nil || self.pendingImage != nil)  { return }
-			self.pendingImage?.cancel()
-			
-			if let url = self.URL {
-				var tempURL = url
-				self.tempImageView?.removeFromSuperview()
-				self.pendingImage = Hoard.cache.requestImageURL(url, completion: { image, error in
-					if let error = error {
-						println("Error while downloading image from \(url): \(error)")
-					}
-					if self.URL == tempURL && image != nil {
-						if self.revealAnimationDuration > 0.0 {
+		set {
+			if newValue == self.imageURL && (self.image != nil || self.pendingImage != nil)  { return }
+			self.setURL(newValue)
+		}
+		get { return self.imageURL }
+	}
+	
+	public func setURL(url: NSURL?, placeholder: UIImage? = nil, duration: NSTimeInterval = 0.2) {
+		self.imageURL = url
+		
+		self.pendingImage?.cancel()
+		
+		if let url = url {
+			var tempURL = url
+			self.tempImageView?.removeFromSuperview()
+			self.pendingImage = Hoard.cache.requestImageURL(url, completion: { [unowned self] image, error, fromCache in
+				if let error = error {
+					println("Error while downloading image from \(url): \(error)")
+				}
+				var gallery = self.parentGallery
+				var view = self
+				
+				if let image = image {
+					if self.imageURL == tempURL && image != self.image {
+						println("received image: \(self.URL) at \(self.galleryIndex)")
+						if self.revealAnimationDuration > 0.0 && !fromCache {
+							self.tempImageView?.removeFromSuperview()
 							self.tempImageView = UIImageView(frame: self.bounds)
 							
 							self.tempImageView?.contentMode = self.contentMode
@@ -50,19 +65,14 @@ public class HoardImageView: UIImageView {
 						}
 						self.pendingImage = nil
 					}
-					if image == nil {
-						println("missing image: \(tempURL)")
-					}
-				})
-				if self.window != nil {
-					self.image = self.pendingImage?.image
 				}
-			}
+				if image == nil {
+					println("missing image: \(tempURL)")
+				}
+			})
+			self.image = self.pendingImage?.image
 		}
-	}
-	
-	public func setURL(url: NSURL?, placeholder: UIImage? = nil, duration: NSTimeInterval = 0.2) {
-		self.URL = url
+
 		
 		self.placeholder = placeholder
 		if self.image == nil { self.image = placeholder }
@@ -71,7 +81,7 @@ public class HoardImageView: UIImageView {
 	
 	var placeholder: UIImage?
 	
-	public var revealAnimationDuration = 0.0 * (Hoard.debugging ? 10.0 : 1.0)
+	public var revealAnimationDuration = 0.2 * (Hoard.debugging ? 10.0 : 1.0)
 	public var pendingImage: PendingImage?
 	
 	var tempImageView: UIImageView?
@@ -90,6 +100,9 @@ public class HoardImageView: UIImageView {
 	var fullScreenView: HoardImageGalleryView?
 	
 	var parentGallery: HoardImageGalleryView?
+	var galleryIndex: Int? {
+		return self.parentGallery?.imageURLs.indexOf(self.URL!)
+	}
 	
 	func makeFullScreen() {
 		

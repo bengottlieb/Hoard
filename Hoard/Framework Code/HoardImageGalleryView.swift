@@ -107,14 +107,14 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		
 		for index in firstURLIndex..<self.imageURLs.count {
 			if !(self.scrollView.tracking || self.scrollView.dragging || self.scrollView.decelerating) && self.usedImageViews.count > 0 { break }
+			if (left - self.scrollView.contentOffset.x) >= self.bounds.width { break }
 			var view = self.nextAvailableImageView
-			view.setURL(self.imageURLs[index], placeholder: self.placeholderImage, duration: self.revealAnimationDuration)
+			view.setURL(self.imageURLs[index], placeholder: self.placeholderImage)
 			view.bounds = self.scrollView.bounds
 			view.center = CGPoint(x: left + view.bounds.width / 2, y: view.bounds.height / 2)
 			self.usedImageViews.append(view)
 			self.scrollView.addSubview(view)
 			left += view.bounds.width
-			if (left - self.scrollView.contentOffset.x) >= self.bounds.width { break }
 			
 		}
 		self.scrollView.contentSize = CGSize(width: self.scrollView.bounds.width * CGFloat(self.imageURLs.count), height: self.scrollView.bounds.height)

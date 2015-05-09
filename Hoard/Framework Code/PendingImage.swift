@@ -9,7 +9,7 @@
 import Foundation
 import Plug
 
-public typealias ImageCompletion = (UIImage?, NSError?) -> Void
+public typealias ImageCompletion = (image: UIImage?, error: NSError?, fromCache: Bool) -> Void
 
 public class PendingImage: NSObject {
 	public class var defaultPriority: Int { return 10 }
@@ -34,14 +34,14 @@ public class PendingImage: NSObject {
 			if let image = UIImage(data: data) {
 				self.fetchedImage = image
 			}
-			self.complete()
+			self.complete(false)
 			
 			data.writeToURL(self.imageLocalURL, atomically: true)
 			//println("Finished downloading from \(self.URL)")
 		}).error(completion: { error in
 			println("error downloading from \(self.URL): \(error)")
 			self.error = error
-			self.complete()
+			self.complete(false)
 		}).start()
 	}
 	
@@ -52,14 +52,14 @@ public class PendingImage: NSObject {
 	
 	var isCachedAvailable: Bool { return self.image != nil }
 	
-	func complete(image: UIImage? = nil) {
+	func complete(fromCache: Bool, image: UIImage? = nil) {
 		self.isComplete = true
 		if !self.isCancelled {
 			for dupe in self.dupes {
-				dupe.complete(image: self.image)
+				dupe.complete(fromCache, image: self.image)
 			}
 			dispatch_async(dispatch_get_main_queue()) {
-				self.completion?(self.image ?? image, self.error)
+				self.completion?(image: self.image ?? image, error: self.error, fromCache: false)
 			}
 		}
 		

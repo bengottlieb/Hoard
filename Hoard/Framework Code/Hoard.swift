@@ -32,7 +32,7 @@ public class Hoard: NSObject {
 		
 		self.queue.addOperationWithBlock {
 			if pending.isCachedAvailable {
-				pending.complete()
+				pending.complete(true)
 			} else if let existing = self.findExistingConnectionWithURL(url) {
 				existing.dupes.append(pending)
 			} else {
