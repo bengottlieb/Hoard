@@ -16,6 +16,7 @@ public class HoardImageView: UIImageView {
 	public var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
 	
 	deinit {
+		NSNotificationCenter.defaultCenter().removeObserver(self)
 		println("deinit imageView")
 	}
 	
@@ -46,7 +47,7 @@ public class HoardImageView: UIImageView {
 				if let image = image {
 					if self.imageURL == tempURL && image != self.image {
 						println("received image: \(self.URL) at \(self.galleryIndex)")
-						if self.revealAnimationDuration > 0.0 && !fromCache {
+						if self.revealAnimationDuration > 0.0 && !fromCache && false {
 							self.tempImageView?.removeFromSuperview()
 							self.tempImageView = UIImageView(frame: self.bounds)
 							
@@ -58,10 +59,12 @@ public class HoardImageView: UIImageView {
 							
 							UIView.animateWithDuration(self.revealAnimationDuration, animations: { self.tempImageView?.alpha = 1.0 }, completion: { completed in
 								self.image = image
+								self.displayedURL = url
 								self.tempImageView?.removeFromSuperview()
 							})
 						} else {
 							self.image = image
+							self.displayedURL = url
 						}
 						self.pendingImage = nil
 					}
@@ -70,7 +73,11 @@ public class HoardImageView: UIImageView {
 					println("missing image: \(tempURL)")
 				}
 			})
-			self.image = self.pendingImage?.image
+			
+			if let image = self.pendingImage?.image, url = self.pendingImage?.URL where (self.displayedURL == nil || self.displayedURL != url) {
+				self.image = image
+				self.displayedURL = url
+			}
 		}
 
 		
@@ -79,6 +86,12 @@ public class HoardImageView: UIImageView {
 		self.revealAnimationDuration = duration * (Hoard.debugging ? 10.0 : 1.0)
 	}
 	
+	func prepareForReuse() {
+		self.displayedURL = nil
+		self.image = nil
+	}
+	
+	var displayedURL: NSURL?
 	var placeholder: UIImage?
 	
 	public var revealAnimationDuration = 0.2 * (Hoard.debugging ? 10.0 : 1.0)
@@ -86,12 +99,72 @@ public class HoardImageView: UIImageView {
 	
 	var tempImageView: UIImageView?
 	
+	var imageLayer: CALayer!
+	var imageView: UIImageView!
+	var image_: UIImage? {
+		didSet {
+			if let image = self.image {
+				if self.imageView == nil {
+					self.imageView = UIImageView(frame: self.frameForImageSize(image.size))
+					self.addSubview(self.imageView)
+				} else {
+					self.imageView.frame = self.frameForImageSize(image.size)
+				}
+				self.imageView.image = image
+				self.imageView.hidden = false
+			} else {
+				self.imageView?.hidden = true
+			}
+			
+//			if let image = self.image {
+//				CATransaction.setDisableActions(true)
+//				if self.imageLayer == nil {
+//					self.imageLayer = CALayer()
+//					self.layer.addSublayer(self.imageLayer)
+//					self.imageLayer.backgroundColor = UIColor.orangeColor().CGColor
+//				}
+//				
+//				self.imageLayer.hidden = false
+//				self.imageLayer.contents = image.CGImage
+//				self.imageLayer.frame = self.frameForImageSize(image.size)
+//				println("setting layer frame to \(self.imageLayer.frame)")
+//				CATransaction.setDisableActions(false)
+//			} else {
+//				self.imageLayer?.hidden = true
+//			}
+		}
+	
+	}
+
+	func frameForImageSize(size: CGSize) -> CGRect {
+		var aspectRatio = size.width / size.height
+		var myRatio = self.bounds.width / self.bounds.height
+		var height: CGFloat = 0
+		var width: CGFloat = 0
+
+		switch self.contentMode {
+			case .ScaleAspectFit: fallthrough
+			default:
+				if aspectRatio == myRatio {
+					return self.bounds
+				} else if aspectRatio < myRatio {
+					height = self.bounds.height
+					width = height * aspectRatio
+					return CGRect(x: (self.bounds.width - width) / 2, y: (self.bounds.height - height) / 2, width: width, height: height)
+				} else {
+					width = self.bounds.width
+					height = width / aspectRatio
+					return CGRect(x: (self.bounds.width - width) / 2, y: (self.bounds.height - height) / 2, width: width, height: height)
+				}
+		}
+	}
+
 	//=============================================================================================
 	//MARK: Full screen
 	
 	func updateDeviceOrientationNotifications() {
 		if self.useDeviceOrientation {
-			self.addAsObserver(UIDeviceOrientationDidChangeNotification, selector: "orientationChanged:", object: nil)
+			NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: nil)
 		} else {
 			NSNotificationCenter.defaultCenter().removeObserver(self, name: UIDeviceOrientationDidChangeNotification, object: nil)
 		}
@@ -105,8 +178,9 @@ public class HoardImageView: UIImageView {
 	}
 	
 	func makeFullScreen() {
+		var windows = UIApplication.sharedApplication().windows as! [UIWindow]
 		
-		if let parent = UIWindow.rootWindow()?.rootViewController {
+		if let parent = windows[0].rootViewController {
 			s_currentImageView = self
 			var host = parent.view
 			var newFrame = self.convertRect(self.bounds, toView: host)
@@ -141,8 +215,7 @@ public class HoardImageView: UIImageView {
 	func dismissFullScreen(recog: UITapGestureRecognizer) {
 		if s_currentImageView == self { s_currentImageView = nil }
 		self.parentGallery?.setCurrentIndex(self.fullScreenView!.currentIndex, animated: false)
-		if let parent = UIViewController.frontmostController() {
-			var host = parent.view
+		if let host = self.fullScreenView?.superview {
 			var newFrame = self.convertRect(self.bounds, toView: host)
 			UIView.animateWithDuration(0.25 * (Hoard.debugging ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
 				self.alpha = 1.0

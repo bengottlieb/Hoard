@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SA_Swift
 
 public class Hoard: NSObject {
 	public class var cache: Hoard { struct s { static let manager = Hoard() }; return s.manager }
@@ -98,6 +97,6 @@ public class Hoard: NSObject {
 		self.completedPending(image)
 	}
 	
-	let queue = NSOperationQueue(serial: true)
+	let queue: NSOperationQueue = { var queue = NSOperationQueue(); queue.maxConcurrentOperationCount = 1; return queue }()
 
 }

@@ -35,7 +35,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	//=============================================================================================
 	//MARK: Private
 	deinit {
-		self.removeAsObserver()
+		
 	}
 	
 	public override func didMoveToSuperview() { self.setupScrollView() }
@@ -98,6 +98,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		
 		for view in removeThese {
 			view.removeFromSuperview()
+			view.prepareForReuse()
 			self.usedImageViews.remove(view)
 			self.availableImageViews.insert(view)
 		}

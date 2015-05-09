@@ -33,7 +33,7 @@ class ViewController: UIViewController {
 			var URLs: [NSURL] = []
 			
 			for i in 0...30 {
-				URLs.append(NSURL(string: "http://lorempixel.com/\((rand() % 400 + 600))/\((rand() % 400 + 1000))/")!)
+				URLs.append(NSURL(string: "http://lorempixel.com/\((rand() % 40 + 300))/\((rand() % 40 + 400))/")!)
 			}
 			
 			self.gallery.imageURLs = URLs
