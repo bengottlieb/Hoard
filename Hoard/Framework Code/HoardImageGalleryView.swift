@@ -86,14 +86,15 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		var firstVisibleIndex = Int(abs(self.scrollView.contentOffset.x) / self.bounds.size.width)
 		var removeThese = self.usedImageViews
 		
-		for viewIndex in 0..<self.usedImageViews.count {
-			var urlIndex = firstVisibleIndex + viewIndex
-			
-			if urlIndex >= self.imageURLs.count || viewIndex >= self.usedImageViews.count { break }
-			var url = self.imageURLs[urlIndex]
-			var view = self.usedImageViews[viewIndex]
-			if view.URL! != url || view.frame.rectByIntersecting(self.scrollView.bounds).width == 0 { break }
-			removeThese.remove(view)
+		var numberOfVisible: Int = (CGFloat(firstVisibleIndex) * self.scrollView.bounds.width != self.scrollView.contentOffset.x) ? 2 : 1
+		let visibleURLs = Array(self.imageURLs[firstVisibleIndex..<Int(firstVisibleIndex + numberOfVisible)])
+		var instantiatedURLs: [NSURL] = []
+		
+		for view in self.usedImageViews {
+			if let url = view.URL where visibleURLs.contains(url) {
+				removeThese.remove(view)
+				instantiatedURLs.append(url)
+			}
 		}
 		
 		for view in removeThese {
@@ -103,20 +104,25 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			self.availableImageViews.insert(view)
 		}
 		
-		var firstURLIndex = firstVisibleIndex + self.usedImageViews.count
-		var left = self.bounds.width * CGFloat(firstVisibleIndex + self.usedImageViews.count)
+		var firstURLIndex = firstVisibleIndex
+		var left = self.bounds.width * CGFloat(firstVisibleIndex)
 		
 		for index in firstURLIndex..<self.imageURLs.count {
-			if !(self.scrollView.tracking || self.scrollView.dragging || self.scrollView.decelerating) && self.usedImageViews.count > 0 { break }
-			if (left - self.scrollView.contentOffset.x) >= self.bounds.width { break }
-			var view = self.nextAvailableImageView
-			view.setURL(self.imageURLs[index], placeholder: self.placeholderImage)
-			view.bounds = self.scrollView.bounds
-			view.center = CGPoint(x: left + view.bounds.width / 2, y: view.bounds.height / 2)
-			self.usedImageViews.append(view)
-			self.scrollView.addSubview(view)
-			left += view.bounds.width
+			//if !(self.scrollView.tracking || self.scrollView.dragging || self.scrollView.decelerating) && self.usedImageViews.count > 0 { break }
 			
+			if (left - self.scrollView.contentOffset.x) >= self.bounds.width { break }
+
+			var url = self.imageURLs[index]
+			if !instantiatedURLs.contains(url) {
+				var view = self.nextAvailableImageView
+				view.setURL(self.imageURLs[index], placeholder: self.placeholderImage)
+				view.bounds = self.scrollView.bounds
+				view.center = CGPoint(x: left + view.bounds.width / 2, y: view.bounds.height / 2)
+				self.usedImageViews.append(view)
+				self.scrollView.addSubview(view)
+			}
+			
+			left += self.bounds.width
 		}
 		self.scrollView.contentSize = CGSize(width: self.scrollView.bounds.width * CGFloat(self.imageURLs.count), height: self.scrollView.bounds.height)
 	}

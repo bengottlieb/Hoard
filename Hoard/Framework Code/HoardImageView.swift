@@ -11,7 +11,7 @@ import UIKit
 var s_currentImageView: HoardImageView?
 
 
-public class HoardImageView: UIView {
+public class HoardImageView: UIImageView {
 	public var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
 	public var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
 	
@@ -23,7 +23,8 @@ public class HoardImageView: UIView {
 	var imageURL: NSURL?
 	public var URL: NSURL? {
 		set {
-			if newValue == self.imageURL && (self.image != nil || self.pendingImage != nil)  { return }
+			if newValue == self.displayedURL && (self.image != nil || self.pendingImage != nil)  { return }
+			if let pendingURL = self.pendingImage?.URL, actualURL = self.URL where actualURL == pendingURL { return }
 			self.setURL(newValue)
 		}
 		get { return self.imageURL }
@@ -35,7 +36,9 @@ public class HoardImageView: UIView {
 		self.pendingImage?.cancel()
 		
 		if let url = url {
+			if Hoard.debugging { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString!.hash % 255) / 255.0, green: CGFloat(url.absoluteString!.hash % 253) / 255.0, blue: CGFloat(url.absoluteString!.hash % 254) / 255.0, alpha: 1.0) }
 			var tempURL = url
+			self.displayedURL = nil
 			self.tempImageView?.removeFromSuperview()
 			self.pendingImage = Hoard.cache.requestImageURL(url, completion: { [unowned self] image, error, fromCache in
 				if let error = error {
@@ -45,11 +48,13 @@ public class HoardImageView: UIView {
 				var view = self
 				
 				if let image = image {
+					self.displayedURL = url
+
 					if self.imageURL == tempURL && image != self.image {
-						println("received image: \(self.URL) at \(self.galleryIndex)")
-						if self.revealAnimationDuration > 0.0 && !fromCache && false {
-							self.tempImageView?.removeFromSuperview()
-							self.tempImageView = UIImageView(frame: self.bounds)
+						//println("received image: \(self.URL) at \(self.galleryIndex)")
+						if self.revealAnimationDuration > 0.0 && !fromCache {
+							var tempView = UIImageView(frame: self.bounds)
+							self.tempImageView = tempView
 							
 							self.tempImageView?.contentMode = self.contentMode
 							self.tempImageView?.image = image
@@ -58,18 +63,19 @@ public class HoardImageView: UIView {
 							self.addSubview(self.tempImageView!)
 							
 							UIView.animateWithDuration(self.revealAnimationDuration, animations: { self.tempImageView?.alpha = 1.0 }, completion: { completed in
-								self.image = image
-								self.displayedURL = url
-								self.tempImageView?.removeFromSuperview()
+								if let imageURL = self.imageURL where imageURL == url {
+									self.image = image
+								}
+								tempView.removeFromSuperview()
 							})
 						} else {
 							self.image = image
-							self.displayedURL = url
 						}
 						self.pendingImage = nil
 					}
-				}
-				if image == nil {
+				} else {
+					self.displayedURL = nil
+					self.image = nil
 					println("missing image: \(tempURL)")
 				}
 			})
@@ -88,13 +94,16 @@ public class HoardImageView: UIView {
 	
 	func prepareForReuse() {
 		self.displayedURL = nil
+		self.imageURL = nil
 		self.image = nil
+		self.backgroundColor = UIColor.clearColor()
+		self.tempImageView?.removeFromSuperview()
+		self.tempImageView = nil
 	}
 	
 	var displayedURL: NSURL? { didSet {
 		if let url = self.displayedURL {
 			self.urlLabel?.text = url.absoluteString
-			self.backgroundColor = UIColor(red: CGFloat(url.absoluteString!.hash % 255) / 255.0, green: CGFloat(url.absoluteString!.hash % 253) / 255.0, blue: CGFloat(url.absoluteString!.hash % 254) / 255.0, alpha: 1.0)
 		} else {
 			self.backgroundColor = UIColor.orangeColor()
 		}
@@ -110,7 +119,7 @@ public class HoardImageView: UIView {
 	
 	var imageLayer: CALayer!
 	var imageView: UIImageView!
-	var image: UIImage? {
+	var image2: UIImage? {
 		didSet {
 			if let image = self.image {
 				if self.imageView == nil {
@@ -176,6 +185,10 @@ public class HoardImageView: UIView {
 			self.urlLabel?.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
 			self.urlLabel?.backgroundColor = UIColor(white: 0.9, alpha: 0.8)
 		}
+	}
+	
+	public override func drawRect(rect: CGRect) {
+		UIBezierPath(ovalInRect: self.bounds).stroke()
 	}
 
 	//=============================================================================================
