@@ -59,7 +59,7 @@ public class PendingImage: NSObject {
 				dupe.complete(fromCache, image: self.image)
 			}
 			dispatch_async(dispatch_get_main_queue()) {
-				self.completion?(image: self.image ?? image, error: self.error, fromCache: false)
+				self.completion?(image: self.image ?? image, error: self.error, fromCache: fromCache)
 			}
 		}
 		

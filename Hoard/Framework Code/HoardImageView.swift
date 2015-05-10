@@ -54,7 +54,6 @@ public class HoardImageView: UIView {
 			if Hoard.debugging { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString!.hash % 255) / 255.0, green: CGFloat(url.absoluteString!.hash % 253) / 255.0, blue: CGFloat(url.absoluteString!.hash % 254) / 255.0, alpha: 1.0) }
 			var tempURL = url
 			self.displayedURL = nil
-			self.tempImageView?.removeFromSuperview()
 			self.pendingImage = Hoard.cache.requestImageURL(url, completion: { [unowned self] image, error, fromCache in
 				if let error = error { println("Error while downloading image from \(url): \(error)") }
 				self.hideActivityIndicator()
@@ -66,24 +65,13 @@ public class HoardImageView: UIView {
 
 					if self.imageURL == tempURL && image != self.image {
 						//println("received image: \(self.URL) at \(self.galleryIndex)")
+						self.image = image
 						if self.revealAnimationDuration > 0.0 && !fromCache {
-							var tempView = UIImageView(frame: self.bounds)
-							self.tempImageView = tempView
-							
-							self.tempImageView?.contentMode = self.contentMode
-							self.tempImageView?.image = image
-							self.tempImageView?.alpha = 0.0
-							
-							self.addSubview(self.tempImageView!)
-							
-							UIView.animateWithDuration(self.revealAnimationDuration, animations: { self.tempImageView?.alpha = 1.0 }, completion: { completed in
-								if let imageURL = self.imageURL where imageURL == url {
-									self.image = image
-								}
-								tempView.removeFromSuperview()
-							})
-						} else {
-							self.image = image
+							var anim = CABasicAnimation(keyPath: "opacity")
+							anim.duration = self.revealAnimationDuration
+							anim.fromValue = 0.0
+							anim.toValue = 1.0
+							self.imageLayer!.addAnimation(anim, forKey: "reveal")
 						}
 						self.pendingImage = nil
 					}
@@ -112,8 +100,6 @@ public class HoardImageView: UIView {
 		self.imageURL = nil
 		self.image = nil
 		self.backgroundColor = UIColor.clearColor()
-		self.tempImageView?.removeFromSuperview()
-		self.tempImageView = nil
 	}
 	
 	var displayedURL: NSURL? { didSet {
@@ -136,19 +122,6 @@ public class HoardImageView: UIView {
 	var imageView: UIImageView!
 	var image: UIImage? {
 		didSet {
-//			if let image = self.image {
-//				if self.imageView == nil {
-//					self.imageView = UIImageView(frame: self.frameForImageSize(image.size))
-//					self.addSubview(self.imageView)
-//				} else {
-//					self.imageView.frame = self.frameForImageSize(image.size)
-//				}
-//				self.imageView.image = image
-//				self.imageView.hidden = false
-//			} else {
-//				self.imageView?.hidden = true
-//			}
-			
 			CATransaction.setDisableActions(true)
 			if let image = self.image {
 				if self.imageLayer == nil {
@@ -156,12 +129,12 @@ public class HoardImageView: UIView {
 					self.layer.addSublayer(self.imageLayer)
 				}
 				
-				self.imageLayer.hidden = false
+				self.imageLayer.opacity = 1.0
 				self.imageLayer.contents = image.CGImage
 				self.imageLayer.frame = self.frameForImageSize(image.size)
 			} else {
 				self.imageLayer?.contents = nil
-				self.imageLayer?.hidden = true
+				self.imageLayer?.opacity = 0.0
 			}
 			CATransaction.setDisableActions(false)
 		}
