@@ -87,7 +87,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		var removeThese = self.usedImageViews
 		
 		var numberOfVisible: Int = (CGFloat(firstVisibleIndex) * self.scrollView.bounds.width != self.scrollView.contentOffset.x) ? 2 : 1
-		let visibleURLs = Array(self.imageURLs[firstVisibleIndex..<Int(firstVisibleIndex + numberOfVisible)])
+		let visibleURLs = Array(self.imageURLs[firstVisibleIndex..<Int(firstVisibleIndex + min(numberOfVisible, self.imageURLs.count - firstVisibleIndex))])
 		var instantiatedURLs: [NSURL] = []
 		
 		for view in self.usedImageViews {
@@ -116,7 +116,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			if !instantiatedURLs.contains(url) {
 				var view = self.nextAvailableImageView
 				view.setURL(self.imageURLs[index], placeholder: self.placeholderImage)
-				view.bounds = self.scrollView.bounds
+				view.bounds = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
 				view.center = CGPoint(x: left + view.bounds.width / 2, y: view.bounds.height / 2)
 				self.usedImageViews.append(view)
 				self.scrollView.addSubview(view)
@@ -133,7 +133,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			return view
 		}
 		
-		var view = HoardImageView(frame: self.bounds)
+		var view = HoardImageView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
 		view.clipsToBounds = true
 		view.parentGallery = self
 		view.userInteractionEnabled = true
