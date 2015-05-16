@@ -170,7 +170,7 @@ public class HoardImageView: UIView {
 			self.urlLabel = UILabel(frame: CGRect(x: 0.0, y: self.bounds.height - 15, width: self.bounds.width, height: 15.0))
 			self.addSubview(self.urlLabel!)
 			self.urlLabel?.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
-			self.urlLabel?.backgroundColor = UIColor(white: 0.9, alpha: 0.8)
+			self.urlLabel?.backgroundColor = UIColor(white: 0.9, alpha: 0.1)
 			self.urlLabel?.layer.zPosition = 100
 		}
 	}
@@ -230,12 +230,19 @@ public class HoardImageView: UIView {
 				self.fullScreenView?.alpha = 1.0
 				self.fullScreenView?.frame = host.frame
 			}, completion: { completed in })
-			self.fullScreenView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissFullScreen:"))
+			self.fullScreenView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "fullScreenTouched:"))
 		//	self.fullScreenView?.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "share:"))
 		}
 	}
 	
-	func dismissFullScreen(recog: UITapGestureRecognizer) {
+	func fullScreenTouched(recog: UITapGestureRecognizer) {
+		var location = recog.locationInView(self.fullScreenView!)
+		var hit = self.fullScreenView!.hitTest(location, withEvent: nil)
+		
+		if let hit = hit as? HoardImageView { self.dismissFullScreen() }
+	}
+	
+	func dismissFullScreen() {
 		if s_currentImageView == self { s_currentImageView = nil }
 		self.parentGallery?.setCurrentIndex(self.fullScreenView!.currentIndex, animated: false)
 		if let host = self.fullScreenView?.superview {

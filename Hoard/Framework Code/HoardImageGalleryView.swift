@@ -21,6 +21,9 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	public var tapForFullScreen = false
 	public var placeholderImage: UIImage? { didSet { if self.placeholderImage != oldValue { self.setNeedsLayout() } }}
 	public var revealAnimationDuration = 0.2 { didSet { if self.revealAnimationDuration != oldValue { self.setNeedsLayout() } }}
+	public var showPageIndicators = true { didSet { if self.showPageIndicators != oldValue { self.setupPageIndicators() }}}
+	public var pageIndicatorOffset: CGFloat = 0.1
+	public var pageIndicators: UIPageControl?
 	
 	public func setCurrentIndex(index: Int, animated: Bool) {
 		self.setupScrollView()
@@ -38,7 +41,8 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		
 	}
 	
-	public override func didMoveToSuperview() { self.setupScrollView() }
+	public override func didMoveToSuperview() { self.setup() }
+	public func setup() { self.setupScrollView(); if self.showPageIndicators { self.setupPageIndicators() } }
 	
 	//=============================================================================================
 	//MARK: Layout
@@ -56,6 +60,29 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			self.scrollView.showsVerticalScrollIndicator = false
 			self.userInteractionEnabled = true
 		}
+	}
+	
+	func setupPageIndicators() {
+		if self.showPageIndicators {
+			if self.pageIndicators == nil {
+				self.pageIndicators = UIPageControl(frame: CGRectZero)
+				self.pageIndicators?.hidesForSinglePage = true
+				self.addSubview(self.pageIndicators!)
+				self.pageIndicators?.addTarget(self, action: "pageIndicatorValueChanged:", forControlEvents: .ValueChanged)
+				self.pageIndicators?.autoresizingMask = .FlexibleTopMargin | .FlexibleLeftMargin | .FlexibleRightMargin
+			}
+			
+			var size = self.pageIndicators!.sizeForNumberOfPages(self.imageURLs.count)
+			self.pageIndicators?.numberOfPages = self.imageURLs.count
+			self.pageIndicators?.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+			self.pageIndicators?.center = CGPoint(x: self.bounds.width / 2, y: self.bounds.height * (1.0 - self.pageIndicatorOffset))
+		} else {
+			self.pageIndicators?.hidden = true
+		}
+	}
+	
+	func pageIndicatorValueChanged(pageControl: UIPageControl) {
+		self.setCurrentIndex(pageControl.currentPage, animated: true)
 	}
 	
 	func resetContents() {
@@ -76,6 +103,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		self.setupScrollView()
 		if self.scrollView.frame != self.bounds { self.resetContents() }
 		if self.usedImageViews.count == 0 { self.updateImageViews() }
+		self.setupPageIndicators()
 	}
 	
 	
@@ -124,6 +152,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			
 			left += self.bounds.width
 		}
+		
 		self.scrollView.contentSize = CGSize(width: self.scrollView.bounds.width * CGFloat(self.imageURLs.count), height: self.scrollView.bounds.height)
 	}
 	
@@ -144,7 +173,15 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	}
 	
 	public func scrollViewDidScroll(scrollView: UIScrollView) { self.updateImageViews() }
-	
+	public func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+		self.pageIndicators?.currentPage = self.currentIndex
+	}
+	public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		self.pageIndicators?.currentPage = self.currentIndex
+	}
+	public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+		self.pageIndicators?.currentPage = self.currentIndex
+	}
 	
 	
 }
