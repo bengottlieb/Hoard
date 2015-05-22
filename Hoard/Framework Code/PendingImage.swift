@@ -30,7 +30,7 @@ public class PendingImage: NSObject {
 	var dupes: [PendingImage] = []
 	
 	func start() {
-		Plug.request(method: .GET, URL: self.URL, channel: Plug.Channel.resourceChannel).completion(completion: { data in
+		Plug.request(method: .GET, URL: self.URL, channel: Plug.Channel.resourceChannel).completion({ data in
 			if let image = UIImage(data: data) {
 				self.fetchedImage = image
 			}
@@ -38,7 +38,7 @@ public class PendingImage: NSObject {
 			
 			data.writeToURL(self.imageLocalURL, atomically: true)
 			//println("Finished downloading from \(self.URL)")
-		}).error(completion: { error in
+		}).error({ error in
 			println("error downloading from \(self.URL): \(error)")
 			self.error = error
 			self.complete(false)
