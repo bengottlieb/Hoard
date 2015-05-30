@@ -40,6 +40,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	public func setCurrentIndex(index: Int, animated: Bool) {
 		self.setupScrollView()
 		self.scrollView.setContentOffset(CGPoint(x: self.scrollView.bounds.width * CGFloat(index), y: 0.0), animated: animated)
+		self.updateImageCount()
 	}
 	
 	public var currentIndex: Int {
@@ -224,6 +225,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			default: return
 			}
 			
+			self.addSubview(view)
 			view.center = center
 			view.currentImageIndex = self.currentIndex
 			view.numberOfImages = self.imageURLs.count

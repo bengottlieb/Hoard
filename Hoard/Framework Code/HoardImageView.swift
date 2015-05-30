@@ -232,6 +232,10 @@ public class HoardImageView: UIView {
 			self.fullScreenView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "fullScreenTouched:"))
 		//	self.fullScreenView?.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "share:"))
 		}
+		
+		if let countView = self.parentGallery?.countView {
+			self.fullScreenView?.addCountView(view: countView, atLocation: self.parentGallery!.countLocation)
+		}
 		return self.fullScreenView
 	}
 	
@@ -255,6 +259,7 @@ public class HoardImageView: UIView {
 					self.alpha = 1.0
 					self.fullScreenView?.removeFromSuperview()
 					self.fullScreenView = nil
+					self.parentGallery?.updateImageCount()
 			})
 		}
 	}
