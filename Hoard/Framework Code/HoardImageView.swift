@@ -12,13 +12,12 @@ var s_currentImageView: HoardImageView?
 
 
 public class HoardImageView: UIView {
-	public var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
-	public var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
-	
 	deinit {
 		NSNotificationCenter.defaultCenter().removeObserver(self)
-		println("deinit imageView")
 	}
+	
+	public var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
+	public var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
 	
 	var imageURL: NSURL?
 	public var URL: NSURL? {
@@ -200,7 +199,7 @@ public class HoardImageView: UIView {
 		return self.parentGallery?.imageURLs.indexOf(self.URL!)
 	}
 	
-	public func makeFullScreen() {
+	public func makeFullScreen() -> HoardImageGalleryView? {
 		var windows = UIApplication.sharedApplication().windows as! [UIWindow]
 		
 		if let parent = windows[0].rootViewController {
@@ -233,6 +232,7 @@ public class HoardImageView: UIView {
 			self.fullScreenView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "fullScreenTouched:"))
 		//	self.fullScreenView?.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "share:"))
 		}
+		return self.fullScreenView
 	}
 	
 	func fullScreenTouched(recog: UITapGestureRecognizer) {

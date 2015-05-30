@@ -10,6 +10,8 @@ import UIKit
 import Hoard
 
 public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
+	public enum ImageCountLocation { case None, UpperLeft, UpperRight, LowerLeft, LowerRight }
+
 	public func setURLs(urls: [NSURL], placeholder: UIImage? = nil, duration: NSTimeInterval = 0.2) {
 		self.animationDuration = duration
 		self.placeholderImage = placeholder
@@ -24,6 +26,16 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	public var showPageIndicators = true { didSet { if self.showPageIndicators != oldValue { self.setupPageIndicators() }}}
 	public var pageIndicatorOffset: CGFloat = 0.1
 	public var pageIndicators: UIPageControl?
+	public var countLocation: ImageCountLocation = .None { didSet { self.updateImageCount() }}
+	public var countView: HoardImageCountView?
+	public func addCountView(view: HoardImageCountView = HoardImageCountView.defaultCountView(), atLocation location: ImageCountLocation = .UpperRight) {
+		self.countView?.removeFromSuperview()
+		self.countView = view
+		self.addSubview(view)
+		self.countLocation = location
+		self.updateImageCount()
+	}
+	
 	
 	public func setCurrentIndex(index: Int, animated: Bool) {
 		self.setupScrollView()
@@ -168,6 +180,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		}
 		
 		self.scrollView.contentSize = CGSize(width: self.scrollView.bounds.width * CGFloat(self.imageURLs.count), height: self.scrollView.bounds.height)
+		self.updateImageCount()
 	}
 	
 	var nextAvailableImageView: HoardImageView {
@@ -197,5 +210,23 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		self.pageIndicators?.currentPage = self.currentIndex
 	}
 	
-	
+	public func updateImageCount() {
+		if let view = self.countView {
+			var bounds = self.bounds
+			var center = CGPointZero
+			let hOffset: CGFloat = 60, vOffset: CGFloat = 30
+			
+			switch self.countLocation {
+			case .UpperLeft: center = CGPoint(x: hOffset, y: vOffset)
+			case .UpperRight: center = CGPoint(x: bounds.width - hOffset, y: vOffset)
+			case .LowerLeft: center = CGPoint(x: hOffset, y: bounds.height - vOffset)
+			case .LowerRight: center = CGPoint(x: bounds.width - hOffset, y: bounds.height - vOffset)
+			default: return
+			}
+			
+			view.center = center
+			view.currentImageIndex = self.currentIndex
+			view.numberOfImages = self.imageURLs.count
+		}
+	}
 }

@@ -48,6 +48,7 @@ class ViewController: UIViewController {
 			}
 			
 			self.gallery.imageURLs = URLs
+			self.gallery.addCountView()
 		}
 	}
 	
