@@ -200,7 +200,7 @@ public class HoardImageView: UIView {
 		return self.parentGallery?.imageURLs.indexOf(self.URL!)
 	}
 	
-	func makeFullScreen() {
+	public func makeFullScreen() {
 		var windows = UIApplication.sharedApplication().windows as! [UIWindow]
 		
 		if let parent = windows[0].rootViewController {

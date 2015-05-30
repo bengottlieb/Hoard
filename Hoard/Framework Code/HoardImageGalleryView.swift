@@ -35,6 +35,20 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		return 0
 	}
 	
+	public var currentImageView: HoardImageView? {
+		var index = self.currentIndex
+		if index < 0 || index >= self.imageURLs.count { return nil }
+		
+		for imageView in self.usedImageViews {
+			if imageView.URL == self.imageURLs[index] { return imageView }
+		}
+		return nil
+	}
+	
+	public func makeFullScreen() {
+		self.currentImageView?.makeFullScreen()
+	}
+	
 	//=============================================================================================
 	//MARK: Private
 	deinit {
