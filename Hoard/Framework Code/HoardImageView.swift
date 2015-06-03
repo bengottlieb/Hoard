@@ -147,19 +147,31 @@ public class HoardImageView: UIView {
 		var width: CGFloat = 0
 
 		switch self.contentMode {
-			case .ScaleAspectFit: fallthrough
-			default:
-				if aspectRatio == myRatio {
+			case .ScaleAspectFill:
+				if aspectRatio == myRatio {			//no need to add margins
 					return self.bounds
-				} else if aspectRatio < myRatio {
-					height = self.bounds.height
-					width = height * aspectRatio
-					return CGRect(x: (self.bounds.width - width) / 2, y: (self.bounds.height - height) / 2, width: width, height: height)
-				} else {
+				} else if aspectRatio < myRatio {	// image is narrower than view
 					width = self.bounds.width
 					height = width / aspectRatio
-					return CGRect(x: (self.bounds.width - width) / 2, y: (self.bounds.height - height) / 2, width: width, height: height)
+				} else {							// view is narrower than image
+					height = self.bounds.height
+					width = height * aspectRatio
 				}
+				return CGRect(x: (self.bounds.width - width) / 2, y: (self.bounds.height - height) / 2, width: width, height: height)
+			
+			case .ScaleAspectFit: fallthrough
+			
+			default:
+				if aspectRatio == myRatio {			//no need to add margins
+					return self.bounds
+				} else if aspectRatio < myRatio {	// image is narrower than view
+					height = self.bounds.height
+					width = height * aspectRatio
+				} else {							// view is narrower than image
+					width = self.bounds.width
+					height = width / aspectRatio
+				}
+				return CGRect(x: (self.bounds.width - width) / 2, y: (self.bounds.height - height) / 2, width: width, height: height)
 		}
 	}
 	public override func didMoveToSuperview() {

@@ -69,7 +69,11 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	}
 	
 	public override func didMoveToSuperview() { self.setup() }
-	public func setup() { self.setupScrollView(); if self.showPageIndicators { self.setupPageIndicators() } }
+	public func setup() {
+		self.contentMode = .ScaleAspectFit
+		self.setupScrollView();
+		if self.showPageIndicators { self.setupPageIndicators() }
+	}
 	
 	//=============================================================================================
 	//MARK: Layout
@@ -194,7 +198,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 		view.clipsToBounds = true
 		view.parentGallery = self
 		view.userInteractionEnabled = true
-		view.contentMode = .ScaleAspectFit
+		view.contentMode = self.contentMode
 		view.tapForFullScreen = self.tapForFullScreen
 		view.useDeviceOrientation = self.useDeviceOrientation
 		return view
