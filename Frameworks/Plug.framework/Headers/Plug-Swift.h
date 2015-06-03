@@ -115,8 +115,8 @@ SWIFT_CLASS("_TtCC4Plug4Plug10Connection")
 @class NSError;
 
 @interface Connection (SWIFT_EXTENSION(Plug))
-- (SWIFT_NULLABILITY(nonnull) instancetype)completion:(void (^ __nonnull)(NSData * __nonnull))completion;
-- (SWIFT_NULLABILITY(nonnull) instancetype)error:(void (^ __nonnull)(NSError * __nonnull))completion;
+- (SWIFT_NULLABILITY(nonnull) instancetype)completion:(void (^ __nonnull)(Connection * __nonnull, NSData * __nonnull))completion;
+- (SWIFT_NULLABILITY(nonnull) instancetype)error:(void (^ __nonnull)(Connection * __nonnull, NSError * __nonnull))completion;
 @end
 
 @class NSDictionary;
@@ -203,13 +203,15 @@ SWIFT_CLASS("_TtC4Plug24NetworkActivityIndicator")
 
 SWIFT_CLASS("_TtC4Plug4Plug")
 @interface Plug : NSObject
-+ (Plug * __nonnull)defaultManager;
++ (Plug * __nonnull)manager;
++ (void)setManager:(Plug * __nonnull)value;
 @property (nonatomic) BOOL autostartConnections;
 @property (nonatomic) NSURL * __nonnull temporaryDirectoryURL;
 @property (nonatomic) NSOperationQueue * __nonnull sessionQueue;
 @property (nonatomic) NSURLSessionConfiguration * __nonnull configuration;
 @property (nonatomic) NSURLSession * __null_unspecified session;
 - (SWIFT_NULLABILITY(nonnull) instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (void)setup;
 @end
 
 
