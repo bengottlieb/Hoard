@@ -26,7 +26,13 @@ public class HoardImageCountView: UILabel {
 	}
 	
 	public func updateDisplay() {
-		self.text = NSString(format: self.formatString, self.currentImageIndex + 1, self.numberOfImages) as String
+		if self.numberOfImages > 1 {
+			self.text = NSString(format: self.formatString, self.currentImageIndex + 1, self.numberOfImages) as String
+			self.alpha = 1.0
+		} else {
+			self.text = ""
+			self.alpha = 0.0
+		}
 		
 		var attr = [NSFontAttributeName: self.font]
 		var size = NSAttributedString(string: self.text!, attributes: attr).boundingRectWithSize(CGSize(width: 500, height: self.font.lineHeight * 1.5), options: .UsesLineFragmentOrigin, context: nil).size

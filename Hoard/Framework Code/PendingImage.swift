@@ -50,7 +50,13 @@ public class PendingImage: NSObject {
 		self.isCancelled = true
 	}
 	
-	var isCachedAvailable: Bool { return self.image != nil }
+	var isCachedAvailable: Bool {
+		if self.fetchedImage != nil { return true }
+		
+		if let path = self.imageLocalURL.path where NSFileManager.defaultManager().fileExistsAtPath(path) { return true }
+		
+		return false
+	}
 	
 	func complete(fromCache: Bool, image: UIImage? = nil) {
 		self.isComplete = true
@@ -71,8 +77,8 @@ public class PendingImage: NSObject {
 		
 		var url = self.imageLocalURL
 		
-		if NSFileManager.defaultManager().fileExistsAtPath(url.path!) {
-			self.fetchedImage = UIImage(contentsOfFile:  url.path!)
+		if let path = self.imageLocalURL.path where NSFileManager.defaultManager().fileExistsAtPath(path) {
+			self.fetchedImage = UIImage(contentsOfFile: path)
 			return self.fetchedImage
 		}
 		
