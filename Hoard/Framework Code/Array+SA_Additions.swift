@@ -15,7 +15,7 @@ extension Array {
 
 	mutating func remove<U: Equatable>(object: U) -> [T] {
 		var index: Int?
-		for (idx, objectToCompare) in enumerate(self) {
+		for (idx, objectToCompare) in self.enumerate() {
 			if let to = objectToCompare as? U {
 				if object == to {
 					index = idx
@@ -43,10 +43,4 @@ extension Array {
 		return list
 	}
 
-}
-
-extension Set {
-	func map<U>(transform: (T) -> U) -> Set<U> {
-		return Set<U>(Swift.map(self, transform))
-	}
 }

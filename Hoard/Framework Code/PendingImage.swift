@@ -30,7 +30,7 @@ public class PendingImage: NSObject {
 	var dupes: [PendingImage] = []
 	
 	func start() {
-		Plug.request(method: .GET, URL: self.URL, channel: Plug.Channel.resourceChannel).completion({ conn, data in
+		Plug.request(.GET, URL: self.URL, channel: Plug.Channel.resourceChannel).completion({ conn, data in
 			if let image = UIImage(data: data) {
 				self.fetchedImage = image
 			}
@@ -39,7 +39,7 @@ public class PendingImage: NSObject {
 			data.writeToURL(self.imageLocalURL, atomically: true)
 			//println("Finished downloading from \(self.URL)")
 		}).error({ conn, error in
-			println("error downloading from \(self.URL): \(error)")
+			print("error downloading from \(self.URL): \(error)")
 			conn.log()
 			self.error = error
 			self.complete(false)
@@ -66,7 +66,9 @@ public class PendingImage: NSObject {
 				dupe.complete(fromCache, image: self.image)
 			}
 			dispatch_async(dispatch_get_main_queue()) {
-				self.completion?(image: self.image ?? image, error: self.error, fromCache: fromCache)
+				if let completion = self.completion {
+					completion(image: self.image ?? image, error: self.error, fromCache: fromCache)
+				}
 			}
 		}
 		
@@ -75,9 +77,7 @@ public class PendingImage: NSObject {
 	
 	public var image: UIImage? {
 		if let image = self.fetchedImage { return image }
-		
-		var url = self.imageLocalURL
-		
+				
 		if let path = self.imageLocalURL.path where NSFileManager.defaultManager().fileExistsAtPath(path) {
 			self.fetchedImage = UIImage(contentsOfFile: path)
 			return self.fetchedImage
@@ -102,7 +102,7 @@ public class PendingImage: NSObject {
 	}
 	
 	var imageFilename: String {
-		var basic = self.URL.lastPathComponent!
+		let basic = self.URL.lastPathComponent!
 		
 		return "\(self.URL.hash)-" + basic
 	}

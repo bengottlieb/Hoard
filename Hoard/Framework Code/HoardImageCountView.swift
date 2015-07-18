@@ -14,7 +14,7 @@ public class HoardImageCountView: UILabel {
 	public var formatString = "Photo %d/%d"
 	
 	class func defaultCountView() -> HoardImageCountView {
-		var view = HoardImageCountView(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
+		let view = HoardImageCountView(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
 		view.backgroundColor = UIColor.darkGrayColor()
 		view.layer.borderColor = view.textColor.CGColor
 		view.layer.borderWidth = 1.0
@@ -34,8 +34,8 @@ public class HoardImageCountView: UILabel {
 			self.alpha = 0.0
 		}
 		
-		var attr = [NSFontAttributeName: self.font]
-		var size = NSAttributedString(string: self.text!, attributes: attr).boundingRectWithSize(CGSize(width: 500, height: self.font.lineHeight * 1.5), options: .UsesLineFragmentOrigin, context: nil).size
+		let attr = [NSFontAttributeName: self.font]
+		let size = NSAttributedString(string: self.text!, attributes: attr).boundingRectWithSize(CGSize(width: 500, height: self.font.lineHeight * 1.5), options: .UsesLineFragmentOrigin, context: nil).size
 		
 		self.bounds = CGRect(x: 0, y: 0, width: size.width + 20, height: size.height + 6)
 		self.layer.cornerRadius = self.bounds.size.height / 2

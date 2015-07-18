@@ -50,14 +50,13 @@ public class HoardImageView: UIView {
 		self.showActivityIndicator()
 		
 		if let url = url {
-			if Hoard.debugging { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString!.hash % 255) / 255.0, green: CGFloat(url.absoluteString!.hash % 253) / 255.0, blue: CGFloat(url.absoluteString!.hash % 254) / 255.0, alpha: 1.0) }
-			var tempURL = url
+			let hash = url.absoluteString.hash
+			if Hoard.debugging { self.backgroundColor = UIColor(red: CGFloat(hash % 255) / 255.0, green: CGFloat(hash % 253) / 255.0, blue: CGFloat(hash % 254) / 255.0, alpha: 1.0) }
+			let tempURL = url
 			self.displayedURL = nil
 			self.pendingImage = Hoard.cache.requestImageURL(url, completion: { [unowned self] image, error, fromCache in
-				if let error = error { println("Error while downloading image from \(url): \(error)") }
+				if let error = error { print("Error while downloading image from \(url): \(error)") }
 				self.hideActivityIndicator()
-				var gallery = self.parentGallery
-				var view = self
 				
 				if let image = image {
 					self.displayedURL = url
@@ -66,7 +65,7 @@ public class HoardImageView: UIView {
 						//println("received image: \(self.URL) at \(self.galleryIndex)")
 						self.image = image
 						if self.revealAnimationDuration > 0.0 && !fromCache {
-							var anim = CABasicAnimation(keyPath: "opacity")
+							let anim = CABasicAnimation(keyPath: "opacity")
 							anim.duration = self.revealAnimationDuration
 							anim.fromValue = 0.0
 							anim.toValue = 1.0
@@ -77,7 +76,7 @@ public class HoardImageView: UIView {
 				} else {
 					self.displayedURL = nil
 					self.image = nil
-					println("missing image: \(tempURL)")
+					print("missing image: \(tempURL)")
 				}
 			})
 			
@@ -141,8 +140,8 @@ public class HoardImageView: UIView {
 	}
 
 	func frameForImageSize(size: CGSize) -> CGRect {
-		var aspectRatio = size.width / size.height
-		var myRatio = self.bounds.width / self.bounds.height
+		let aspectRatio = size.width / size.height
+		let myRatio = self.bounds.width / self.bounds.height
 		var height: CGFloat = 0
 		var width: CGFloat = 0
 
@@ -180,7 +179,7 @@ public class HoardImageView: UIView {
 		if Hoard.debugging && self.urlLabel == nil {
 			self.urlLabel = UILabel(frame: CGRect(x: 0.0, y: self.bounds.height - 15, width: self.bounds.width, height: 15.0))
 			self.addSubview(self.urlLabel!)
-			self.urlLabel?.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
+			self.urlLabel?.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
 			self.urlLabel?.backgroundColor = UIColor(white: 0.9, alpha: 0.1)
 			self.urlLabel?.layer.zPosition = 100
 		}
@@ -212,12 +211,12 @@ public class HoardImageView: UIView {
 	}
 	
 	public func makeFullScreen() -> HoardImageGalleryView? {
-		var windows = UIApplication.sharedApplication().windows as! [UIWindow]
+		var windows = UIApplication.sharedApplication().windows as [UIWindow]
 		
 		if let parent = windows[0].rootViewController {
 			s_currentImageView = self
-			var host = parent.view
-			var newFrame = self.convertRect(self.bounds, toView: host)
+			let host = parent.view
+			let newFrame = self.convertRect(self.bounds, toView: host)
 			self.fullScreenView = HoardImageGalleryView(frame: newFrame)
 			
 			if let parent = self.parentGallery {
@@ -232,7 +231,7 @@ public class HoardImageView: UIView {
 			self.fullScreenView?.userInteractionEnabled = true
 			self.fullScreenView?.clipsToBounds = true
 			self.fullScreenView?.alpha = 1.0
-			self.fullScreenView?.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+			self.fullScreenView?.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
 			host.addSubview(self.fullScreenView!)
 			host.bringSubviewToFront(self.fullScreenView!)
 
@@ -246,27 +245,27 @@ public class HoardImageView: UIView {
 		}
 		
 		if let countView = self.parentGallery?.countView {
-			self.fullScreenView?.addCountView(view: countView, atLocation: self.parentGallery!.countLocation)
+			self.fullScreenView?.addCountView(countView, atLocation: self.parentGallery!.countLocation)
 		}
 		return self.fullScreenView
 	}
 	
 	func fullScreenTouched(recog: UITapGestureRecognizer) {
-		var location = recog.locationInView(self.fullScreenView!)
-		var hit = self.fullScreenView!.hitTest(location, withEvent: nil)
+		let location = recog.locationInView(self.fullScreenView!)
+		let hit = self.fullScreenView!.hitTest(location, withEvent: nil)
 		
-		if let hit = hit as? HoardImageView { self.dismissFullScreen() }
+		if hit is HoardImageView { self.dismissFullScreen() }
 	}
 	
 	func dismissFullScreen() {
 		if s_currentImageView == self { s_currentImageView = nil }
 		self.parentGallery?.setCurrentIndex(self.fullScreenView!.currentIndex, animated: false)
 		if let host = self.fullScreenView?.superview {
-			var newFrame = self.convertRect(self.bounds, toView: host)
+			let newFrame = self.convertRect(self.bounds, toView: host)
 			UIView.animateWithDuration(0.25 * (Hoard.debugging ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
 				self.alpha = 1.0
 				self.fullScreenView?.alpha = 0.0
-				if let superview = self.superview { self.fullScreenView?.frame = newFrame }
+				if self.superview != nil { self.fullScreenView?.frame = newFrame }
 				}, completion: { completed in
 					self.alpha = 1.0
 					self.fullScreenView?.removeFromSuperview()
@@ -319,7 +318,7 @@ public class HoardImageView: UIView {
 	}
 	
 	func imageTapped(recog: UITapGestureRecognizer) {
-		var location = recog.locationInView(self)
+		let location = recog.locationInView(self)
 		if let tapped = self.hitTest(location, withEvent: nil) as? HoardImageView {
 			tapped.makeFullScreen()
 		}

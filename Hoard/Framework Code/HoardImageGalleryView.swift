@@ -49,7 +49,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	}
 	
 	public var currentImageView: HoardImageView? {
-		var index = self.currentIndex
+		let index = self.currentIndex
 		if index < 0 || index >= self.imageURLs.count { return nil }
 		
 		for imageView in self.usedImageViews {
@@ -101,10 +101,10 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 				self.pageIndicators?.backgroundColor = UIColor.clearColor()
 				self.addSubview(self.pageIndicators!)
 				self.pageIndicators?.addTarget(self, action: "pageIndicatorValueChanged:", forControlEvents: .ValueChanged)
-				self.pageIndicators?.autoresizingMask = .FlexibleTopMargin | .FlexibleLeftMargin | .FlexibleRightMargin
+				self.pageIndicators?.autoresizingMask = [.FlexibleTopMargin, .FlexibleLeftMargin, .FlexibleRightMargin]
 			}
 			
-			var size = self.pageIndicators!.sizeForNumberOfPages(self.imageURLs.count)
+			let size = self.pageIndicators!.sizeForNumberOfPages(self.imageURLs.count)
 			self.pageIndicators?.numberOfPages = self.imageURLs.count
 			self.pageIndicators?.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 			self.pageIndicators?.center = CGPoint(x: self.bounds.width / 2, y: self.bounds.height * (1.0 - self.pageIndicatorOffset))
@@ -123,7 +123,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			self.availableImageViews.insert(view)
 		}
 		self.usedImageViews = []
-		var index = self.scrollView.contentOffset.x / self.scrollView.bounds.width
+		let index = self.scrollView.contentOffset.x / self.scrollView.bounds.width
 		self.scrollView.frame = self.bounds
 		self.scrollView.contentOffset = CGPoint(x: CGFloat(index) * self.scrollView.bounds.width, y: 0)
 		self.updateImageViews()
@@ -143,10 +143,10 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	var usedImageViews: [HoardImageView] = []
 	
 	func updateImageViews() {
-		var firstVisibleIndex = Int(abs(self.scrollView.contentOffset.x) / self.bounds.size.width)
+		let firstVisibleIndex = Int(abs(self.scrollView.contentOffset.x) / self.bounds.size.width)
 		var removeThese = self.usedImageViews
 		
-		var numberOfVisible: Int = (CGFloat(firstVisibleIndex) * self.scrollView.bounds.width != self.scrollView.contentOffset.x) ? 2 : 1
+		let numberOfVisible: Int = (CGFloat(firstVisibleIndex) * self.scrollView.bounds.width != self.scrollView.contentOffset.x) ? 2 : 1
 		let visibleURLs = Array(self.imageURLs[firstVisibleIndex..<Int(firstVisibleIndex + min(numberOfVisible, self.imageURLs.count - firstVisibleIndex))])
 		var instantiatedURLs: [NSURL] = []
 		
@@ -164,7 +164,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			self.availableImageViews.insert(view)
 		}
 		
-		var firstURLIndex = firstVisibleIndex
+		let firstURLIndex = firstVisibleIndex
 		var left = self.bounds.width * CGFloat(firstVisibleIndex)
 		
 		for index in firstURLIndex..<self.imageURLs.count {
@@ -172,9 +172,9 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			
 			if (left - self.scrollView.contentOffset.x) >= self.bounds.width { break }
 
-			var url = self.imageURLs[index]
+			let url = self.imageURLs[index]
 			if !instantiatedURLs.contains(url) {
-				var view = self.nextAvailableImageView
+				let view = self.nextAvailableImageView
 				view.setURL(self.imageURLs[index], placeholder: self.placeholderImage)
 				view.bounds = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
 				view.center = CGPoint(x: left + view.bounds.width / 2, y: view.bounds.height / 2)
@@ -195,7 +195,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			return view
 		}
 		
-		var view = HoardImageView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
+		let view = HoardImageView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
 		view.clipsToBounds = true
 		view.parentGallery = self
 		view.userInteractionEnabled = true
@@ -218,7 +218,7 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	
 	public func updateImageCount() {
 		if let view = self.countView {
-			var bounds = self.bounds
+			let bounds = self.bounds
 			var center = CGPointZero
 			let hOffset: CGFloat = 60, vOffset: CGFloat = 30
 			

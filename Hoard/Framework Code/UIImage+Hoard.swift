@@ -9,7 +9,7 @@
 import UIKit
 
 public extension UIImage {
-	public var data: NSData {
+	public var data: NSData? {
 		return UIImagePNGRepresentation(self)
 	}
 	

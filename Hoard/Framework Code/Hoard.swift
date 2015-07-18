@@ -22,12 +22,12 @@ public class Hoard: NSObject {
 	public static var debugging = false
 	
 	public var directory: NSURL = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(
-		.LibraryDirectory, .UserDomainMask, true)[0] as! String, isDirectory: true)!.URLByAppendingPathComponent("CachedImages") { didSet {
+		.LibraryDirectory, .UserDomainMask, true)[0], isDirectory: true).URLByAppendingPathComponent("CachedImages") { didSet {
 			self.updateDirectory()
 		}}
 	
 	func requestImageURL(url: NSURL, completion: ImageCompletion? = nil) -> PendingImage {
-		var pending = PendingImage(url: url, completion: completion)
+		let pending = PendingImage(url: url, completion: completion)
 		
 		self.queue.addOperationWithBlock {
 			if pending.isCachedAvailable {
@@ -43,10 +43,10 @@ public class Hoard: NSObject {
 	}
 	
 	public func clearCache() {
-		var error: NSError?
-		
-		if !NSFileManager.defaultManager().removeItemAtURL(self.directory, error: &error) {
-			println("Error while clearing Hoard cache: \(error)")
+		do {
+			try NSFileManager.defaultManager().removeItemAtURL(self.directory)
+		} catch let error as NSError {
+			print("Error while clearing Hoard cache: \(error)")
 		}
 		
 		self.updateDirectory()
@@ -56,16 +56,17 @@ public class Hoard: NSObject {
 	//=============================================================================================
 	//MARK: Private
 	func updateDirectory() {
-		var error: NSError?
-		if !NSFileManager.defaultManager().createDirectoryAtURL(self.directory, withIntermediateDirectories: true, attributes: nil, error: &error) {
-			println("Unable to setup images directory at \(self.directory): \(error!)")
+		do {
+			try NSFileManager.defaultManager().createDirectoryAtURL(self.directory, withIntermediateDirectories: true, attributes: nil)
+		} catch let error as NSError {
+			print("Unable to setup images directory at \(self.directory): \(error)")
 		}
 	}
 	
-	func enqueue(_ pending: PendingImage? = nil) {
+	func enqueue(pending: PendingImage? = nil) {
 		if let pending = pending { self.pending.append(pending) }
 		if self.active.count < self.maxConcurrentDownloads && self.pending.count > 0 {
-			var next = self.pending[0]
+			let next = self.pending[0]
 			self.active.insert(next)
 			self.pending.removeAtIndex(0)
 			next.start()
@@ -73,10 +74,10 @@ public class Hoard: NSObject {
 	}
 	
 	func findExistingConnectionWithURL(url: NSURL) -> PendingImage? {
-		var found = filter(self.pending, { $0.URL == url })
+		var found = self.pending.filter({ $0.URL == url })
 		if found.count > 0 { return found[0] }
 		
-		found = filter(Array(self.active), { $0.URL == url })
+		found = Array(self.active).filter({ $0.URL == url })
 		if found.count > 0 { return found[0] }
 		
 		return nil
