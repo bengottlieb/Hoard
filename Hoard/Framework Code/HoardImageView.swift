@@ -54,29 +54,31 @@ public class HoardImageView: UIView {
 			if Hoard.debugging { self.backgroundColor = UIColor(red: CGFloat(hash % 255) / 255.0, green: CGFloat(hash % 253) / 255.0, blue: CGFloat(hash % 254) / 255.0, alpha: 1.0) }
 			let tempURL = url
 			self.displayedURL = nil
-			self.pendingImage = Hoard.cache.requestImageURL(url, completion: { [unowned self] image, error, fromCache in
-				if let error = error { print("Error while downloading image from \(url): \(error)") }
-				self.hideActivityIndicator()
-				
-				if let image = image {
-					self.displayedURL = url
+			self.pendingImage = Hoard.cache.requestImageURL(url, completion: { [weak self] image, error, fromCache in
+				if let imageView = self {
+					if let error = error { print("Error while downloading image from \(url): \(error)") }
+					imageView.hideActivityIndicator()
+					
+					if let image = image {
+						imageView.displayedURL = url
 
-					if self.imageURL == tempURL && image != self.image {
-						//println("received image: \(self.URL) at \(self.galleryIndex)")
-						self.image = image
-						if self.revealAnimationDuration > 0.0 && !fromCache {
-							let anim = CABasicAnimation(keyPath: "opacity")
-							anim.duration = self.revealAnimationDuration
-							anim.fromValue = 0.0
-							anim.toValue = 1.0
-							self.imageLayer!.addAnimation(anim, forKey: "reveal")
+						if imageView.imageURL == tempURL && image != imageView.image {
+							//println("received image: \(imageView.URL) at \(imageView.galleryIndex)")
+							imageView.image = image
+							if imageView.revealAnimationDuration > 0.0 && !fromCache {
+								let anim = CABasicAnimation(keyPath: "opacity")
+								anim.duration = imageView.revealAnimationDuration
+								anim.fromValue = 0.0
+								anim.toValue = 1.0
+								imageView.imageLayer!.addAnimation(anim, forKey: "reveal")
+							}
+							imageView.pendingImage = nil
 						}
-						self.pendingImage = nil
+					} else {
+						imageView.displayedURL = nil
+						imageView.image = nil
+						print("missing image: \(tempURL)")
 					}
-				} else {
-					self.displayedURL = nil
-					self.image = nil
-					print("missing image: \(tempURL)")
 				}
 			})
 			
