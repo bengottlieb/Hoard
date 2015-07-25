@@ -40,7 +40,7 @@ public class PendingImage: NSObject {
 			//println("Finished downloading from \(self.URL)")
 		}).error({ conn, error in
 			print("error downloading from \(self.URL): \(error)")
-			conn.log()
+			if Hoard.debugging { conn.log() }
 			self.error = error
 			self.complete(false)
 		}).start()
