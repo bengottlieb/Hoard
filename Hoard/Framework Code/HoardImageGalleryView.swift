@@ -98,8 +98,8 @@ public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 			if self.pageIndicators == nil {
 				self.pageIndicators = UIPageControl(frame: CGRectZero)
 				self.pageIndicators?.hidesForSinglePage = true
-				self.pageIndicators?.backgroundColor = UIColor.clearColor()
 				self.addSubview(self.pageIndicators!)
+				self.pageIndicators?.backgroundColor = UIColor.clearColor()
 				self.pageIndicators?.addTarget(self, action: "pageIndicatorValueChanged:", forControlEvents: .ValueChanged)
 				self.pageIndicators?.autoresizingMask = .FlexibleTopMargin | .FlexibleLeftMargin | .FlexibleRightMargin
 			}

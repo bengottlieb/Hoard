@@ -47,9 +47,10 @@ public class HoardImageView: UIView {
 		self.imageURL = url
 		
 		self.pendingImage?.cancel()
-		self.showActivityIndicator()
 		
 		if let url = url {
+			self.showActivityIndicator()
+
 			if Hoard.debugging { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString!.hash % 255) / 255.0, green: CGFloat(url.absoluteString!.hash % 253) / 255.0, blue: CGFloat(url.absoluteString!.hash % 254) / 255.0, alpha: 1.0) }
 			var tempURL = url
 			self.displayedURL = nil
@@ -85,6 +86,8 @@ public class HoardImageView: UIView {
 				self.image = image
 				self.displayedURL = url
 			}
+		} else {
+			self.hideActivityIndicator()
 		}
 
 		
