@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Hoard
 
 public class HoardImageGalleryView: UIImageView, UIScrollViewDelegate {
 	public enum ImageCountLocation { case None, UpperLeft, UpperRight, LowerLeft, LowerRight }
