@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/Plug-Swift.h</key>
 		<data>
-		8tHn/UZS05YFdSKN+d2dFDj36bY=
+		t7G2ia3UVMVR4g39zs7DSxv/QLU=
 		</data>
 		<key>Headers/Plug.h</key>
 		<data>
@@ -14,23 +14,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		oWHNbQb9uINjqo9ian5eMazK9Qs=
+		TzIjprL3jOL90BPBp/qS1yDMQLI=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm.swiftdoc</key>
 		<data>
-		j750XI041Wy3gGweRQ8zEa1OJQk=
+		ShKgGRVjA7YpP1bqJdeicNc4bs4=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm.swiftmodule</key>
 		<data>
-		7ezpsrQXdSGnWZw3ZZeZIUIxbvU=
+		DggQ8znE/DC3y8rrDQiPo0OXxaI=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		jc6ulOSPEfg/urbRni8kLepzN8k=
+		IekZKN8Jbu9y28GUvTus3I5J1Xc=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		QTys4cwNDdUXHFwTQZ/cmXhMIQw=
+		AXFkp9MBLlkO304tQATDEWrQxrk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -41,7 +41,7 @@
 	<dict>
 		<key>Headers/Plug-Swift.h</key>
 		<data>
-		8tHn/UZS05YFdSKN+d2dFDj36bY=
+		t7G2ia3UVMVR4g39zs7DSxv/QLU=
 		</data>
 		<key>Headers/Plug.h</key>
 		<data>
@@ -49,19 +49,19 @@
 		</data>
 		<key>Modules/Plug.swiftmodule/arm.swiftdoc</key>
 		<data>
-		j750XI041Wy3gGweRQ8zEa1OJQk=
+		ShKgGRVjA7YpP1bqJdeicNc4bs4=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm.swiftmodule</key>
 		<data>
-		7ezpsrQXdSGnWZw3ZZeZIUIxbvU=
+		DggQ8znE/DC3y8rrDQiPo0OXxaI=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		jc6ulOSPEfg/urbRni8kLepzN8k=
+		IekZKN8Jbu9y28GUvTus3I5J1Xc=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		QTys4cwNDdUXHFwTQZ/cmXhMIQw=
+		AXFkp9MBLlkO304tQATDEWrQxrk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
