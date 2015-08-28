@@ -35,9 +35,7 @@ public class PendingImage: NSObject {
 				self.fetchedImage = image
 			}
 			self.complete(false)
-			
-			data.writeToURL(self.imageLocalURL, atomically: true)
-			//println("Finished downloading from \(self.URL)")
+			HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey).store(data, from: self.URL)
 		}).error({ conn, error in
 			print("error downloading from \(self.URL): \(error)")
 			if Hoard.debugging { conn.log() }
@@ -54,9 +52,7 @@ public class PendingImage: NSObject {
 	var isCachedAvailable: Bool {
 		if self.fetchedImage != nil { return true }
 		
-		if let path = self.imageLocalURL.path where NSFileManager.defaultManager().fileExistsAtPath(path) { return true }
-		
-		return false
+		return HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey).isCacheDataAvailable(self.URL)
 	}
 	
 	func complete(fromCache: Bool, image: UIImage? = nil) {
@@ -77,10 +73,10 @@ public class PendingImage: NSObject {
 	
 	public var image: UIImage? {
 		if let image = self.fetchedImage { return image }
-				
-		if let path = self.imageLocalURL.path where NSFileManager.defaultManager().fileExistsAtPath(path) {
-			self.fetchedImage = UIImage(contentsOfFile: path)
-			return self.fetchedImage
+		
+		if let image = HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey).fetchImage(self.URL) {
+			self.fetchedImage = image
+			return image
 		}
 		
 		return nil
@@ -93,17 +89,4 @@ public class PendingImage: NSObject {
 	var localURL: NSURL?
 	var isCancelled = false
 	var isComplete = false
-	
-	var imageLocalURL: NSURL {
-		if let url = self.localURL { return url }
-		
-		self.localURL = Hoard.cache.directory.URLByAppendingPathComponent(self.imageFilename)
-		return self.localURL!
-	}
-	
-	var imageFilename: String {
-		let basic = self.URL.lastPathComponent!
-		
-		return "\(self.URL.hash)-" + basic
-	}
 }

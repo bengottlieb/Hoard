@@ -17,7 +17,6 @@ public class Hoard: NSObject {
 	
 	override init() {
 		super.init()
-		self.updateDirectory()
 	}
 	
 	class func main_thread(block: () -> Void) {
@@ -34,11 +33,6 @@ public class Hoard: NSObject {
 	public static var debugging = false
 	public weak var source: HoardImageSource?
 	
-	public var directory: NSURL = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(
-		.LibraryDirectory, .UserDomainMask, true)[0], isDirectory: true).URLByAppendingPathComponent("CachedImages") { didSet {
-			self.updateDirectory()
-		}}
-	
 	func requestImageURL(url: NSURL, source: HoardImageSource? = nil, completion: ImageCompletion? = nil) -> PendingImage {
 		let pending = PendingImage(url: url, completion: completion)
 		
@@ -47,9 +41,7 @@ public class Hoard: NSObject {
 		} else if let source = source {
 			if let image = source.generateImageForURL(url) {
 				pending.fetchedImage = image
-				let data = UIImagePNGRepresentation(image)
-			
-				data?.writeToURL(pending.imageLocalURL, atomically: true)
+				HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey).storeImage(image, from: url)
 			}
 			pending.isComplete = true
 			Hoard.main_thread {
@@ -68,26 +60,15 @@ public class Hoard: NSObject {
 		return pending
 	}
 	
+	public static let mainImageCacheKey = "main-hoard-cache"
+	
 	public func clearCache() {
-		do {
-			try NSFileManager.defaultManager().removeItemAtURL(self.directory)
-		} catch let error as NSError {
-			print("Error while clearing Hoard cache: \(error)")
-		}
-		
-		self.updateDirectory()
+		HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey).clearCache()
 	}
 	
 
 	//=============================================================================================
 	//MARK: Private
-	func updateDirectory() {
-		do {
-			try NSFileManager.defaultManager().createDirectoryAtURL(self.directory, withIntermediateDirectories: true, attributes: nil)
-		} catch let error as NSError {
-			print("Unable to setup images directory at \(self.directory): \(error)")
-		}
-	}
 	
 	func enqueue(pending: PendingImage? = nil) {
 		if let pending = pending { self.pending.append(pending) }
