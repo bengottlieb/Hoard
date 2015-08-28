@@ -17,6 +17,7 @@ extension HoardDiskCache {
 			switch self.imageStorageType {
 			case .JPEG: data = UIImageJPEGRepresentation(image, self.imageStorageQuality)
 			case .PNG: data = UIImagePNGRepresentation(image)
+			case .None: return false
 			}
 			
 			return self.store(data, from: URL)
