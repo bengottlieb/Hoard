@@ -9,8 +9,10 @@
 import UIKit
 import Hoard
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, HoardImageSource {
+	func generateImageForURL(url: NSURL) -> UIImage? {
+		return UIImage(named: "screen_shot")
+	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -25,8 +27,11 @@ class ViewController: UIViewController {
 
 	var gallery: HoardImageGalleryView!
 	
+	var setup = false
 	override func viewDidLayoutSubviews() {
-		if self.gallery == nil {
+		if !self.setup {
+			self.setup = true
+			/*
 			self.gallery = HoardImageGalleryView(frame: CGRect(x: 50, y: 120, width: self.view.bounds.width - 100, height: 150))
 			self.gallery.tapForFullScreen = true
 			self.view.addSubview(self.gallery)
@@ -43,27 +48,32 @@ class ViewController: UIViewController {
 				NSURL(string: "http://www.nature.com/polopoly_fs/7.14368.1387365090!/image/natures-10-lead-2.jpg_gen/derivatives/landscape_630/natures-10-lead-2.jpg")!
 			]
 			
-			for i in 0...30 {
-				//URLs.append(NSURL(string: "http://lorempixel.com/\((rand() % 400 + 30))/\((rand() % 400 + 40))/")!)
+			for _ in 0...30 {
+				URLs.append(NSURL(string: "http://lorempixel.com/\((rand() % 400 + 30))/\((rand() % 400 + 40))/")!)
 			}
 			
 			self.gallery.imageURLs = URLs
 			self.gallery.addCountView()
+			*/
+			let imageView = HoardImageView(frame: CGRect(x: 50, y: 300, width: self.view.bounds.width - 100, height: 100))
+			self.view.addSubview(imageView)
+			imageView.imageSource = self
+			imageView.URL = NSURL(fileURLWithPath: "/")
 		}
 	}
 	
 	func layoutTiles() {
 		if self.view.subviews.count > 5 { return }
 		
-		var size = self.view.frame.size
-		var width: CGFloat = 80
-		var height: CGFloat = 50
+		let size = self.view.frame.size
+		let width: CGFloat = 80
+		let height: CGFloat = 50
 		var top: CGFloat = 0, left: CGFloat = 0
 		var added = 0
 		
 		while top < size.height {
-			var frame = CGRect(x: left, y: top, width: width, height: height)
-			var view = HoardImageView(frame: frame)
+			let frame = CGRect(x: left, y: top, width: width, height: height)
+			let view = HoardImageView(frame: frame)
 			
 			view.backgroundColor = UIColor.blackColor()
 			view.contentMode = .ScaleAspectFill
@@ -80,7 +90,7 @@ class ViewController: UIViewController {
 			}
 			added++
 		}
-		println("added \(added) views")
+		print("added \(added) views")
 	}
 }
 

@@ -16,15 +16,19 @@ public class HoardImageView: UIView {
 		NSNotificationCenter.defaultCenter().removeObserver(self)
 	}
 	
+	public var imageSource: HoardImageSource?
 	public var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
 	public var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
 	
+	var shouldFadeIn = false
 	var imageURL: NSURL?
 	public var URL: NSURL? {
 		set {
 			if newValue == self.displayedURL && (self.image != nil || self.pendingImage != nil)  { return }
 			if let pendingURL = self.pendingImage?.URL, actualURL = self.URL where actualURL == pendingURL { return }
+			self.shouldFadeIn = false
 			self.setURL(newValue)
+			self.shouldFadeIn = true
 		}
 		get { return self.imageURL }
 	}
@@ -54,18 +58,18 @@ public class HoardImageView: UIView {
 			if Hoard.debugging { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString.hash % 255) / 255.0, green: CGFloat(url.absoluteString.hash % 253) / 255.0, blue: CGFloat(url.absoluteString.hash % 254) / 255.0, alpha: 1.0) }
 			let tempURL = url
 			self.displayedURL = nil
-			self.pendingImage = Hoard.cache.requestImageURL(url, completion: { [weak self] image, error, fromCache in
+			self.pendingImage = Hoard.cache.requestImageURL(url, source: self.imageSource, completion: { [weak self] image, error, fromCache in
 				if let imageView = self {
 					if let error = error { print("Error while downloading image from \(url): \(error)") }
 					imageView.hideActivityIndicator()
 					
-					if let image = image {
+					if let image = image, view = self {
 						imageView.displayedURL = url
 
 						if imageView.imageURL == tempURL && image != imageView.image {
 							//println("received image: \(imageView.URL) at \(imageView.galleryIndex)")
 							imageView.image = image
-							if imageView.revealAnimationDuration > 0.0 && !fromCache {
+							if imageView.revealAnimationDuration > 0.0 && !fromCache && view.shouldFadeIn {
 								let anim = CABasicAnimation(keyPath: "opacity")
 								anim.duration = imageView.revealAnimationDuration
 								anim.fromValue = 0.0

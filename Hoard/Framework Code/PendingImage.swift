@@ -65,7 +65,7 @@ public class PendingImage: NSObject {
 			for dupe in self.dupes {
 				dupe.complete(fromCache, image: self.image)
 			}
-			dispatch_async(dispatch_get_main_queue()) {
+			Hoard.main_thread {
 				if let completion = self.completion {
 					completion(image: self.image ?? image, error: self.error, fromCache: fromCache)
 				}

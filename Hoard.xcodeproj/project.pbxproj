@@ -25,6 +25,9 @@
 		B504E69D1A896E82001B414B /* Hoard_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B504E69C1A896E82001B414B /* Hoard_Tests.swift */; };
 		B504E6A51A897087001B414B /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
 		B513D03A1AEFEE80006FABFE /* UIImage+Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B513D0391AEFEE80006FABFE /* UIImage+Hoard.swift */; };
+		B52533EA1B8FF30A00126E11 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; settings = {ASSET_TAGS = (); }; };
+		B52533EC1B8FF32300126E11 /* Plug.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B52533ED1B8FF33D00126E11 /* Plug.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */; };
 		B58D64791A898F89005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D64681A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
@@ -41,7 +44,6 @@
 		B5A4824B1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */; };
 		B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */; };
 		B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
-		B5A482551AE5DE40001636BE /* Hoard.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B504E6AF1A898110001B414B /* Hoard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B5A482591AE5DE6A001636BE /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A482581AE5DE6A001636BE /* CoreAudio.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,13 +58,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		B52533EB1B8FF31900126E11 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B52533EC1B8FF32300126E11 /* Plug.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5A482541AE5DE2F001636BE /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B5A482551AE5DE40001636BE /* Hoard.framework in CopyFiles */,
+				B52533ED1B8FF33D00126E11 /* Plug.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +91,7 @@
 		B504E69C1A896E82001B414B /* Hoard_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hoard_Tests.swift; sourceTree = "<group>"; };
 		B504E6AF1A898110001B414B /* Hoard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hoard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B513D0391AEFEE80006FABFE /* UIImage+Hoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Hoard.swift"; sourceTree = "<group>"; };
+		B52533E91B8FF30A00126E11 /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
 		B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageCountView.swift; sourceTree = "<group>"; };
 		B58D64671A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D64681A898F81005A0002 /* Hoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hoard.h; sourceTree = "<group>"; };
@@ -103,6 +117,7 @@
 			files = (
 				B5A482591AE5DE6A001636BE /* CoreAudio.framework in Frameworks */,
 				B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */,
+				B52533EA1B8FF30A00126E11 /* Plug.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +240,7 @@
 		B5A482401AE5838F001636BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B52533E91B8FF30A00126E11 /* Plug.framework */,
 				B5A482581AE5DE6A001636BE /* CoreAudio.framework */,
 			);
 			path = Frameworks;
@@ -278,6 +294,7 @@
 				B504E6421A8968DC001B414B /* Frameworks */,
 				B504E6431A8968DC001B414B /* Headers */,
 				B504E6441A8968DC001B414B /* Resources */,
+				B52533EB1B8FF31900126E11 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);

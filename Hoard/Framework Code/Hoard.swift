@@ -8,6 +8,10 @@
 
 import Foundation
 
+@objc public protocol HoardImageSource {
+	func generateImageForURL(url: NSURL) -> UIImage?
+}
+
 public class Hoard: NSObject {
 	public class var cache: Hoard { struct s { static let manager = Hoard() }; return s.manager }
 	
@@ -16,26 +20,42 @@ public class Hoard: NSObject {
 		self.updateDirectory()
 	}
 	
+	class func main_thread(block: () -> Void) {
+		if NSThread.isMainThread() {
+			block()
+		} else {
+			dispatch_async(dispatch_get_main_queue(), block)
+		}
+	}
+	
 	public var maxConcurrentDownloads = 400
 	public var active = Set<PendingImage>()
 	public var pending = Array<PendingImage>()
 	public static var debugging = false
+	public weak var source: HoardImageSource?
 	
 	public var directory: NSURL = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(
 		.LibraryDirectory, .UserDomainMask, true)[0], isDirectory: true).URLByAppendingPathComponent("CachedImages") { didSet {
 			self.updateDirectory()
 		}}
 	
-	func requestImageURL(url: NSURL, completion: ImageCompletion? = nil) -> PendingImage {
+	func requestImageURL(url: NSURL, source: HoardImageSource? = nil, completion: ImageCompletion? = nil) -> PendingImage {
 		let pending = PendingImage(url: url, completion: completion)
 		
-		self.queue.addOperationWithBlock {
-			if pending.isCachedAvailable {
-				pending.complete(true)
-			} else if let existing = self.findExistingConnectionWithURL(url) {
-				existing.dupes.append(pending)
-			} else {
-				self.enqueue(pending)
+		if pending.isCachedAvailable {
+			pending.complete(true)
+		} else if let source = source {
+			pending.fetchedImage = source.generateImageForURL(url)
+			Hoard.main_thread {
+				completion?(image: pending.fetchedImage, error: nil, fromCache: false)
+			}
+		} else {
+			self.queue.addOperationWithBlock {
+				if let existing = self.findExistingConnectionWithURL(url) {
+					existing.dupes.append(pending)
+				} else {
+					self.enqueue(pending)
+				}
 			}
 		}
 		
