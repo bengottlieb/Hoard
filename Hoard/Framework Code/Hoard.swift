@@ -45,7 +45,13 @@ public class Hoard: NSObject {
 		if pending.isCachedAvailable {
 			pending.complete(true)
 		} else if let source = source {
-			pending.fetchedImage = source.generateImageForURL(url)
+			if let image = source.generateImageForURL(url) {
+				pending.fetchedImage = image
+				let data = UIImagePNGRepresentation(image)
+			
+				data?.writeToURL(pending.imageLocalURL, atomically: true)
+			}
+				
 			Hoard.main_thread {
 				completion?(image: pending.fetchedImage, error: nil, fromCache: false)
 			}
