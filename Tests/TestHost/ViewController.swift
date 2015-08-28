@@ -9,7 +9,7 @@
 import UIKit
 import Hoard
 
-class ViewController: UIViewController, HoardImageSource {
+class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSource, UICollectionViewDelegate {
 	func generateImageForURL(url: NSURL) -> UIImage? {
 		return UIImage(named: "screen_shot")
 	}
@@ -26,6 +26,9 @@ class ViewController: UIViewController, HoardImageSource {
 	}
 
 	var gallery: HoardImageGalleryView!
+	
+	var collectionView: UICollectionView!
+	let layout = UICollectionViewFlowLayout()
 	
 	var setup = false
 	override func viewDidLayoutSubviews() {
@@ -55,10 +58,16 @@ class ViewController: UIViewController, HoardImageSource {
 			self.gallery.imageURLs = URLs
 			self.gallery.addCountView()
 			*/
-			let imageView = HoardImageView(frame: CGRect(x: 50, y: 300, width: self.view.bounds.width - 100, height: 100))
-			self.view.addSubview(imageView)
-			imageView.imageSource = self
-			imageView.URL = NSURL(fileURLWithPath: "/")
+			
+			self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 300, width: self.view.bounds.width, height: self.view.bounds.height - 300), collectionViewLayout: self.layout)
+			self.collectionView.dataSource = self
+			self.collectionView.registerClass(TestCeollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+			self.view.addSubview(self.collectionView)
+			
+//			let imageView = HoardImageView(frame: CGRect(x: 50, y: 300, width: self.view.bounds.width - 100, height: 100))
+//			self.view.addSubview(imageView)
+//			imageView.imageSource = self
+//			imageView.URL = NSURL(fileURLWithPath: "/")
 		}
 	}
 	
@@ -92,5 +101,53 @@ class ViewController: UIViewController, HoardImageSource {
 		}
 		print("added \(added) views")
 	}
+	
+	
+	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return 100
+	}
+	
+	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! TestCeollectionViewCell
+		let url = NSURL(string: "http://test.com/\(indexPath.row)")
+		
+		cell.setupImageView()
+		cell.hoardView?.URL = url
+		return cell
+	}
 }
 
+class TestCeollectionViewCell: UICollectionViewCell, HoardImageSource {
+	var hoardView: HoardImageView!
+	
+	func setupImageView() {
+		if self.hoardView == nil {
+			self.hoardView = HoardImageView(frame: self.contentView.bounds)
+			self.contentView.addSubview(self.hoardView)
+			self.hoardView.imageSource = self
+		}
+	}
+	
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		self.setupImageView()
+		self.hoardView.frame = self.contentView.bounds
+	}
+	
+	func generateImageForURL(url: NSURL) -> UIImage? {
+		let bounds = CGRect(x: 0, y: 0, width: 40, height: 40)
+		UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0)
+		
+		UIColor.blackColor().setFill()
+		UIRectFill(bounds)
+		let string = NSAttributedString(string: url.path!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+		
+		string.drawInRect(bounds)
+		
+		let image = UIGraphicsGetImageFromCurrentImageContext()
+		UIGraphicsEndImageContext()
+		
+		return image
+	}
+
+}

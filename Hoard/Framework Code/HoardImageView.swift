@@ -25,10 +25,11 @@ public class HoardImageView: UIView {
 	public var URL: NSURL? {
 		set {
 			if newValue == self.displayedURL && (self.image != nil || self.pendingImage != nil)  { return }
-			if let pendingURL = self.pendingImage?.URL, actualURL = self.URL where actualURL == pendingURL { return }
+			if let pendingURL = self.pendingImage?.URL, actualURL = newValue where actualURL == pendingURL { return }
 			self.shouldFadeIn = false
 			self.setURL(newValue)
 			self.shouldFadeIn = true
+			if self.pendingImage?.isComplete ?? false { self.pendingImage = nil }
 		}
 		get { return self.imageURL }
 	}

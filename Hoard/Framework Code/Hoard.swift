@@ -51,7 +51,7 @@ public class Hoard: NSObject {
 			
 				data?.writeToURL(pending.imageLocalURL, atomically: true)
 			}
-				
+			pending.isComplete = true
 			Hoard.main_thread {
 				completion?(image: pending.fetchedImage, error: nil, fromCache: false)
 			}
