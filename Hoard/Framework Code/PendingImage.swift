@@ -35,7 +35,7 @@ public class PendingImage: NSObject {
 				self.fetchedImage = image
 			}
 			self.complete(false)
-			HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey).store(data, from: self.URL)
+			Hoard.defaultImageCache.store(data, from: self.URL)
 		}).error({ conn, error in
 			print("error downloading from \(self.URL): \(error)")
 			if Hoard.debugging { conn.log() }
@@ -52,7 +52,7 @@ public class PendingImage: NSObject {
 	var isCachedAvailable: Bool {
 		if self.fetchedImage != nil { return true }
 		
-		return HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey).isCacheDataAvailable(self.URL)
+		return Hoard.defaultImageCache.isCacheDataAvailable(self.URL)
 	}
 	
 	func complete(fromCache: Bool, image: UIImage? = nil) {
@@ -74,7 +74,7 @@ public class PendingImage: NSObject {
 	public var image: UIImage? {
 		if let image = self.fetchedImage { return image }
 		
-		if let image = HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey).fetchImage(self.URL) {
+		if let image = Hoard.defaultImageCache.fetchImage(self.URL) {
 			self.fetchedImage = image
 			return image
 		}

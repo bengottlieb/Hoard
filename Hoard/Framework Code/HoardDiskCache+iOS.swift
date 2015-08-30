@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension HoardDiskCache {
+public extension HoardDiskCache {
 	public func storeImage(image: UIImage?, from URL: NSURL) -> Bool {
 		
 		if let image = image {

@@ -18,14 +18,14 @@ public class HoardDiskCache {
 		}}
 	}
 	
-	public var imageStorageType = ImageStorage.JPEG
+	public var imageStorageType = ImageStorage.PNG
 	public let baseURL: NSURL
 	public let valid: Bool
 	public var imageStorageQuality: CGFloat = 0.9
 	
 	public static var sharedCaches: [NSObject: HoardDiskCache] = [:]
 	
-	public class func cacheForURL(URL: NSURL, type: ImageStorage = .JPEG) -> HoardDiskCache {
+	public class func cacheForURL(URL: NSURL, type: ImageStorage = .PNG) -> HoardDiskCache {
 		if let cache = self.sharedCaches[URL] { return cache }
 		
 		let cache = HoardDiskCache(URL: URL, type: type)
@@ -33,7 +33,7 @@ public class HoardDiskCache {
 		return cache
 	}
 	
-	public class func cacheForKey(key: String, type: ImageStorage = .JPEG) -> HoardDiskCache {
+	public class func cacheForKey(key: String, type: ImageStorage = .PNG) -> HoardDiskCache {
 		if let cache = self.sharedCaches[key] { return cache }
 
 		let urls = NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask)
@@ -43,7 +43,7 @@ public class HoardDiskCache {
 		return cache
 	}
 	
-	public init(URL: NSURL, type: ImageStorage = .JPEG) {
+	public init(URL: NSURL, type: ImageStorage = .PNG) {
 		baseURL = URL
 		imageStorageType = type
 		do {
@@ -110,8 +110,11 @@ public class HoardDiskCache {
 extension NSURL {
 	public func cachedFilename(suggestedFileExtension: String? = nil) -> String {
 		let basic = self.lastPathComponent ?? "--"
+		let nameOnly = (basic as NSString).stringByDeletingPathExtension
 		let currentExt = self.pathExtension ?? ""
-		let ext = currentExt.isEmpty ? (suggestedFileExtension ?? "dat") : currentExt
-		return "\(self.hash)-" + basic + "." + ext
+		var ext = currentExt.isEmpty ? (suggestedFileExtension ?? "dat") : currentExt
+		if let suggestion = suggestedFileExtension { ext = suggestion }
+		
+		return "\(self.hash)-" + nameOnly + "." + ext
 	}
 }

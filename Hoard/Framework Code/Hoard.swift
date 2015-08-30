@@ -41,7 +41,7 @@ public class Hoard: NSObject {
 		} else if let source = source {
 			if let image = source.generateImageForURL(url) {
 				pending.fetchedImage = image
-				HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey).storeImage(image, from: url)
+				Hoard.defaultImageCache.storeImage(image, from: url)
 			}
 			pending.isComplete = true
 			Hoard.main_thread {
@@ -60,10 +60,11 @@ public class Hoard: NSObject {
 		return pending
 	}
 	
+	public static var defaultImageCache = HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey) 
 	public static let mainImageCacheKey = "main-hoard-cache"
 	
 	public func clearCache() {
-		HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey).clearCache()
+		Hoard.defaultImageCache.clearCache()
 	}
 	
 
