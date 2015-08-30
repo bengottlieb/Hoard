@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class HoardDiskCache {
+public class HoardDiskCache: NSObject {
 	public enum ImageStorage: Int { case None, JPEG, PNG
 		var suggestedFileExtension: String? {
 		switch self {
@@ -67,10 +67,8 @@ public class HoardDiskCache {
 	public func store(data: NSData?, from URL: NSURL, suggestedFileExtension: String? = nil) -> Bool {
 		if !self.valid { return false }
 	
-		let ext = suggestedFileExtension ?? self.imageStorageType.suggestedFileExtension
-
 		if let data = data {
-			let cacheURL = self.localURLForURL(URL, suggestedFileExtension: ext)
+			let cacheURL = self.localURLForURL(URL)
 			return data.writeToURL(cacheURL, atomically: true)
 		} else {
 			self.remove(URL)
@@ -79,9 +77,8 @@ public class HoardDiskCache {
 		return true
 	}
 	
-	public func remove(URL: NSURL, suggestedFileExtension: String? = nil) {
-		let ext = suggestedFileExtension ?? self.imageStorageType.suggestedFileExtension
-		let cacheURL = self.localURLForURL(URL, suggestedFileExtension: ext)
+	public func remove(URL: NSURL) {
+		let cacheURL = self.localURLForURL(URL)
 		
 		do {
 			try NSFileManager.defaultManager().removeItemAtURL(cacheURL)
@@ -90,20 +87,18 @@ public class HoardDiskCache {
 		}
 	}
 	
-	public func fetch(from: NSURL, suggestedFileExtension: String? = nil) -> NSData? {
-		let ext = suggestedFileExtension ?? self.imageStorageType.suggestedFileExtension
-		let data = NSData(contentsOfURL:  self.localURLForURL(from, suggestedFileExtension: ext))
+	public func fetch(from: NSURL) -> NSData? {
+		let data = NSData(contentsOfURL:  self.localURLForURL(from))
 		return data
 	}
 	
 	
-	public func isCacheDataAvailable(URL: NSURL, suggestedFileExtension: String? = nil) -> Bool {
-		let ext = suggestedFileExtension ?? self.imageStorageType.suggestedFileExtension
-		return NSFileManager.defaultManager().fileExistsAtPath(self.localURLForURL(URL, suggestedFileExtension: ext).path ?? "/null")
+	public func isCacheDataAvailable(URL: NSURL) -> Bool {
+		return NSFileManager.defaultManager().fileExistsAtPath(self.localURLForURL(URL).path ?? "/null")
 	}
 	
-	public func localURLForURL(URL: NSURL, suggestedFileExtension: String? = nil) -> NSURL {
-		return self.baseURL.URLByAppendingPathComponent(URL.cachedFilename(suggestedFileExtension))
+	public func localURLForURL(URL: NSURL) -> NSURL {
+		return self.baseURL.URLByAppendingPathComponent(URL.cachedFilename(self.imageStorageType.suggestedFileExtension))
 	}
 }
 

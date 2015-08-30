@@ -34,6 +34,12 @@ public class HoardImageView: UIView {
 		get { return self.imageURL }
 	}
 	
+	public func reloadImage() {
+		if let url = self.URL {
+			self.setURL(url)
+		}
+	}
+	
 	var loadingIndicator: UIActivityIndicatorView!
 	func showActivityIndicator() {
 		if self.loadingIndicator == nil {
