@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class HoardCache: NSObject {
+public class HoardCache: NSObject, NSCacheDelegate {
 	public static var sharedCaches: [NSObject: HoardCache] = [:]
 	
 	public class func cacheForURL(URL: NSURL, type: HoardDiskCache.StorageFormat = .PNG) -> HoardCache {
@@ -35,10 +35,12 @@ public class HoardCache: NSObject {
 		} else {
 			diskCache = nil
 		}
+		self.cache.delegate = self
 	}
 	
 	public let diskCache: HoardDiskCache?
 	public let cache = NSCache()
+	public var currentCost = 0
 	
 	public func flushCache() {
 		self.cache.removeAllObjects()
@@ -49,13 +51,14 @@ public class HoardCache: NSObject {
 		self.diskCache?.nukeCache()
 	}
 	
-	public func store(target: NSObject?, from URL: NSURL) -> Bool {
+	public func store(target: NSObject?, from URL: NSURL, skipDisk: Bool = false) -> Bool {
 		var cost = 0
 		if let object = target {
 			if let cached = object as? HoardCacheStoredObject { cost = cached.hoardCacheCost }
+			self.currentCost += cost
 			self.cache.setObject(object, forKey: URL.cacheKey, cost: cost)
 			
-			if let cache = self.diskCache, cachable = object as? HoardDiskCachable {
+			if !skipDisk, let cache = self.diskCache, cachable = object as? HoardDiskCachable {
 				return cache.storeData(cachable.hoardCacheData, from: URL)
 			}
 			
@@ -79,5 +82,11 @@ public class HoardCache: NSObject {
 	public func isCacheDataAvailable(URL: NSURL) -> Bool {
 		if self.cache.objectForKey(URL.cacheKey) != nil { return true }
 		return self.diskCache?.isCacheDataAvailable(URL) ?? false
+	}
+	
+	public func cache(cache: NSCache, willEvictObject obj: AnyObject) {
+		if let object = obj as? HoardCacheStoredObject {
+			self.currentCost -= object.hoardCacheCost
+		}
 	}
 }

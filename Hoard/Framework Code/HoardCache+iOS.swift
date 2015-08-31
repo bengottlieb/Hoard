@@ -23,7 +23,7 @@ public extension HoardCache {
 			return image
 		}
 		if let cached = self.diskCache?.fetchImage(from) ?? self.fetch(from) as? UIImage {
-			self.cache.setObject(cached, forKey: from.cacheKey, cost: cached.hoardCacheCost)
+			self.store(cached, from: from, skipDisk: true)
 			return cached
 		}
 		return nil
