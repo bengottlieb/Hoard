@@ -40,7 +40,11 @@
 		B58D64961A899285005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D646B1A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; settings = {ASSET_TAGS = (); }; };
 		B5A0005B1B90752B00FF4576 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; settings = {ASSET_TAGS = (); }; };
-		B5A0005D1B907AAD00FF4576 /* HoardDiskCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardDiskCache+iOS.swift */; settings = {ASSET_TAGS = (); }; };
+		B5A0005D1B907AAD00FF4576 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */; settings = {ASSET_TAGS = (); }; };
+		B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; settings = {ASSET_TAGS = (); }; };
+		B5A0006A1B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; settings = {ASSET_TAGS = (); }; };
+		B5A0006F1B946EB400FF4576 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */; settings = {ASSET_TAGS = (); }; };
+		B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */; settings = {ASSET_TAGS = (); }; };
 		B5A482461AE5B390001636BE /* PendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482451AE5B390001636BE /* PendingImage.swift */; };
 		B5A482471AE5B390001636BE /* PendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482451AE5B390001636BE /* PendingImage.swift */; };
 		B5A4824A1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */; };
@@ -108,7 +112,9 @@
 		B58D648E1A899094005A0002 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D648F1A899094005A0002 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B5A000591B90752B00FF4576 /* HoardDiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardDiskCache.swift; sourceTree = "<group>"; };
-		B5A0005C1B907AAD00FF4576 /* HoardDiskCache+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HoardDiskCache+iOS.swift"; sourceTree = "<group>"; };
+		B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HoardCache+iOS.swift"; sourceTree = "<group>"; };
+		B5A000681B9461BB00FF4576 /* HoardCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardCache.swift; sourceTree = "<group>"; };
+		B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardProtocols.swift; sourceTree = "<group>"; };
 		B5A482451AE5B390001636BE /* PendingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingImage.swift; sourceTree = "<group>"; };
 		B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+SA_Additions.swift"; sourceTree = "<group>"; };
 		B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageView.swift; sourceTree = "<group>"; };
@@ -220,8 +226,10 @@
 				B58D64751A898F81005A0002 /* Hoard.swift */,
 				B5A482451AE5B390001636BE /* PendingImage.swift */,
 				B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */,
+				B5A000681B9461BB00FF4576 /* HoardCache.swift */,
+				B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */,
+				B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */,
 				B5A000591B90752B00FF4576 /* HoardDiskCache.swift */,
-				B5A0005C1B907AAD00FF4576 /* HoardDiskCache+iOS.swift */,
 				B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */,
 				B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */,
 				B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */,
@@ -464,11 +472,13 @@
 				B5040ECA1AEF1599008DBB12 /* HoardImageGalleryView.swift in Sources */,
 				B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */,
 				B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */,
+				B5A0006F1B946EB400FF4576 /* HoardProtocols.swift in Sources */,
+				B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */,
 				B5A4824A1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */,
 				B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */,
 				B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */,
 				B513D03A1AEFEE80006FABFE /* UIImage+Hoard.swift in Sources */,
-				B5A0005D1B907AAD00FF4576 /* HoardDiskCache+iOS.swift in Sources */,
+				B5A0005D1B907AAD00FF4576 /* HoardCache+iOS.swift in Sources */,
 				B5A482461AE5B390001636BE /* PendingImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,9 +495,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */,
 				B5A0005B1B90752B00FF4576 /* HoardDiskCache.swift in Sources */,
 				B58D64831A898FBE005A0002 /* Hoard.swift in Sources */,
 				B5A4824B1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */,
+				B5A0006A1B9461BB00FF4576 /* HoardCache.swift in Sources */,
 				B5A482471AE5B390001636BE /* PendingImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -743,6 +755,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -772,6 +788,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Hoard/Mac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

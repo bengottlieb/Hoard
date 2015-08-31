@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class HoardDiskCache: NSObject {
+public class HoardDiskCache: HoardCache {
 	public enum StorageFormat: Int { case Data, JPEG, PNG
 		var suggestedFileExtension: String? {
 		switch self {
@@ -23,26 +23,6 @@ public class HoardDiskCache: NSObject {
 	public let valid: Bool
 	public var imageStorageQuality: CGFloat = 0.9
 	
-	public static var sharedCaches: [NSObject: HoardDiskCache] = [:]
-	
-	public class func cacheForURL(URL: NSURL, type: StorageFormat = .PNG) -> HoardDiskCache {
-		if let cache = self.sharedCaches[URL] { return cache }
-		
-		let cache = HoardDiskCache(URL: URL, type: type)
-		self.sharedCaches[URL] = cache
-		return cache
-	}
-	
-	public class func cacheForKey(key: String, type: StorageFormat = .PNG) -> HoardDiskCache {
-		if let cache = self.sharedCaches[key] { return cache }
-
-		let urls = NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask)
-		let URL = urls[0].URLByAppendingPathComponent(key)
-		let cache = HoardDiskCache(URL: URL, type: type)
-		self.sharedCaches[key] = cache
-		return cache
-	}
-	
 	public init(URL: NSURL, type: StorageFormat = .PNG) {
 		baseURL = URL
 		storageFormat = type
@@ -55,7 +35,7 @@ public class HoardDiskCache: NSObject {
 		}
 	}
 	
-	public func clearCache() {
+	public override func nukeCache() {
 		do {
 			try NSFileManager.defaultManager().removeItemAtURL(self.baseURL)
 			try NSFileManager.defaultManager().createDirectoryAtURL(self.baseURL, withIntermediateDirectories: true, attributes: nil)
@@ -64,7 +44,7 @@ public class HoardDiskCache: NSObject {
 		}
 	}
 	
-	public func store(data: NSData?, from URL: NSURL, suggestedFileExtension: String? = nil) -> Bool {
+	public func storeData(data: NSData?, from URL: NSURL, suggestedFileExtension: String? = nil) -> Bool {
 		if !self.valid { return false }
 	
 		if let data = data {
@@ -77,7 +57,7 @@ public class HoardDiskCache: NSObject {
 		return true
 	}
 	
-	public func remove(URL: NSURL) {
+	public override func remove(URL: NSURL) {
 		let cacheURL = self.localURLForURL(URL)
 		
 		do {
@@ -87,13 +67,13 @@ public class HoardDiskCache: NSObject {
 		}
 	}
 	
-	public func fetch(from: NSURL) -> NSData? {
+	public func fetchData(from: NSURL) -> NSData? {
 		let data = NSData(contentsOfURL:  self.localURLForURL(from))
 		return data
 	}
 	
 	
-	public func isCacheDataAvailable(URL: NSURL) -> Bool {
+	public override func isCacheDataAvailable(URL: NSURL) -> Bool {
 		return NSFileManager.defaultManager().fileExistsAtPath(self.localURLForURL(URL).path ?? "/null")
 	}
 	

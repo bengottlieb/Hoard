@@ -60,14 +60,9 @@ public class Hoard: NSObject {
 		return pending
 	}
 	
-	public static var defaultImageCache = HoardDiskCache.cacheForKey(Hoard.mainImageCacheKey) 
+	public static var defaultImageCache = HoardCache.cacheForKey(Hoard.mainImageCacheKey)
 	public static let mainImageCacheKey = "main-hoard-cache"
 	
-	public func clearCache() {
-		Hoard.defaultImageCache.clearCache()
-	}
-	
-
 	//=============================================================================================
 	//MARK: Private
 	
