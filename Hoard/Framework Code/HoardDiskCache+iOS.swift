@@ -14,10 +14,10 @@ public extension HoardDiskCache {
 		if let image = image {
 			let data: NSData?
 
-			switch self.imageStorageType {
+			switch self.storageFormat {
 			case .JPEG: data = UIImageJPEGRepresentation(image, self.imageStorageQuality)
 			case .PNG: data = UIImagePNGRepresentation(image)
-			case .None: return false
+			case .Data: return false
 			}
 			
 			return self.store(data, from: URL)

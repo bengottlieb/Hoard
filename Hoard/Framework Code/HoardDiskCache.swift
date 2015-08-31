@@ -9,23 +9,23 @@
 import Foundation
 
 public class HoardDiskCache: NSObject {
-	public enum ImageStorage: Int { case None, JPEG, PNG
+	public enum StorageFormat: Int { case Data, JPEG, PNG
 		var suggestedFileExtension: String? {
 		switch self {
-		case .None: return nil
+		case .Data: return nil
 		case .JPEG: return "jpg"
 		case .PNG: return "png"
 		}}
 	}
 	
-	public var imageStorageType = ImageStorage.PNG
+	public var storageFormat = StorageFormat.PNG
 	public let baseURL: NSURL
 	public let valid: Bool
 	public var imageStorageQuality: CGFloat = 0.9
 	
 	public static var sharedCaches: [NSObject: HoardDiskCache] = [:]
 	
-	public class func cacheForURL(URL: NSURL, type: ImageStorage = .PNG) -> HoardDiskCache {
+	public class func cacheForURL(URL: NSURL, type: StorageFormat = .PNG) -> HoardDiskCache {
 		if let cache = self.sharedCaches[URL] { return cache }
 		
 		let cache = HoardDiskCache(URL: URL, type: type)
@@ -33,7 +33,7 @@ public class HoardDiskCache: NSObject {
 		return cache
 	}
 	
-	public class func cacheForKey(key: String, type: ImageStorage = .PNG) -> HoardDiskCache {
+	public class func cacheForKey(key: String, type: StorageFormat = .PNG) -> HoardDiskCache {
 		if let cache = self.sharedCaches[key] { return cache }
 
 		let urls = NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask)
@@ -43,9 +43,9 @@ public class HoardDiskCache: NSObject {
 		return cache
 	}
 	
-	public init(URL: NSURL, type: ImageStorage = .PNG) {
+	public init(URL: NSURL, type: StorageFormat = .PNG) {
 		baseURL = URL
-		imageStorageType = type
+		storageFormat = type
 		do {
 			try NSFileManager.defaultManager().createDirectoryAtURL(URL, withIntermediateDirectories: true, attributes: nil)
 			valid = true
@@ -98,7 +98,7 @@ public class HoardDiskCache: NSObject {
 	}
 	
 	public func localURLForURL(URL: NSURL) -> NSURL {
-		return self.baseURL.URLByAppendingPathComponent(URL.cachedFilename(self.imageStorageType.suggestedFileExtension))
+		return self.baseURL.URLByAppendingPathComponent(URL.cachedFilename(self.storageFormat.suggestedFileExtension))
 	}
 }
 
