@@ -56,6 +56,6 @@ public extension HoardDiskCache {
 	
 }
 
-public extension UIImage {
+extension UIImage: HoardCacheStoredObject {
 	public var hoardCacheCost: Int { return Int(self.size.width) * Int(self.size.height) }
 }
