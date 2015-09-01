@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ImageIO
 
 public extension HoardCache {
 	public func storeImage(image: UIImage?, from URL: NSURL) -> Bool {
@@ -48,8 +49,13 @@ public extension HoardDiskCache {
 	}
 	
 	public override func fetchImage(from: NSURL) -> UIImage? {
-		if let data = self.fetchData(from) {
-			return UIImage(data: data)
+		let localURL = self.localURLForURL(from)
+		if let path = localURL.path where NSFileManager.defaultManager().fileExistsAtPath(path), let image = UIImage.decompressedImageWithURL(localURL) {
+			return image
+		}
+		
+		if let data = self.fetchData(from), image = UIImage.decompressedImageWithData(data) {
+			return image
 		}
 		return nil
 	}
@@ -58,4 +64,40 @@ public extension HoardDiskCache {
 
 extension UIImage: HoardCacheStoredObject {
 	public var hoardCacheCost: Int { return Int(self.size.width) * Int(self.size.height) }
+}
+
+public extension UIImage {
+	public class func decompressedImageWithData(data: NSData) -> UIImage? {
+		let options = [String(kCGImageSourceShouldCache): true]
+		if let source = CGImageSourceCreateWithData(data, nil), cgImage = CGImageSourceCreateImageAtIndex(source, 0, options) {
+			return UIImage(CGImage: cgImage)
+		}
+		
+		return nil
+	}
+	
+	public class func decompressedImageWithURL(url: NSURL) -> UIImage? {
+		let options = [String(kCGImageSourceShouldCache): true]
+		if let source = CGImageSourceCreateWithURL(url, nil), cgImage = CGImageSourceCreateImageAtIndex(source, 0, options) {
+			return UIImage(CGImage: cgImage)
+		}
+		
+		return nil
+	}
+
+	convenience public init?(decompressableData data: NSData) {
+		let options = [String(kCGImageSourceShouldCache): true]
+		if let source = CGImageSourceCreateWithData(data, nil), cgImage = CGImageSourceCreateImageAtIndex(source, 0, options) {
+			self.init(CGImage: cgImage)
+		}
+		return nil
+	}
+
+	convenience public init?(decompressableURL url: NSURL) {
+		let options = [String(kCGImageSourceShouldCache): true]
+		if let source = CGImageSourceCreateWithURL(url, nil), cgImage = CGImageSourceCreateImageAtIndex(source, 0, options) {
+			self.init(CGImage: cgImage)
+		}
+		return nil
+	}
 }

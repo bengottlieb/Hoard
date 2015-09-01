@@ -33,12 +33,24 @@ public class Hoard: NSObject {
 	public static var debugging = false
 	public weak var source: HoardImageSource?
 	
-	func requestImageURL(url: NSURL, source: HoardImageSource? = nil, completion: ImageCompletion? = nil) -> PendingImage {
+	func requestImageURL(url: NSURL, source: HoardImageSource? = nil, cache: HoardCache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
 		let pending = PendingImage(url: url, completion: completion)
 		
 		if pending.isCachedAvailable {
 			pending.complete(true)
-		} else if let source = source {
+			return pending
+		}
+		
+		let searchCache = cache ?? Hoard.defaultImageCache
+		if let image = searchCache.fetchImage(url) {
+			pending.fetchedImage = image
+			pending.isComplete = true
+			Hoard.main_thread {
+				completion?(image: pending.fetchedImage, error: nil, fromCache: false)
+			}
+		}
+		
+		if let source = source {
 			if let image = source.generateImageForURL(url) {
 				pending.fetchedImage = image
 				Hoard.defaultImageCache.storeImage(image, from: url)

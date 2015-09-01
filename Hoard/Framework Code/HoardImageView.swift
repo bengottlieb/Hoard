@@ -17,6 +17,7 @@ public class HoardImageView: UIView {
 	}
 	
 	public var imageSource: HoardImageSource?
+	public var imageCache: HoardCache?
 	public var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
 	public var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
 	
@@ -65,7 +66,7 @@ public class HoardImageView: UIView {
 			if Hoard.debugging { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString.hash % 255) / 255.0, green: CGFloat(url.absoluteString.hash % 253) / 255.0, blue: CGFloat(url.absoluteString.hash % 254) / 255.0, alpha: 1.0) }
 			let tempURL = url
 			self.displayedURL = nil
-			self.pendingImage = Hoard.cache.requestImageURL(url, source: self.imageSource, completion: { [weak self] image, error, fromCache in
+			self.pendingImage = Hoard.cache.requestImageURL(url, source: self.imageSource, cache: self.imageCache, completion: { [weak self] image, error, fromCache in
 				if let imageView = self {
 					if let error = error { print("Error while downloading image from \(url): \(error)") }
 					imageView.hideActivityIndicator()
