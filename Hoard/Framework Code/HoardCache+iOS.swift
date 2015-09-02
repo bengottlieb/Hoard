@@ -11,7 +11,7 @@ import ImageIO
 
 public extension HoardCache {
 	public func storeImage(image: UIImage?, from URL: NSURL) -> Bool {
-		if !self.store(image, from: URL) { return false }
+		self.store(image, from: URL)
 		
 		if let disk = self.diskCache where !disk.storeImage(image, from: URL) {
 			return false

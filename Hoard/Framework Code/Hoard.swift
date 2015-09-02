@@ -13,9 +13,17 @@ import Foundation
 }
 
 public class Hoard: NSObject {
-	public class var cache: Hoard { struct s { static let manager = Hoard() }; return s.manager }
+	public static var instance = Hoard()
 	
 	override init() {
+		serializerQueue = NSOperationQueue();
+		serializerQueue.maxConcurrentOperationCount = 1;
+		serializerQueue.qualityOfService = .UserInitiated
+		
+		maintenanceQueue = NSOperationQueue();
+		maintenanceQueue.maxConcurrentOperationCount = 1;
+		maintenanceQueue.qualityOfService = .Background
+
 		super.init()
 	}
 	
@@ -60,7 +68,7 @@ public class Hoard: NSObject {
 				completion?(image: pending.fetchedImage, error: nil, fromCache: false)
 			}
 		} else {
-			self.queue.addOperationWithBlock {
+			self.serializerQueue.addOperationWithBlock {
 				if let existing = self.findExistingConnectionWithURL(url) {
 					existing.dupes.append(pending)
 				} else {
@@ -77,6 +85,10 @@ public class Hoard: NSObject {
 	
 	//=============================================================================================
 	//MARK: Private
+	
+	class func addMaintenanceBlock(block: () -> Void) {
+		Hoard.instance.maintenanceQueue.addOperationWithBlock(block)
+	}
 	
 	func enqueue(pending: PendingImage? = nil) {
 		if let pending = pending { self.pending.append(pending) }
@@ -104,7 +116,7 @@ public class Hoard: NSObject {
 		if image.isComplete {
 			self.active.remove(image)
 		}
-		self.queue.addOperationWithBlock {
+		self.serializerQueue.addOperationWithBlock {
 			self.enqueue()
 		}
 	}
@@ -113,6 +125,7 @@ public class Hoard: NSObject {
 		self.completedPending(image)
 	}
 	
-	let queue: NSOperationQueue = { var queue = NSOperationQueue(); queue.maxConcurrentOperationCount = 1; return queue }()
+	let serializerQueue: NSOperationQueue
+	let maintenanceQueue: NSOperationQueue
 
 }

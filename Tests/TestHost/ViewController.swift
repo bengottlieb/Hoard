@@ -16,6 +16,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		Hoard.defaultImageCache.maxCost = 100000
 		self.view.backgroundColor = UIColor.greenColor()
 	
 	}

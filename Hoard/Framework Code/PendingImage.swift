@@ -45,7 +45,7 @@ public class PendingImage: NSObject {
 	}
 	
 	public func cancel() {
-		Hoard.cache.cancelPending(self)
+		Hoard.instance.cancelPending(self)
 		self.isCancelled = true
 	}
 	
@@ -68,7 +68,7 @@ public class PendingImage: NSObject {
 			}
 		}
 		
-		if image == nil { Hoard.cache.completedPending(self) }
+		if image == nil { Hoard.instance.completedPending(self) }
 	}
 	
 	public var image: UIImage? {

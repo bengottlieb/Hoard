@@ -36,11 +36,13 @@ public class HoardDiskCache: HoardCache {
 	}
 	
 	public override func nukeCache() {
-		do {
-			try NSFileManager.defaultManager().removeItemAtURL(self.baseURL)
-			try NSFileManager.defaultManager().createDirectoryAtURL(self.baseURL, withIntermediateDirectories: true, attributes: nil)
-		} catch let error as NSError {
-			print("Error while clearing Hoard cache: \(error)")
+		Hoard.addMaintenanceBlock {
+			do {
+				try NSFileManager.defaultManager().removeItemAtURL(self.baseURL)
+				try NSFileManager.defaultManager().createDirectoryAtURL(self.baseURL, withIntermediateDirectories: true, attributes: nil)
+			} catch let error as NSError {
+				print("Error while clearing Hoard cache: \(error)")
+			}
 		}
 	}
 	

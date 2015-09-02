@@ -47,6 +47,9 @@ public class HoardCache: NSObject {
 			diskCache = nil
 		}
 		
+		serialQueue = NSOperationQueue()
+		serialQueue.maxConcurrentOperationCount = 1
+		serialQueue.qualityOfService = .UserInteractive
 		mapTable = NSMapTable(keyOptions: [.StrongMemory, .ObjectPersonality], valueOptions: [.StrongMemory, .ObjectPersonality])
 		super.init()
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveMemoryWarning:", name: UIApplicationDidReceiveMemoryWarningNotification, object: nil)
@@ -59,11 +62,16 @@ public class HoardCache: NSObject {
 		}
 	}
 	
+	let serialQueue: NSOperationQueue
 	var mapTable: NSMapTable
 	
+	func serialize(block: () -> Void) { self.serialQueue.addOperationWithBlock(block) }
+	
 	public func flushCache() {
-		self.mapTable = NSMapTable(keyOptions: [.StrongMemory, .ObjectPersonality], valueOptions: [.StrongMemory, .ObjectPersonality])
-		self.currentCost = 0
+		self.serialize {
+			self.mapTable = NSMapTable(keyOptions: [.StrongMemory, .ObjectPersonality], valueOptions: [.StrongMemory, .ObjectPersonality])
+			self.currentCost = 0
+		}
 	}
 	
 	public func nukeCache() {
@@ -71,38 +79,41 @@ public class HoardCache: NSObject {
 		self.diskCache?.nukeCache()
 	}
 	
-	public func store(target: NSObject?, from URL: NSURL, skipDisk: Bool = false) -> Bool {
-		var cost = 0
-		if let object = target {
-			let key = URL.cacheKey
-			if let existing = self.mapTable.objectForKey(key) as? CachedObjectInfo {
-				if existing.object == object { return true }
-				
-				self.currentCost -= existing.cost
-			}
+	public func store(target: NSObject?, from URL: NSURL, skipDisk: Bool = false) {
+		self.serialize {
+			var cost = 0
+			if let object = target {
+				let key = URL.cacheKey
+				if let existing = self.mapTable.objectForKey(key) as? CachedObjectInfo {
+					if existing.object == object { return }
+					
+					self.currentCost -= existing.cost
+				}
 
-			if let cached = object as? HoardCacheStoredObject { cost = cached.hoardCacheCost }
-			self.currentCost += cost
-			self.mapTable.setObject(CachedObjectInfo(object: object, cost: cost, key: key), forKey: key)
-			
-			if !skipDisk, let cache = self.diskCache, cachable = object as? HoardDiskCachable {
-				return cache.storeData(cachable.hoardCacheData, from: URL)
+				if let cached = object as? HoardCacheStoredObject { cost = cached.hoardCacheCost }
+				self.currentCost += cost
+				self.mapTable.setObject(CachedObjectInfo(object: object, cost: cost, key: key), forKey: key)
+				
+				if !skipDisk, let cache = self.diskCache, cachable = object as? HoardDiskCachable {
+					cache.storeData(cachable.hoardCacheData, from: URL)
+					return
+				}
+				
+				self.pruneToCost()
+			} else {
+				self.remove(URL)
 			}
-			
-			self.pruneToCost()
-			return true
-		} else {
-			self.remove(URL)
-			return false
 		}
 	}
 
 	public func remove(URL: NSURL) {
-		let key = URL.cacheKey
-		if let current = self.mapTable.objectForKey(key) as? CachedObjectInfo {
-			self.currentCost -= current.cost
-			self.mapTable.removeObjectForKey(key)
-			self.diskCache?.remove(URL)
+		self.serialize {
+			let key = URL.cacheKey
+			if let current = self.mapTable.objectForKey(key) as? CachedObjectInfo {
+				self.currentCost -= current.cost
+				self.mapTable.removeObjectForKey(key)
+				self.diskCache?.remove(URL)
+			}
 		}
 	}
 	
@@ -120,18 +131,21 @@ public class HoardCache: NSObject {
 	}
 	
 	public func pruneToCost(cost: Int? = nil) {
-		let limit = cost ?? self.maxCost
-		if self.currentCost < limit { return }
-		
-		let current = self.objectsSortedByLastAccess
-		var index = 0
-		
-		while self.currentCost >= limit && index < current.count {
-			let oldest = current[index]
-			self.currentCost -= oldest.cost
-			self.mapTable.removeObjectForKey(oldest.key)
+		Hoard.addMaintenanceBlock {
+			let limit = cost ?? self.maxCost
+			if self.currentCost < limit { return }
 			
-			index++
+			let current = self.objectsSortedByLastAccess
+			var index = 0
+			
+			while self.currentCost >= limit && index < current.count {
+				let oldest = current[index]
+				self.serialize {
+					self.currentCost -= oldest.cost
+					self.mapTable.removeObjectForKey(oldest.key)
+				}
+				index++
+			}
 		}
 	}
 	
