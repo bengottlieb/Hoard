@@ -10,6 +10,7 @@ import Foundation
 
 @objc public protocol HoardImageSource {
 	func generateImageForURL(url: NSURL) -> UIImage?
+	func isFastImageGeneratorForURL(url: NSURL) -> Bool
 }
 
 public class Hoard: NSObject {
@@ -23,7 +24,10 @@ public class Hoard: NSObject {
 		maintenanceQueue = NSOperationQueue();
 		maintenanceQueue.maxConcurrentOperationCount = 1;
 		maintenanceQueue.qualityOfService = .Background
-
+		
+		generationQueue = NSOperationQueue();
+		generationQueue.qualityOfService = .UserInteractive
+		
 		super.init()
 	}
 	
@@ -59,13 +63,20 @@ public class Hoard: NSObject {
 		}
 		
 		if let source = source {
-			if let image = source.generateImageForURL(url) {
-				pending.fetchedImage = image
-				Hoard.defaultImageCache.storeImage(image, from: url)
+			let generationBlock = {
+				if let image = source.generateImageForURL(url) {
+					pending.fetchedImage = image
+					Hoard.defaultImageCache.storeImage(image, from: url)
+				}
+				pending.isComplete = true
+				Hoard.main_thread {
+					completion?(image: pending.fetchedImage, error: nil, fromCache: false)
+				}
 			}
-			pending.isComplete = true
-			Hoard.main_thread {
-				completion?(image: pending.fetchedImage, error: nil, fromCache: false)
+			if source.isFastImageGeneratorForURL(url) {
+				generationBlock()
+			} else {
+				self.generationQueue.addOperationWithBlock(generationBlock)
 			}
 		} else {
 			self.serializerQueue.addOperationWithBlock {
@@ -127,5 +138,6 @@ public class Hoard: NSObject {
 	
 	let serializerQueue: NSOperationQueue
 	let maintenanceQueue: NSOperationQueue
+	let generationQueue: NSOperationQueue
 
 }

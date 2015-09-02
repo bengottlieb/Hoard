@@ -13,6 +13,10 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 	func generateImageForURL(url: NSURL) -> UIImage? {
 		return UIImage(named: "screen_shot")
 	}
+	func isFastImageGeneratorForURL(url: NSURL) -> Bool {
+		return true
+	}
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -129,6 +133,9 @@ class TestCeollectionViewCell: UICollectionViewCell, HoardImageSource {
 		}
 	}
 	
+	func isFastImageGeneratorForURL(url: NSURL) -> Bool {
+		return true
+	}
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		self.setupImageView()
@@ -142,7 +149,6 @@ class TestCeollectionViewCell: UICollectionViewCell, HoardImageSource {
 		UIColor.blackColor().setFill()
 		UIRectFill(bounds)
 		let string = NSAttributedString(string: url.path!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-		
 		string.drawInRect(bounds)
 		
 		let image = UIGraphicsGetImageFromCurrentImageContext()
