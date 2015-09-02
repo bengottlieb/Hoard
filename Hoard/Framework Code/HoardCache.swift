@@ -119,6 +119,7 @@ public class HoardCache: NSObject {
 	
 	public func fetch(from: NSURL) -> NSObject? {
 		if let info = self.mapTable.objectForKey(from.cacheKey) as? CachedObjectInfo {
+			self.diskCache?.updateAccessedAtForRemoteURL(from)
 			info.accessedAt = NSDate().timeIntervalSinceReferenceDate
 			return info.object
 		}

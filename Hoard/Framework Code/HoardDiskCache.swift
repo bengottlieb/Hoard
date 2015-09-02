@@ -51,12 +51,23 @@ public class HoardDiskCache: HoardCache {
 	
 		if let data = data {
 			let cacheURL = self.localURLForURL(URL)
-			return data.writeToURL(cacheURL, atomically: true)
+			if data.writeToURL(cacheURL, atomically: true) {
+				self.updateAccessedAt(cacheURL)
+				let date = self.accessedAt(cacheURL)
+				print("Accessed at: \(date)")
+				return true
+			}
+			return false
 		} else {
 			self.remove(URL)
 		}
 		
 		return true
+	}
+	
+	func updateAccessedAtForRemoteURL(URL: NSURL) {
+		let cachedURL = self.localURLForURL(URL)
+		self.updateAccessedAt(cachedURL)
 	}
 	
 	public override func remove(URL: NSURL) {
@@ -70,8 +81,12 @@ public class HoardDiskCache: HoardCache {
 	}
 	
 	public func fetchData(from: NSURL) -> NSData? {
-		let data = NSData(contentsOfURL:  self.localURLForURL(from))
-		return data
+		let cachedURL = self.localURLForURL(from)
+		if let data = NSData(contentsOfURL:  cachedURL) {
+			self.updateAccessedAt(cachedURL)
+			return data
+		}
+		return nil
 	}
 	
 	
@@ -81,6 +96,31 @@ public class HoardDiskCache: HoardCache {
 	
 	public func localURLForURL(URL: NSURL) -> NSURL {
 		return self.baseURL.URLByAppendingPathComponent(URL.cachedFilename(self.storageFormat.suggestedFileExtension))
+	}
+}
+
+let HoardLastAccessedAtDateAttributeName = "lastAccessed:com.standalone.hoard"
+
+extension HoardDiskCache {
+	func updateAccessedAt(URL: NSURL) {
+		var seconds = Int(NSDate().timeIntervalSinceReferenceDate)
+		let size = sizeof(Int)
+		
+		let result = setxattr(URL.path!, HoardLastAccessedAtDateAttributeName, &seconds, size, 0, 0)
+		if result != 0 {
+			print("Unable to set accessed at: \(result)")
+		}
+	}
+	
+	func accessedAt(URL: NSURL) -> NSDate? {
+		var seconds: Int = 0
+		let result = getxattr(URL.path!, HoardLastAccessedAtDateAttributeName, &seconds, sizeof(Int), 0, 0)
+		
+		if result == sizeof(Int) {
+			return NSDate(timeIntervalSinceReferenceDate: NSTimeInterval(seconds))
+		}
+
+		return nil
 	}
 }
 
@@ -95,3 +135,4 @@ extension NSURL {
 		return "\(self.hash)-" + nameOnly + "." + ext
 	}
 }
+
