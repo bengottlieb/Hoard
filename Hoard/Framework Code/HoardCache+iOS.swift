@@ -10,13 +10,10 @@ import UIKit
 import ImageIO
 
 public extension HoardCache {
-	public func storeImage(image: UIImage?, from URL: NSURL) -> Bool {
+	public func storeImage(image: UIImage?, from URL: NSURL) {
 		self.store(image, from: URL)
 		
-		if let disk = self.diskCache where !disk.storeImage(image, from: URL) {
-			return false
-		}
-		return true
+		self.diskCache?.storeImage(image, from: URL)
 	}
 	
 	public func fetchImage(from: NSURL) -> UIImage? {
@@ -32,7 +29,7 @@ public extension HoardCache {
 }
 
 public extension HoardDiskCache {
-	public override func storeImage(image: UIImage?, from URL: NSURL) -> Bool {
+	public override func storeImage(image: UIImage?, from URL: NSURL) {
 		
 		if let image = image {
 			let data: NSData?
@@ -40,12 +37,11 @@ public extension HoardDiskCache {
 			switch self.storageFormat {
 			case .JPEG: data = UIImageJPEGRepresentation(image, self.imageStorageQuality)
 			case .PNG: data = UIImagePNGRepresentation(image)
-			case .Data: return false
+			case .Data: return
 			}
 			
-			return self.storeData(data, from: URL, suggestedFileExtension: nil)
+			self.storeData(data, from: URL, suggestedFileExtension: nil)
 		}
-		return false
 	}
 	
 	public override func fetchImage(from: NSURL) -> UIImage? {
@@ -63,7 +59,7 @@ public extension HoardDiskCache {
 }
 
 extension UIImage: HoardCacheStoredObject {
-	public var hoardCacheCost: Int { return Int(self.size.width) * Int(self.size.height) }
+	public var hoardCacheSize: Int { return Int(self.size.width) * Int(self.size.height) }
 }
 
 public extension UIImage {

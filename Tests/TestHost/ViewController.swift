@@ -20,7 +20,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		Hoard.defaultImageCache.maxCost = 100000
+		Hoard.defaultImageCache.maxSize = 100000
 		self.view.backgroundColor = UIColor.greenColor()
 	
 	}
@@ -66,6 +66,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 			
 			self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 300, width: self.view.bounds.width, height: self.view.bounds.height - 300), collectionViewLayout: self.layout)
 			self.collectionView.dataSource = self
+			self.collectionView.delegate = self
 			self.collectionView.registerClass(TestCeollectionViewCell.self, forCellWithReuseIdentifier: "cell")
 			self.view.addSubview(self.collectionView)
 			
@@ -119,6 +120,9 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 		cell.setupImageView()
 		cell.hoardView?.URL = url
 		return cell
+	}
+	
+	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 	}
 }
 

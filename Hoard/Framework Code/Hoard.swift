@@ -14,6 +14,7 @@ import Foundation
 }
 
 public class Hoard: NSObject {
+	public enum DebugLevel: Int { case None, Low, High }
 	public static var instance = Hoard()
 	
 	override init() {
@@ -42,7 +43,7 @@ public class Hoard: NSObject {
 	public var maxConcurrentDownloads = 400
 	public var active = Set<PendingImage>()
 	public var pending = Array<PendingImage>()
-	public static var debugging = false
+	public static var debugLevel = DebugLevel.None
 	public weak var source: HoardImageSource?
 	
 	func requestImageURL(url: NSURL, source: HoardImageSource? = nil, cache: HoardCache? = nil, completion: ImageCompletion? = nil) -> PendingImage {

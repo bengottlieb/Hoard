@@ -21,7 +21,7 @@ extension NSData {
 }
 
 @objc protocol HoardCacheStoredObject {
-	var hoardCacheCost: Int { get }
+	var hoardCacheSize: Int { get }
 }
 
 

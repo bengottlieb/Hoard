@@ -22,10 +22,15 @@ public class HoardDiskCache: HoardCache {
 	public let baseURL: NSURL
 	public let valid: Bool
 	public var imageStorageQuality: CGFloat = 0.9
+	var diskQueue: NSOperationQueue
 	
 	public init(URL: NSURL, type: StorageFormat = .PNG) {
 		baseURL = URL
 		storageFormat = type
+		diskQueue = NSOperationQueue()
+		diskQueue.maxConcurrentOperationCount = 1
+		diskQueue.qualityOfService = .Utility
+
 		do {
 			try NSFileManager.defaultManager().createDirectoryAtURL(URL, withIntermediateDirectories: true, attributes: nil)
 			valid = true
@@ -33,57 +38,77 @@ public class HoardDiskCache: HoardCache {
 			print("Unable to instantiate a disk cache at \(URL.path!): \(error)")
 			valid = false
 		}
+		super.init()
+		self.maxSize = self.optimalCacheSize()
+		self.cacheLimitSize = Int64(Double(self.maxSize) * 1.25)
+		self.diskOperation {
+			self.currentSize = self.onDiskSize()
+			if Hoard.debugLevel != .None {
+				print("Current cache size: \(self.currentSize)")
+			}
+		}
 	}
 	
+	func diskOperation(block: () -> Void) { self.diskQueue.addOperationWithBlock(block) }
+
+	var cacheLimitSize: Int64 = 0		//what size do we start pruning the cache at?
+	
 	public override func nukeCache() {
-		Hoard.addMaintenanceBlock {
+		self.diskOperation {
 			do {
 				try NSFileManager.defaultManager().removeItemAtURL(self.baseURL)
 				try NSFileManager.defaultManager().createDirectoryAtURL(self.baseURL, withIntermediateDirectories: true, attributes: nil)
+				self.currentSize = 0
 			} catch let error as NSError {
 				print("Error while clearing Hoard cache: \(error)")
 			}
 		}
 	}
 	
-	public func storeData(data: NSData?, from URL: NSURL, suggestedFileExtension: String? = nil) -> Bool {
-		if !self.valid { return false }
 	
-		if let data = data {
-			let cacheURL = self.localURLForURL(URL)
-			if data.writeToURL(cacheURL, atomically: true) {
-				self.updateAccessedAt(cacheURL)
-				let date = self.accessedAt(cacheURL)
-				print("Accessed at: \(date)")
-				return true
+	
+	public func storeData(data: NSData?, from URL: NSURL, suggestedFileExtension: String? = nil) {
+		if !self.valid { return }
+	
+		self.diskOperation {
+			if let data = data {
+				let cacheURL = self.localURLForURL(URL)
+				if data.writeToURL(cacheURL, atomically: true) {
+					self.updateAccessedAt(cacheURL)
+					self.currentSize += data.length
+				}
+				
+				if self.currentSize > self.cacheLimitSize { self.prune() }
+			} else {
+				self.remove(URL)
 			}
-			return false
-		} else {
-			self.remove(URL)
 		}
-		
-		return true
 	}
 	
 	func updateAccessedAtForRemoteURL(URL: NSURL) {
-		let cachedURL = self.localURLForURL(URL)
-		self.updateAccessedAt(cachedURL)
+		self.diskOperation {
+			let cachedURL = self.localURLForURL(URL)
+			self.updateAccessedAt(cachedURL)
+		}
 	}
 	
 	public override func remove(URL: NSURL) {
-		let cacheURL = self.localURLForURL(URL)
-		
-		do {
-			try NSFileManager.defaultManager().removeItemAtURL(cacheURL)
-		} catch let error {
-			print("Failed to remove cached data for URL \(URL.path!): \(error)")
+		self.diskOperation {
+			let cacheURL = self.localURLForURL(URL)
+			
+			self.currentSize -= NSFileManager.defaultManager().fileSizeAtURL(cacheURL)
+			do {
+				try NSFileManager.defaultManager().removeItemAtURL(cacheURL)
+			} catch let error {
+				print("Failed to remove cached data for URL \(URL.path!): \(error)")
+			}
 		}
 	}
 	
 	public func fetchData(from: NSURL) -> NSData? {
 		let cachedURL = self.localURLForURL(from)
 		if let data = NSData(contentsOfURL:  cachedURL) {
-			self.updateAccessedAt(cachedURL)
+			Hoard.addMaintenanceBlock { self.updateAccessedAt(cachedURL) }
 			return data
 		}
 		return nil
@@ -97,26 +122,74 @@ public class HoardDiskCache: HoardCache {
 	public func localURLForURL(URL: NSURL) -> NSURL {
 		return self.baseURL.URLByAppendingPathComponent(URL.cachedFilename(self.storageFormat.suggestedFileExtension))
 	}
+	
+	override public func prune(size: Int64? = nil) {
+		Hoard.addMaintenanceBlock {
+			let files = self.buildFileList().sort(<)
+			var size: Int64 = files.reduce(0, combine: { $0 + $1.size })
+			let max = self.maxSize
+			var index = 0
+			
+			while size > max && index < files.count {
+				size -= files[index].remove()
+				index++
+			}
+		}
+	}
+	
+	func optimalCacheSize() -> Int64 {
+		let systemAttributes = try? NSFileManager.defaultManager().attributesOfFileSystemForPath(NSHomeDirectory())
+		let space = (systemAttributes?[NSFileSystemSize] as? NSNumber)?.longLongValue ?? 0
+		
+		return space / 10			//one tenth of available space
+	}
+	
+	func buildFileList() -> [HoardFileInfo] {
+		var files: [HoardFileInfo] = []
+		
+		do {
+			let urls = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(self.baseURL, includingPropertiesForKeys: [NSFileSize], options: [.SkipsSubdirectoryDescendants, .SkipsHiddenFiles])
+			for url in urls {
+				files.append(HoardFileInfo(URL: url))
+			}
+		} catch {}
+		
+		return files
+	}
+
+	func onDiskSize() -> Int64 {
+		var total: Int64 = 0
+		do {
+			let urls = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(self.baseURL, includingPropertiesForKeys: [NSFileSize], options: [.SkipsSubdirectoryDescendants, .SkipsHiddenFiles])
+			for url in urls {
+				total += NSFileManager.defaultManager().fileSizeAtURL(url)
+			}
+		} catch {}
+		
+		return total
+	}
 }
 
 let HoardLastAccessedAtDateAttributeName = "lastAccessed:com.standalone.hoard"
 
 extension HoardDiskCache {
 	func updateAccessedAt(URL: NSURL) {
-		var seconds = Int(NSDate().timeIntervalSinceReferenceDate)
-		let size = sizeof(Int)
+		var seconds = NSDate().timeIntervalSinceReferenceDate
+		let size = sizeof(NSTimeInterval)
+		let path = URL.path!
 		
+		if !NSFileManager.defaultManager().fileExistsAtPath(path) { return }
 		let result = setxattr(URL.path!, HoardLastAccessedAtDateAttributeName, &seconds, size, 0, 0)
 		if result != 0 {
-			print("Unable to set accessed at: \(result)")
+			print("Unable to set accessed at on \(path): \(result)")
 		}
 	}
 	
 	func accessedAt(URL: NSURL) -> NSDate? {
-		var seconds: Int = 0
-		let result = getxattr(URL.path!, HoardLastAccessedAtDateAttributeName, &seconds, sizeof(Int), 0, 0)
+		var seconds: NSTimeInterval = 0
+		let result = getxattr(URL.path!, HoardLastAccessedAtDateAttributeName, &seconds, sizeof(NSTimeInterval), 0, 0)
 		
-		if result == sizeof(Int) {
+		if result == sizeof(NSTimeInterval) {
 			return NSDate(timeIntervalSinceReferenceDate: NSTimeInterval(seconds))
 		}
 
@@ -136,3 +209,50 @@ extension NSURL {
 	}
 }
 
+class HoardFileInfo: CustomStringConvertible, Comparable {
+	let URL: NSURL
+	let size: Int64
+	let accessedAt: NSTimeInterval
+	init(URL file: NSURL) {
+		URL = file
+		let path = file.path!
+		var seconds: NSTimeInterval = 0
+		let result = getxattr(path, HoardLastAccessedAtDateAttributeName, &seconds, sizeof(NSTimeInterval), 0, 0)
+		accessedAt = result == sizeof(NSTimeInterval) ? seconds : NSTimeInterval(0)
+		size = NSFileManager.defaultManager().fileSizeAtURL(URL)
+	}
+	
+	func remove() -> Int64 {
+		do {
+			try NSFileManager.defaultManager().removeItemAtURL(self.URL)
+			return self.size
+		} catch {}
+		return 0
+	}
+	
+	var sizeString: String {
+		if self.size < 1024 { return "\(self.size) b" }
+		if self.size < 1024 * 1024 { return "\(self.size / 1024) KB" }
+		return "\(self.size / (1024 * 1024)) MB"
+	}
+	var description: String { return "\(self.accessedAt) / \(self.URL.lastPathComponent!) / \(self.sizeString)" }
+}
+
+extension NSFileManager {
+	func fileSizeAtURL(URL: NSURL) -> Int64 {
+		do {
+			let info = try NSFileManager.defaultManager().attributesOfItemAtPath(URL.path!)
+			return Int64(info[NSFileSize] as? Int ?? 0)
+		} catch {
+			return 0
+		}
+	}
+}
+
+func <(lhs: HoardFileInfo, rhs: HoardFileInfo) -> Bool {
+	return lhs.accessedAt < rhs.accessedAt
+}
+
+func ==(lhs: HoardFileInfo, rhs: HoardFileInfo) -> Bool {
+	return lhs.URL == rhs.URL
+}

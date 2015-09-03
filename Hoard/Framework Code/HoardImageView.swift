@@ -63,7 +63,7 @@ public class HoardImageView: UIView {
 		if let url = url {
 			self.showActivityIndicator()
 			
-			if Hoard.debugging { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString.hash % 255) / 255.0, green: CGFloat(url.absoluteString.hash % 253) / 255.0, blue: CGFloat(url.absoluteString.hash % 254) / 255.0, alpha: 1.0) }
+			if Hoard.debugLevel != .None { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString.hash % 255) / 255.0, green: CGFloat(url.absoluteString.hash % 253) / 255.0, blue: CGFloat(url.absoluteString.hash % 254) / 255.0, alpha: 1.0) }
 			let tempURL = url
 			self.displayedURL = nil
 			self.pendingImage = Hoard.instance.requestImageURL(url, source: self.imageSource, cache: self.imageCache, completion: { [weak self] image, error, fromCache in
@@ -105,7 +105,7 @@ public class HoardImageView: UIView {
 		
 		self.placeholder = placeholder
 		if self.image == nil { self.image = placeholder }
-		self.revealAnimationDuration = duration * (Hoard.debugging ? 10.0 : 1.0)
+		self.revealAnimationDuration = duration * (Hoard.debugLevel != .None ? 10.0 : 1.0)
 	}
 	
 	func prepareForReuse() {
@@ -127,7 +127,7 @@ public class HoardImageView: UIView {
 	
 	var urlLabel: UILabel?
 	
-	public var revealAnimationDuration = 0.2 * (Hoard.debugging ? 10.0 : 1.0)
+	public var revealAnimationDuration = 0.2 * (Hoard.debugLevel != .None ? 10.0 : 1.0)
 	public var pendingImage: PendingImage?
 	
 	var tempImageView: UIImageView?
@@ -192,7 +192,7 @@ public class HoardImageView: UIView {
 	public override func didMoveToSuperview() {
 		super.didMoveToSuperview()
 		
-		if Hoard.debugging && self.urlLabel == nil {
+		if Hoard.debugLevel != .None && self.urlLabel == nil {
 			self.urlLabel = UILabel(frame: CGRect(x: 0.0, y: self.bounds.height - 15, width: self.bounds.width, height: 15.0))
 			self.addSubview(self.urlLabel!)
 			self.urlLabel?.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
@@ -251,7 +251,7 @@ public class HoardImageView: UIView {
 			host.addSubview(self.fullScreenView!)
 			host.bringSubviewToFront(self.fullScreenView!)
 
-			UIView.animateWithDuration(0.25 * (Hoard.debugging ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+			UIView.animateWithDuration(0.25 * (Hoard.debugLevel != .None ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
 				self.alpha = 0.0
 				self.fullScreenView?.alpha = 1.0
 				self.fullScreenView?.frame = host.frame
@@ -278,7 +278,7 @@ public class HoardImageView: UIView {
 		self.parentGallery?.setCurrentIndex(self.fullScreenView!.currentIndex, animated: false)
 		if let host = self.fullScreenView?.superview {
 			let newFrame = self.convertRect(self.bounds, toView: host)
-			UIView.animateWithDuration(0.25 * (Hoard.debugging ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+			UIView.animateWithDuration(0.25 * (Hoard.debugLevel != .None ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
 				self.alpha = 1.0
 				self.fullScreenView?.alpha = 0.0
 				if self.superview != nil { self.fullScreenView?.frame = newFrame }
@@ -307,7 +307,7 @@ public class HoardImageView: UIView {
 		default: break
 			
 		}
-		UIView.animateWithDuration(0.2 * (Hoard.debugging ? 10.0 : 1.0), animations: {
+		UIView.animateWithDuration(0.2 * (Hoard.debugLevel != .None ? 10.0 : 1.0), animations: {
 			self.fullScreenView?.bounds = frame
 			self.fullScreenView?.transform = transform
 		})
