@@ -1,5 +1,5 @@
 //
-//  HoardDiskCache+iOS.swift
+//  DiskCache+iOS.swift
 //  Hoard
 //
 //  Created by Ben Gottlieb on 8/28/15.
@@ -9,7 +9,7 @@
 import UIKit
 import ImageIO
 
-public extension HoardCache {
+public extension Hoard.Cache {
 	public func storeImage(image: UIImage?, from URL: NSURL) {
 		self.store(image, from: URL)
 		
@@ -28,7 +28,7 @@ public extension HoardCache {
 	}
 }
 
-public extension HoardDiskCache {
+public extension Hoard.DiskCache {
 	public override func storeImage(image: UIImage?, from URL: NSURL) {
 		
 		if let image = image {
@@ -58,7 +58,7 @@ public extension HoardDiskCache {
 	
 }
 
-extension UIImage: HoardCacheStoredObject {
+extension UIImage: CacheStoredObject {
 	public var hoardCacheSize: Int { return Int(self.size.width) * Int(self.size.height) }
 }
 

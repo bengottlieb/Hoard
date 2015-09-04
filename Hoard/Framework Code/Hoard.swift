@@ -46,7 +46,7 @@ public class Hoard: NSObject {
 	public static var debugLevel = DebugLevel.None
 	public weak var source: HoardImageSource?
 	
-	public static var defaultImageCache = HoardCache.cacheForKey(Hoard.mainImageCacheKey)
+	public static var defaultImageCache = Cache.cacheForKey(Hoard.mainImageCacheKey)
 	public static let mainImageCacheKey = "main-hoard-cache"
 	
 	//=============================================================================================

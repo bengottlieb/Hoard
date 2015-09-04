@@ -20,7 +20,7 @@ extension NSData {
 	var hoardCacheData: NSData { return self }
 }
 
-@objc protocol HoardCacheStoredObject {
+@objc protocol CacheStoredObject {
 	var hoardCacheSize: Int { get }
 }
 

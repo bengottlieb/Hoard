@@ -20,7 +20,7 @@ extension Hoard {
 		public let priority: Int
 		public var error: NSError?
 		
-		public class func request(url: NSURL, source: HoardImageSource? = nil, cache: HoardCache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
+		public class func request(url: NSURL, source: HoardImageSource? = nil, cache: Cache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
 			let pending = PendingImage(url: url, completion: completion)
 			
 			if pending.isCachedAvailable {

@@ -18,7 +18,7 @@ extension Hoard {
 		}
 		
 		public var imageSource: HoardImageSource?
-		public var imageCache: HoardCache?
+		public var imageCache: Cache?
 		public var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
 		public var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
 		

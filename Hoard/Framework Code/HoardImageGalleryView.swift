@@ -27,8 +27,8 @@ extension Hoard {
 		public var pageIndicatorOffset: CGFloat = 0.1
 		public var pageIndicators: UIPageControl?
 		public var countLocation: ImageCountLocation = .None { didSet { self.updateImageCount() }}
-		public var countView: HoardImageCountView?
-		public func addCountView(view: HoardImageCountView = HoardImageCountView.defaultCountView(), atLocation location: ImageCountLocation = .UpperRight) {
+		public var countView: ImageCountView?
+		public func addCountView(view: ImageCountView = ImageCountView.defaultCountView(), atLocation location: ImageCountLocation = .UpperRight) {
 			self.countView?.removeFromSuperview()
 			self.countView = view
 			self.addSubview(view)
