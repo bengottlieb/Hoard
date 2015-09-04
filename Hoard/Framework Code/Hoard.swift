@@ -41,56 +41,10 @@ public class Hoard: NSObject {
 	}
 	
 	public var maxConcurrentDownloads = 400
-	public var active = Set<PendingImage>()
-	public var pending = Array<PendingImage>()
+	public var active = Set<HoardPendingImage>()
+	public var pending = Array<HoardPendingImage>()
 	public static var debugLevel = DebugLevel.None
 	public weak var source: HoardImageSource?
-	
-	public class func requestImageURL(url: NSURL, source: HoardImageSource? = nil, cache: HoardCache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
-		let pending = PendingImage(url: url, completion: completion)
-		
-		if pending.isCachedAvailable {
-			pending.complete(true)
-			return pending
-		}
-		
-		let searchCache = cache ?? Hoard.defaultImageCache
-		if let image = searchCache.fetchImage(url) {
-			pending.fetchedImage = image
-			pending.isComplete = true
-			Hoard.main_thread {
-				completion?(image: pending.fetchedImage, error: nil, fromCache: false)
-			}
-		}
-		
-		if let source = source {
-			let generationBlock = {
-				if let image = source.generateImageForURL(url) {
-					pending.fetchedImage = image
-					Hoard.defaultImageCache.storeImage(image, from: url)
-				}
-				pending.isComplete = true
-				Hoard.main_thread {
-					completion?(image: pending.fetchedImage, error: nil, fromCache: false)
-				}
-			}
-			if source.isFastImageGeneratorForURL(url) {
-				generationBlock()
-			} else {
-				Hoard.instance.generationQueue.addOperationWithBlock(generationBlock)
-			}
-		} else {
-			Hoard.instance.serializerQueue.addOperationWithBlock {
-				if let existing = Hoard.instance.findExistingConnectionWithURL(url) {
-					existing.dupes.append(pending)
-				} else {
-					Hoard.instance.enqueue(pending)
-				}
-			}
-		}
-		
-		return pending
-	}
 	
 	public static var defaultImageCache = HoardCache.cacheForKey(Hoard.mainImageCacheKey)
 	public static let mainImageCacheKey = "main-hoard-cache"
@@ -102,7 +56,7 @@ public class Hoard: NSObject {
 		Hoard.instance.maintenanceQueue.addOperationWithBlock(block)
 	}
 	
-	func enqueue(pending: PendingImage? = nil) {
+	func enqueue(pending: HoardPendingImage? = nil) {
 		if let pending = pending { self.pending.append(pending) }
 		if self.active.count < self.maxConcurrentDownloads && self.pending.count > 0 {
 			let next = self.pending[0]
@@ -112,7 +66,7 @@ public class Hoard: NSObject {
 		}
 	}
 	
-	func findExistingConnectionWithURL(url: NSURL) -> PendingImage? {
+	func findExistingConnectionWithURL(url: NSURL) -> HoardPendingImage? {
 		var found = self.pending.filter({ $0.URL == url })
 		if found.count > 0 { return found[0] }
 		
@@ -122,7 +76,7 @@ public class Hoard: NSObject {
 		return nil
 	}
 	
-	func completedPending(image: PendingImage) {
+	func completedPending(image: HoardPendingImage) {
 		self.pending.remove(image)
 		
 		if image.isComplete {
@@ -133,7 +87,7 @@ public class Hoard: NSObject {
 		}
 	}
 	
-	func cancelPending(image: PendingImage) {
+	func cancelPending(image: HoardPendingImage) {
 		self.completedPending(image)
 	}
 	

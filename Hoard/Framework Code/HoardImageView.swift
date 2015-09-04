@@ -66,7 +66,7 @@ public class HoardImageView: UIView {
 			if Hoard.debugLevel != .None { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString.hash % 255) / 255.0, green: CGFloat(url.absoluteString.hash % 253) / 255.0, blue: CGFloat(url.absoluteString.hash % 254) / 255.0, alpha: 1.0) }
 			let tempURL = url
 			self.displayedURL = nil
-			self.pendingImage = Hoard.requestImageURL(url, source: self.imageSource, cache: self.imageCache, completion: { [weak self] image, error, fromCache in
+			self.pendingImage = HoardPendingImage.request(url, source: self.imageSource, cache: self.imageCache, completion: { [weak self] image, error, fromCache in
 				if let imageView = self {
 					if let error = error { print("Error while downloading image from \(url): \(error)") }
 					imageView.hideActivityIndicator()
@@ -128,7 +128,7 @@ public class HoardImageView: UIView {
 	var urlLabel: UILabel?
 	
 	public var revealAnimationDuration = 0.2 * (Hoard.debugLevel != .None ? 10.0 : 1.0)
-	public var pendingImage: PendingImage?
+	public var pendingImage: HoardPendingImage?
 	
 	var tempImageView: UIImageView?
 	

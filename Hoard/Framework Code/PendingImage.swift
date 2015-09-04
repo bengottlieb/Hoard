@@ -1,5 +1,5 @@
 //
-//  PendingImage.swift
+//  HoardPendingImage.swift
 //  Hoard
 //
 //  Created by Ben Gottlieb on 4/20/15.
@@ -11,7 +11,7 @@ import Plug
 
 public typealias ImageCompletion = (image: UIImage?, error: NSError?, fromCache: Bool) -> Void
 
-public class PendingImage: NSObject {
+public class HoardPendingImage: NSObject {
 	public class var defaultPriority: Int { return 10 }
 	
 	public let URL: NSURL
@@ -19,7 +19,54 @@ public class PendingImage: NSObject {
 	public let priority: Int
 	public var error: NSError?
 	
-	public init(url: NSURL, completion comp: ImageCompletion?, priority pri: Int = PendingImage.defaultPriority) {
+	public class func request(url: NSURL, source: HoardImageSource? = nil, cache: HoardCache? = nil, completion: ImageCompletion? = nil) -> HoardPendingImage {
+		let pending = HoardPendingImage(url: url, completion: completion)
+		
+		if pending.isCachedAvailable {
+			pending.complete(true)
+			return pending
+		}
+		
+		let searchCache = cache ?? Hoard.defaultImageCache
+		if let image = searchCache.fetchImage(url) {
+			pending.fetchedImage = image
+			pending.isComplete = true
+			Hoard.main_thread {
+				completion?(image: pending.fetchedImage, error: nil, fromCache: false)
+			}
+		}
+		
+		if let source = source {
+			let generationBlock = {
+				if let image = source.generateImageForURL(url) {
+					pending.fetchedImage = image
+					Hoard.defaultImageCache.storeImage(image, from: url)
+				}
+				pending.isComplete = true
+				Hoard.main_thread {
+					completion?(image: pending.fetchedImage, error: nil, fromCache: false)
+				}
+			}
+			if source.isFastImageGeneratorForURL(url) {
+				generationBlock()
+			} else {
+				Hoard.instance.generationQueue.addOperationWithBlock(generationBlock)
+			}
+		} else {
+			Hoard.instance.serializerQueue.addOperationWithBlock {
+				if let existing = Hoard.instance.findExistingConnectionWithURL(url) {
+					existing.dupes.append(pending)
+				} else {
+					Hoard.instance.enqueue(pending)
+				}
+			}
+		}
+		
+		return pending
+	}
+	
+
+	public init(url: NSURL, completion comp: ImageCompletion?, priority pri: Int = HoardPendingImage.defaultPriority) {
 		URL = url
 		completion = comp
 		priority = pri
@@ -27,7 +74,7 @@ public class PendingImage: NSObject {
 		super.init()
 	}
 	
-	var dupes: [PendingImage] = []
+	var dupes: [HoardPendingImage] = []
 	
 	func start() {
 		Plug.request(.GET, URL: self.URL, channel: Plug.Channel.resourceChannel).completion({ conn, data in
