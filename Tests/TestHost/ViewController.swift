@@ -30,7 +30,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 		// Dispose of any resources that can be recreated.
 	}
 
-	var gallery: HoardImageGalleryView!
+	var gallery: Hoard.ImageGalleryView!
 	
 	var collectionView: UICollectionView!
 	let layout = UICollectionViewFlowLayout()
@@ -40,7 +40,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 		if !self.setup {
 			self.setup = true
 			/*
-			self.gallery = HoardImageGalleryView(frame: CGRect(x: 50, y: 120, width: self.view.bounds.width - 100, height: 150))
+			self.gallery = ImageGalleryView(frame: CGRect(x: 50, y: 120, width: self.view.bounds.width - 100, height: 150))
 			self.gallery.tapForFullScreen = true
 			self.view.addSubview(self.gallery)
 			var URLs = [
@@ -70,7 +70,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 			self.collectionView.registerClass(TestCeollectionViewCell.self, forCellWithReuseIdentifier: "cell")
 			self.view.addSubview(self.collectionView)
 			
-//			let imageView = HoardImageView(frame: CGRect(x: 50, y: 300, width: self.view.bounds.width - 100, height: 100))
+//			let imageView = ImageView(frame: CGRect(x: 50, y: 300, width: self.view.bounds.width - 100, height: 100))
 //			self.view.addSubview(imageView)
 //			imageView.imageSource = self
 //			imageView.URL = NSURL(fileURLWithPath: "/")
@@ -88,7 +88,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 		
 		while top < size.height {
 			let frame = CGRect(x: left, y: top, width: width, height: height)
-			let view = HoardImageView(frame: frame)
+			let view = Hoard.ImageView(frame: frame)
 			
 			view.backgroundColor = UIColor.blackColor()
 			view.contentMode = .ScaleAspectFill
@@ -127,11 +127,11 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 }
 
 class TestCeollectionViewCell: UICollectionViewCell, HoardImageSource {
-	var hoardView: HoardImageView!
+	var hoardView: Hoard.ImageView!
 	
 	func setupImageView() {
 		if self.hoardView == nil {
-			self.hoardView = HoardImageView(frame: self.contentView.bounds)
+			self.hoardView = Hoard.ImageView(frame: self.contentView.bounds)
 			self.contentView.addSubview(self.hoardView)
 			self.hoardView.imageSource = self
 		}

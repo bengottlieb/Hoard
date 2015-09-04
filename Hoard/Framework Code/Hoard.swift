@@ -41,8 +41,8 @@ public class Hoard: NSObject {
 	}
 	
 	public var maxConcurrentDownloads = 400
-	public var active = Set<HoardPendingImage>()
-	public var pending = Array<HoardPendingImage>()
+	public var active = Set<PendingImage>()
+	public var pending = Array<PendingImage>()
 	public static var debugLevel = DebugLevel.None
 	public weak var source: HoardImageSource?
 	
@@ -56,7 +56,7 @@ public class Hoard: NSObject {
 		Hoard.instance.maintenanceQueue.addOperationWithBlock(block)
 	}
 	
-	func enqueue(pending: HoardPendingImage? = nil) {
+	func enqueue(pending: PendingImage? = nil) {
 		if let pending = pending { self.pending.append(pending) }
 		if self.active.count < self.maxConcurrentDownloads && self.pending.count > 0 {
 			let next = self.pending[0]
@@ -66,7 +66,7 @@ public class Hoard: NSObject {
 		}
 	}
 	
-	func findExistingConnectionWithURL(url: NSURL) -> HoardPendingImage? {
+	func findExistingConnectionWithURL(url: NSURL) -> PendingImage? {
 		var found = self.pending.filter({ $0.URL == url })
 		if found.count > 0 { return found[0] }
 		
@@ -76,7 +76,7 @@ public class Hoard: NSObject {
 		return nil
 	}
 	
-	func completedPending(image: HoardPendingImage) {
+	func completedPending(image: PendingImage) {
 		self.pending.remove(image)
 		
 		if image.isComplete {
@@ -87,7 +87,7 @@ public class Hoard: NSObject {
 		}
 	}
 	
-	func cancelPending(image: HoardPendingImage) {
+	func cancelPending(image: PendingImage) {
 		self.completedPending(image)
 	}
 	
