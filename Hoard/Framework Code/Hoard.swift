@@ -46,7 +46,7 @@ public class Hoard: NSObject {
 	public static var debugLevel = DebugLevel.None
 	public weak var source: HoardImageSource?
 	
-	func requestImageURL(url: NSURL, source: HoardImageSource? = nil, cache: HoardCache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
+	public class func requestImageURL(url: NSURL, source: HoardImageSource? = nil, cache: HoardCache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
 		let pending = PendingImage(url: url, completion: completion)
 		
 		if pending.isCachedAvailable {
@@ -77,14 +77,14 @@ public class Hoard: NSObject {
 			if source.isFastImageGeneratorForURL(url) {
 				generationBlock()
 			} else {
-				self.generationQueue.addOperationWithBlock(generationBlock)
+				Hoard.instance.generationQueue.addOperationWithBlock(generationBlock)
 			}
 		} else {
-			self.serializerQueue.addOperationWithBlock {
-				if let existing = self.findExistingConnectionWithURL(url) {
+			Hoard.instance.serializerQueue.addOperationWithBlock {
+				if let existing = Hoard.instance.findExistingConnectionWithURL(url) {
 					existing.dupes.append(pending)
 				} else {
-					self.enqueue(pending)
+					Hoard.instance.enqueue(pending)
 				}
 			}
 		}
