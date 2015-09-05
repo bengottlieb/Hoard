@@ -10,8 +10,9 @@ import UIKit
 
 var s_currentImageView: Hoard.ImageView?
 
+public class HoardImageView: Hoard.ImageView {}
 
-extension Hoard {
+public extension Hoard {
 	public class ImageView: UIView {
 		deinit {
 			NSNotificationCenter.defaultCenter().removeObserver(self)
