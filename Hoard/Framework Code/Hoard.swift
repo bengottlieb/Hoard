@@ -18,15 +18,12 @@ public class Hoard: NSObject {
 	public static var instance = Hoard()
 	
 	override init() {
-		serializerQueue = NSOperationQueue();
 		serializerQueue.maxConcurrentOperationCount = 1;
 		serializerQueue.qualityOfService = .UserInitiated
 		
-		maintenanceQueue = NSOperationQueue();
 		maintenanceQueue.maxConcurrentOperationCount = 1;
 		maintenanceQueue.qualityOfService = .Background
 		
-		generationQueue = NSOperationQueue();
 		generationQueue.qualityOfService = .UserInteractive
 		
 		super.init()
@@ -91,8 +88,8 @@ public class Hoard: NSObject {
 		self.completedPending(image)
 	}
 	
-	let serializerQueue: NSOperationQueue
-	let maintenanceQueue: NSOperationQueue
-	let generationQueue: NSOperationQueue
+	let serializerQueue = NSOperationQueue()
+	let maintenanceQueue = NSOperationQueue()
+	let generationQueue = NSOperationQueue()
 
 }
