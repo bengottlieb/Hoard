@@ -31,10 +31,12 @@ extension Hoard {
 			let searchCache = cache ?? Hoard.defaultImageCache
 			if let image = searchCache.fetchImage(url) {
 				pending.fetchedImage = image
-				pending.isComplete = true
-				Hoard.main_thread {
-					completion?(image: pending.fetchedImage, error: nil, fromCache: false)
-				}
+				pending.complete(true)
+//				pending.isComplete = true
+//				Hoard.main_thread {
+//					completion?(image: pending.fetchedImage, error: nil, fromCache: false)
+//				}
+				return pending
 			}
 			
 			if let source = source {
