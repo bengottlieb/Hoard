@@ -25,7 +25,7 @@ extension Hoard {
 		public var imageStorageQuality: CGFloat = 0.9
 		var diskQueue: NSOperationQueue
 		
-		public init(URL: NSURL, type: StorageFormat = .PNG) {
+		public init(URL: NSURL, type: StorageFormat = .PNG, description: String?) {
 			baseURL = URL
 			storageFormat = type
 			diskQueue = NSOperationQueue()
@@ -39,7 +39,7 @@ extension Hoard {
 				print("Unable to instantiate a disk cache at \(URL.path!): \(error)")
 				valid = false
 			}
-			super.init()
+			super.init(description: description)
 			self.maxSize = self.optimalCacheSize()
 			self.cacheLimitSize = Int64(Double(self.maxSize) * 1.25)
 			self.diskOperation {

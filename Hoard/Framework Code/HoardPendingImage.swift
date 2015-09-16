@@ -21,14 +21,14 @@ extension Hoard {
 		public var error: NSError?
 		
 		public class func request(url: NSURL, source: HoardImageSource? = nil, cache: Cache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
-			let pending = PendingImage(url: url, completion: completion)
+			let pending = PendingImage(url: url, cache: cache, completion: completion)
 			
 			if pending.isCachedAvailable {
 				pending.complete(true)
 				return pending
 			}
 			
-			let searchCache = cache ?? Hoard.defaultImageCache
+			let searchCache = pending.cache
 			if let image = searchCache.fetchImage(url) {
 				pending.fetchedImage = image
 				pending.complete(true)
@@ -69,10 +69,11 @@ extension Hoard {
 		}
 		
 
-		public init(url: NSURL, completion comp: ImageCompletion?, priority pri: Int = PendingImage.defaultPriority) {
+		public init(url: NSURL, cache imageCache: Cache? = nil, priority pri: Int = PendingImage.defaultPriority, completion comp: ImageCompletion?) {
 			URL = url
 			completion = comp
 			priority = pri
+			cache = imageCache ?? Hoard.defaultImageCache
 			
 			super.init()
 		}
@@ -85,7 +86,7 @@ extension Hoard {
 					self.fetchedImage = image
 				}
 				self.complete(false)
-				Hoard.defaultImageCache.store(data, from: self.URL)
+				self.cache.store(data, from: self.URL)
 			}).error({ conn, error in
 				print("error downloading from \(self.URL): \(error)")
 				if Hoard.debugLevel == .High { conn.log() }
@@ -102,7 +103,7 @@ extension Hoard {
 		var isCachedAvailable: Bool {
 			if self.fetchedImage != nil { return true }
 			
-			return Hoard.defaultImageCache.isCacheDataAvailable(self.URL)
+			return self.cache.isCacheDataAvailable(self.URL)
 		}
 		
 		func complete(fromCache: Bool, image: UIImage? = nil) {
@@ -124,7 +125,7 @@ extension Hoard {
 		public var image: UIImage? {
 			if let image = self.fetchedImage { return image }
 			
-			if let image = Hoard.defaultImageCache.fetchImage(self.URL) {
+			if let image = self.cache.fetchImage(self.URL) {
 				self.fetchedImage = image
 				return image
 			}
@@ -139,5 +140,6 @@ extension Hoard {
 		var localURL: NSURL?
 		var isCancelled = false
 		var isComplete = false
+		let cache: Cache
 	}
 }

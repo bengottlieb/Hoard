@@ -23,31 +23,32 @@ extension Hoard {
 			return max
 		}
 		
-		public class func cacheForURL(URL: NSURL, type: DiskCache.StorageFormat = .PNG) -> Cache {
+		public class func cacheForURL(URL: NSURL, type: DiskCache.StorageFormat = .PNG, description: String? = nil) -> Cache {
 			if let existing = self.sharedCaches[URL] { return existing }
 			
-			let cache = Cache(diskCacheURL: URL, type: type)
+			let cache = Cache(diskCacheURL: URL, type: type, description: description)
 			self.sharedCaches[URL] = cache
 			return cache
 		}
 		
-		public class func cacheForKey(key: String, type: DiskCache.StorageFormat = .PNG) -> Cache {
+		public class func cacheForKey(key: String, type: DiskCache.StorageFormat = .PNG, description: String? = nil) -> Cache {
 			if let cache = self.sharedCaches[key] { return cache }
 			
 			let urls = NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask)
 			let URL = urls[0].URLByAppendingPathComponent(key)
-			let cache = Cache(diskCacheURL: URL, type: type)
+			let cache = Cache(diskCacheURL: URL, type: type, description: description)
 			self.sharedCaches[key] = cache
 			return cache
 		}
 		
-		init(diskCacheURL: NSURL? = nil, type: DiskCache.StorageFormat = .Data) {
+		init(diskCacheURL: NSURL? = nil, type: DiskCache.StorageFormat = .Data, description desc: String? = nil) {
 			if let url = diskCacheURL {
-				diskCache = DiskCache(URL: url, type: type)
+				diskCache = DiskCache(URL: url, type: type, description: (desc ?? "") + " Disk Cache")
 			} else {
 				diskCache = nil
 			}
 			
+			cacheDescription = desc
 			serialQueue = NSOperationQueue()
 			serialQueue.maxConcurrentOperationCount = 1
 			serialQueue.qualityOfService = .UserInteractive
@@ -65,6 +66,8 @@ extension Hoard {
 		
 		let serialQueue: NSOperationQueue
 		var mapTable: NSMapTable
+		public override var description: String { return self.cacheDescription ?? "" }
+		let cacheDescription: String?
 		
 		func serialize(block: () -> Void) { self.serialQueue.addOperationWithBlock(block) }
 		
@@ -134,15 +137,15 @@ extension Hoard {
 		
 		public func prune(size: Int64? = nil) {
 			Hoard.addMaintenanceBlock {
-				let limit = size ?? self.maxSize
-				if self.currentSize < limit { return }
+				self.serialize {
+					let limit = size ?? self.maxSize
+					if self.currentSize < limit { return }
 				
-				let current = self.objectsSortedByLastAccess
-				var index = 0
+					let current = self.objectsSortedByLastAccess
+					var index = 0
 				
-				while self.currentSize >= limit && index < current.count {
-					let oldest = current[index]
-					self.serialize {
+					while self.currentSize >= limit && index < current.count {
+						let oldest = current[index]
 						self.currentSize -= oldest.size
 						self.mapTable.removeObjectForKey(oldest.key)
 					}
@@ -162,7 +165,7 @@ extension Hoard.Cache {
 	var objectsSortedByLastAccess: [Hoard.Cache.CachedObjectInfo] {
 		let objects = self.mapTable.objectEnumerator()?.allObjects as! [Hoard.Cache.CachedObjectInfo]
 		
-		return objects.sort { return $0.accessedAt > $1.accessedAt }
+		return objects.sort { return $0.accessedAt < $1.accessedAt }
 	}
 }
 
