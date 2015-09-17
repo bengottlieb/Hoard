@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B504E6121A89230F001B414B"
-               BuildableName = "TestHost.app"
-               BlueprintName = "TestHost"
+               BuildableName = "HoardTest.app"
+               BlueprintName = "HoardTest"
                ReferencedContainer = "container:Hoard.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -37,10 +37,10 @@
       </BuildActionEntries>
    </BuildAction>
    <TestAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -57,8 +57,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B504E6121A89230F001B414B"
-            BuildableName = "TestHost.app"
-            BlueprintName = "TestHost"
+            BuildableName = "HoardTest.app"
+            BlueprintName = "HoardTest"
             ReferencedContainer = "container:Hoard.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -66,11 +66,11 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -80,8 +80,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B504E6121A89230F001B414B"
-            BuildableName = "TestHost.app"
-            BlueprintName = "TestHost"
+            BuildableName = "HoardTest.app"
+            BlueprintName = "HoardTest"
             ReferencedContainer = "container:Hoard.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -89,18 +89,18 @@
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B504E6121A89230F001B414B"
-            BuildableName = "TestHost.app"
-            BlueprintName = "TestHost"
+            BuildableName = "HoardTest.app"
+            BlueprintName = "HoardTest"
             ReferencedContainer = "container:Hoard.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

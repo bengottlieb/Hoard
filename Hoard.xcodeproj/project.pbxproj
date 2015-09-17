@@ -90,7 +90,7 @@
 
 /* Begin PBXFileReference section */
 		B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageGalleryView.swift; sourceTree = "<group>"; };
-		B504E6131A89230F001B414B /* TestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B504E6131A89230F001B414B /* HoardTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoardTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B504E6461A8968DC001B414B /* Hoard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hoard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B504E66A1A896980001B414B /* BuildFramework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BuildFramework.sh; path = Hoard/BuildFramework.sh; sourceTree = "<group>"; };
 		B504E6981A896E82001B414B /* Hoard Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Hoard Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,7 +173,7 @@
 		B504E6141A89230F001B414B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B504E6131A89230F001B414B /* TestHost.app */,
+				B504E6131A89230F001B414B /* HoardTest.app */,
 				B504E6461A8968DC001B414B /* Hoard.framework */,
 				B504E6981A896E82001B414B /* Hoard Tests.xctest */,
 				B504E6AF1A898110001B414B /* Hoard.framework */,
@@ -283,9 +283,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		B504E6121A89230F001B414B /* TestHost */ = {
+		B504E6121A89230F001B414B /* HoardTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B504E6321A89230F001B414B /* Build configuration list for PBXNativeTarget "TestHost" */;
+			buildConfigurationList = B504E6321A89230F001B414B /* Build configuration list for PBXNativeTarget "HoardTest" */;
 			buildPhases = (
 				B504E60F1A89230F001B414B /* Sources */,
 				B504E6101A89230F001B414B /* Frameworks */,
@@ -296,9 +296,9 @@
 			);
 			dependencies = (
 			);
-			name = TestHost;
+			name = HoardTest;
 			productName = Hoard;
-			productReference = B504E6131A89230F001B414B /* TestHost.app */;
+			productReference = B504E6131A89230F001B414B /* HoardTest.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B504E6451A8968DC001B414B /* Hoard_iOS */ = {
@@ -396,7 +396,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B504E6121A89230F001B414B /* TestHost */,
+				B504E6121A89230F001B414B /* HoardTest */,
 				B504E6451A8968DC001B414B /* Hoard_iOS */,
 				B504E6AE1A898110001B414B /* Hoard_Mac */,
 				B504E6661A89690C001B414B /* Combined Framework */,
@@ -509,7 +509,7 @@
 /* Begin PBXTargetDependency section */
 		B58D64981A899FE9005A0002 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B504E6121A89230F001B414B /* TestHost */;
+			target = B504E6121A89230F001B414B /* HoardTest */;
 			targetProxy = B58D64971A899FE9005A0002 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -819,7 +819,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B504E6321A89230F001B414B /* Build configuration list for PBXNativeTarget "TestHost" */ = {
+		B504E6321A89230F001B414B /* Build configuration list for PBXNativeTarget "HoardTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B504E6331A89230F001B414B /* Debug */,
