@@ -92,9 +92,16 @@ extension Hoard {
 						if existing.object == object { return }
 						
 						self.currentSize -= existing.size
+						self.mapTable.removeObjectForKey(key)
 					}
 
-					if let cached = object as? CacheStoredObject { size = cached.hoardCacheSize }
+					if let cached = object as? CacheStoredObject {
+						size = cached.hoardCacheSize
+					} else if let image = object as? UIImage {
+						size = image.hoardCacheSize
+					} else {
+						print("not a cachable object")
+					}
 					self.currentSize += size
 					self.mapTable.setObject(CachedObjectInfo(object: object, size: size, key: key), forKey: key)
 					
