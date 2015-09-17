@@ -39,10 +39,6 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 	override func viewDidLayoutSubviews() {
 		if !self.setup {
 			self.setup = true
-			/*
-			self.gallery = ImageGalleryView(frame: CGRect(x: 50, y: 120, width: self.view.bounds.width - 100, height: 150))
-			self.gallery.tapForFullScreen = true
-			self.view.addSubview(self.gallery)
 			var URLs = [
 				NSURL(string: "http://redriverunited.org/wp-content/uploads/2014/01/1.png")!,
 				NSURL(string: "http://tomreynolds.com/wp/wp-content/uploads/2014/01/2-graphic-300x300.png")!,
@@ -59,6 +55,17 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 			for _ in 0...30 {
 				URLs.append(NSURL(string: "http://lorempixel.com/\((rand() % 400 + 30))/\((rand() % 400 + 40))/")!)
 			}
+			
+			let cache = Hoard.defaultImageCache.diskCache
+			for url in URLs {
+				Hoard.PendingImage.request(url, cache: cache)
+			}
+			print("Starting downloads")
+
+			/*
+			self.gallery = ImageGalleryView(frame: CGRect(x: 50, y: 120, width: self.view.bounds.width - 100, height: 150))
+			self.gallery.tapForFullScreen = true
+			self.view.addSubview(self.gallery)
 			
 			self.gallery.imageURLs = URLs
 			self.gallery.addCountView()
@@ -110,7 +117,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 	
 	
 	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 100
+		return 0
 	}
 	
 	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

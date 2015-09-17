@@ -66,8 +66,25 @@ extension Hoard {
 			}
 		}
 		
+		func dataForObject(target: NSObject?) -> NSData? {
+			if let image = target as? UIImage {
+				switch self.storageFormat {
+				case .JPEG: return UIImageJPEGRepresentation(image, self.imageStorageQuality)
+				case .PNG: return UIImagePNGRepresentation(image)
+				case .Data: return nil
+				}
+			}
+			if let storable = target as? HoardDiskCachable { return storable.hoardCacheData }
+			return nil
+		}
 		
-		
+		override public func store(target: NSObject?, from URL: NSURL, skipDisk: Bool = false) {
+			if let data = self.dataForObject(target) {
+				self.storeData(data, from: URL, suggestedFileExtension: nil)
+			}
+
+		}
+
 		public func storeData(data: NSData?, from URL: NSURL, suggestedFileExtension: String? = nil) {
 			if !self.valid { return }
 		

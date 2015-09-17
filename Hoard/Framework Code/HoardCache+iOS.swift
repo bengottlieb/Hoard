@@ -10,12 +10,6 @@ import UIKit
 import ImageIO
 
 public extension Hoard.Cache {
-	public func storeImage(image: UIImage?, from URL: NSURL) {
-		self.store(image, from: URL)
-		
-		self.diskCache?.storeImage(image, from: URL)
-	}
-	
 	public func fetchImage(from: NSURL) -> UIImage? {
 		if let image = self.fetch(from) as? UIImage {
 			return image
@@ -29,21 +23,6 @@ public extension Hoard.Cache {
 }
 
 public extension Hoard.DiskCache {
-	public override func storeImage(image: UIImage?, from URL: NSURL) {
-		
-		if let image = image {
-			let data: NSData?
-
-			switch self.storageFormat {
-			case .JPEG: data = UIImageJPEGRepresentation(image, self.imageStorageQuality)
-			case .PNG: data = UIImagePNGRepresentation(image)
-			case .Data: return
-			}
-			
-			self.storeData(data, from: URL, suggestedFileExtension: nil)
-		}
-	}
-	
 	public override func fetchImage(from: NSURL) -> UIImage? {
 		let localURL = self.localURLForURL(from)
 		if let path = localURL.path where NSFileManager.defaultManager().fileExistsAtPath(path), let image = UIImage.decompressedImageWithURL(localURL) {

@@ -43,7 +43,7 @@ extension Hoard {
 				let generationBlock = {
 					if let image = source.generateImageForURL(url) {
 						pending.fetchedImage = image
-						searchCache.storeImage(image, from: url)
+						searchCache.store(image, from: url)
 					}
 					pending.isComplete = true
 					Hoard.main_thread {

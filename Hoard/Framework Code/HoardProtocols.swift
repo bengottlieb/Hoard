@@ -16,8 +16,9 @@ extension NSURL {
 	}
 }
 
-extension NSData {
+extension NSData: CacheStoredObject, HoardDiskCachable {
 	var hoardCacheData: NSData { return self }
+	var hoardCacheSize: Int { return self.length }
 }
 
 @objc protocol CacheStoredObject {

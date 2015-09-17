@@ -111,6 +111,7 @@ extension Hoard {
 					}
 					
 					self.prune()
+					self.diskCache?.store(object, from: URL)
 				} else {
 					self.remove(URL)
 				}
