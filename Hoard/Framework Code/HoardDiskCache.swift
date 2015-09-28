@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import MobileCoreServices
+import ImageIO
 
 extension Hoard {
 	public class DiskCache: Cache {
@@ -68,6 +70,17 @@ extension Hoard {
 		
 		func dataForObject(target: NSObject?) -> NSData? {
 			if let image = target as? UIImage {
+				let data = NSMutableData()
+				let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, "image/jpeg", nil)!.takeRetainedValue()
+
+				if let destination = CGImageDestinationCreateWithData(data, uti, 1, nil), cgImage = image.CGImage {
+					CGImageDestinationAddImage(destination, cgImage, nil)
+					if !CGImageDestinationFinalize(destination) {
+						return nil
+					}
+					return data
+				}
+				
 				switch self.storageFormat {
 				case .JPEG: return UIImageJPEGRepresentation(image, self.imageStorageQuality)
 				case .PNG: return UIImagePNGRepresentation(image)

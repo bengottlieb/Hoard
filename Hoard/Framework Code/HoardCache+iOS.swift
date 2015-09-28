@@ -53,7 +53,7 @@ public extension UIImage {
 	
 	public class func decompressedImageWithURL(url: NSURL) -> UIImage? {
 		let options = [String(kCGImageSourceShouldCache): true]
-		if let source = CGImageSourceCreateWithURL(url, nil), cgImage = CGImageSourceCreateImageAtIndex(source, 0, options) {
+		if let data = NSData(contentsOfURL: url), source = CGImageSourceCreateWithData(data, nil), cgImage = CGImageSourceCreateImageAtIndex(source, 0, options) {
 			return UIImage(CGImage: cgImage)
 		}
 		
