@@ -23,6 +23,14 @@ extension Hoard {
 			return max
 		}
 		
+		public override var description: String {
+			let formatter = NSByteCountFormatter()
+			let sizeString = formatter.stringFromByteCount(self.currentSize)
+			let maxString = formatter.stringFromByteCount(self.maxSize)
+			let prefix = self.cacheDescription == nil ? "" : "\(self.cacheDescription!): "
+			return "\(prefix)\(self.mapTable.count) objects, \(sizeString) of \(maxString)"
+		}
+		
 		public class func cacheForURL(URL: NSURL, type: DiskCache.StorageFormat = .PNG, description: String? = nil) -> Cache {
 			if let existing = self.sharedCaches[URL] { return existing }
 			
@@ -66,7 +74,6 @@ extension Hoard {
 		
 		let serialQueue: NSOperationQueue
 		var mapTable: NSMapTable
-		public override var description: String { return self.cacheDescription ?? "" }
 		let cacheDescription: String?
 		
 		func serialize(block: () -> Void) { self.serialQueue.addOperationWithBlock(block) }
@@ -152,7 +159,7 @@ extension Hoard {
 					let current = self.objectsSortedByLastAccess
 					var index = 0
 				
-					while self.currentSize >= limit && index < current.count {
+					while self.currentSize >= limit && index < current.count && current.count > 1 {
 						let oldest = current[index]
 						self.currentSize -= oldest.size
 						self.mapTable.removeObjectForKey(oldest.key)
@@ -171,9 +178,10 @@ extension Hoard {
 
 extension Hoard.Cache {
 	var objectsSortedByLastAccess: [Hoard.Cache.CachedObjectInfo] {
-		let objects = self.mapTable.objectEnumerator()?.allObjects as! [Hoard.Cache.CachedObjectInfo]
-		
-		return objects.sort { return $0.accessedAt < $1.accessedAt }
+		if let objects = self.mapTable.objectEnumerator()?.allObjects as? [Hoard.Cache.CachedObjectInfo] {
+			return objects.sort { return $0.accessedAt < $1.accessedAt }
+		}
+		return []
 	}
 }
 
