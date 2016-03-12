@@ -82,11 +82,11 @@ extension Hoard {
 		
 		func start() {
 			Plug.request(.GET, URL: self.URL, channel: Plug.Channel.resourceChannel).completion({ conn, data in
-				if let image = UIImage(data: data) {
+				if let image = UIImage(data: data.data) {
 					self.fetchedImage = image
 				}
 				self.complete(false)
-				self.cache.store(data, from: self.URL)
+				self.cache.store(data.data, from: self.URL)
 			}).error({ conn, error in
 				print("error downloading from \(self.URL): \(error)")
 				if Hoard.debugLevel == .High { conn.log() }

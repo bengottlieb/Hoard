@@ -163,7 +163,7 @@ extension Hoard {
 				
 				while size > max && index < files.count {
 					size -= files[index].remove()
-					index++
+					index += 1
 				}
 			}
 		}

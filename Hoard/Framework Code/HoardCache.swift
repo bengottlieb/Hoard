@@ -164,7 +164,7 @@ extension Hoard {
 						self.currentSize -= oldest.size
 						self.mapTable.removeObjectForKey(oldest.key)
 					}
-					index++
+					index += 1
 				}
 			}
 		}

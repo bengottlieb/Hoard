@@ -110,7 +110,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 				left = 0
 				top += height
 			}
-			added++
+			added += 1
 		}
 		print("added \(added) views")
 	}
