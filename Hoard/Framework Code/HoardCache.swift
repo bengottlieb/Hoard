@@ -62,7 +62,7 @@ extension Hoard {
 			serialQueue.qualityOfService = .UserInteractive
 			mapTable = NSMapTable(keyOptions: [.StrongMemory, .ObjectPersonality], valueOptions: [.StrongMemory, .ObjectPersonality])
 			super.init()
-			NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveMemoryWarning:", name: UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+			NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Cache.didReceiveMemoryWarning(_:)), name: UIApplicationDidReceiveMemoryWarningNotification, object: nil)
 		}
 		
 		public let diskCache: DiskCache?

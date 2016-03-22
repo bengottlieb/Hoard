@@ -215,7 +215,7 @@ public extension Hoard {
 		
 		func updateDeviceOrientationNotifications() {
 			if self.useDeviceOrientation {
-				NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: nil)
+				NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ImageView.orientationChanged(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
 			} else {
 				NSNotificationCenter.defaultCenter().removeObserver(self, name: UIDeviceOrientationDidChangeNotification, object: nil)
 			}
@@ -258,7 +258,7 @@ public extension Hoard {
 					self.fullScreenView?.alpha = 1.0
 					self.fullScreenView?.frame = host.frame
 				}, completion: { completed in })
-				self.fullScreenView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "fullScreenTouched:"))
+				self.fullScreenView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ImageView.fullScreenTouched(_:))))
 			//	self.fullScreenView?.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "share:"))
 			}
 			
@@ -324,7 +324,7 @@ public extension Hoard {
 			if self.tapForFullScreen {
 				if self.tapRecognizer == nil {
 					self.userInteractionEnabled = true
-					self.tapRecognizer = UITapGestureRecognizer(target: self, action: "imageTapped:")
+					self.tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageView.imageTapped(_:)))
 					self.addGestureRecognizer(self.tapRecognizer!)
 				}
 			} else {

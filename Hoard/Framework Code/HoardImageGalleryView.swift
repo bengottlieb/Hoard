@@ -100,7 +100,7 @@ extension Hoard {
 					self.pageIndicators?.hidesForSinglePage = true
 					self.addSubview(self.pageIndicators!)
 					self.pageIndicators?.backgroundColor = UIColor.clearColor()
-					self.pageIndicators?.addTarget(self, action: "pageIndicatorValueChanged:", forControlEvents: .ValueChanged)
+					self.pageIndicators?.addTarget(self, action: #selector(ImageGalleryView.pageIndicatorValueChanged(_:)), forControlEvents: .ValueChanged)
 					self.pageIndicators?.autoresizingMask = [.FlexibleTopMargin, .FlexibleLeftMargin, .FlexibleRightMargin]
 				}
 				
