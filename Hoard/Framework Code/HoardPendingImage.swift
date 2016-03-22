@@ -100,7 +100,7 @@ extension Hoard {
 			self.isCancelled = true
 		}
 		
-		var isCachedAvailable: Bool {
+		public var isCachedAvailable: Bool {
 			if self.fetchedImage != nil { return true }
 			
 			return self.cache.isCacheDataAvailable(self.URL)
