@@ -22,13 +22,16 @@
 
 /* Begin PBXBuildFile section */
 		B5040ECA1AEF1599008DBB12 /* HoardImageGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */; };
-		B504E69D1A896E82001B414B /* Hoard_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B504E69C1A896E82001B414B /* Hoard_Tests.swift */; };
-		B504E6A51A897087001B414B /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
 		B513D03A1AEFEE80006FABFE /* UIImage+Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B513D0391AEFEE80006FABFE /* UIImage+Hoard.swift */; };
-		B52533EA1B8FF30A00126E11 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; settings = {ASSET_TAGS = (); }; };
+		B52533EA1B8FF30A00126E11 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; };
 		B52533EC1B8FF32300126E11 /* Plug.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B52533ED1B8FF33D00126E11 /* Plug.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */; };
+		B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B583A78D1CB495BC00AF73BA /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B583A78B1CB495BC00AF73BA /* Gulliver.framework */; };
+		B583A78E1CB495BC00AF73BA /* GulliverEXT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B583A78C1CB495BC00AF73BA /* GulliverEXT.framework */; };
+		B583A78F1CB495BF00AF73BA /* Gulliver.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B583A78B1CB495BC00AF73BA /* Gulliver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B583A7901CB495BF00AF73BA /* GulliverEXT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B583A78C1CB495BC00AF73BA /* GulliverEXT.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B58D64791A898F89005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D64681A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
 		B58D64831A898FBE005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
@@ -38,13 +41,13 @@
 		B58D64931A899094005A0002 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B58D648D1A899094005A0002 /* Images.xcassets */; };
 		B58D64951A899094005A0002 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D648F1A899094005A0002 /* ViewController.swift */; };
 		B58D64961A899285005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D646B1A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; settings = {ASSET_TAGS = (); }; };
-		B5A0005B1B90752B00FF4576 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; settings = {ASSET_TAGS = (); }; };
-		B5A0005D1B907AAD00FF4576 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */; settings = {ASSET_TAGS = (); }; };
-		B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; settings = {ASSET_TAGS = (); }; };
-		B5A0006A1B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; settings = {ASSET_TAGS = (); }; };
-		B5A0006F1B946EB400FF4576 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */; settings = {ASSET_TAGS = (); }; };
-		B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */; settings = {ASSET_TAGS = (); }; };
+		B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
+		B5A0005B1B90752B00FF4576 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
+		B5A0005D1B907AAD00FF4576 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */; };
+		B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; };
+		B5A0006A1B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; };
+		B5A0006F1B946EB400FF4576 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */; };
+		B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */; };
 		B5A482461AE5B390001636BE /* HoardPendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482451AE5B390001636BE /* HoardPendingImage.swift */; };
 		B5A482471AE5B390001636BE /* HoardPendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482451AE5B390001636BE /* HoardPendingImage.swift */; };
 		B5A4824A1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */; };
@@ -53,16 +56,6 @@
 		B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
 		B5A482591AE5DE6A001636BE /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A482581AE5DE6A001636BE /* CoreAudio.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		B58D64971A899FE9005A0002 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B504E60B1A89230F001B414B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B504E6121A89230F001B414B;
-			remoteInfo = TestHost;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		B52533EB1B8FF31900126E11 /* Copy Frameworks */ = {
@@ -83,6 +76,9 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B52533ED1B8FF33D00126E11 /* Plug.framework in CopyFiles */,
+				B583A78F1CB495BF00AF73BA /* Gulliver.framework in CopyFiles */,
+				B583A7901CB495BF00AF73BA /* GulliverEXT.framework in CopyFiles */,
+				B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,13 +89,14 @@
 		B504E6131A89230F001B414B /* HoardTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoardTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B504E6461A8968DC001B414B /* Hoard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hoard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B504E66A1A896980001B414B /* BuildFramework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BuildFramework.sh; path = Hoard/BuildFramework.sh; sourceTree = "<group>"; };
-		B504E6981A896E82001B414B /* Hoard Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Hoard Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B504E69B1A896E82001B414B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B504E69C1A896E82001B414B /* Hoard_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hoard_Tests.swift; sourceTree = "<group>"; };
 		B504E6AF1A898110001B414B /* Hoard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hoard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B513D0391AEFEE80006FABFE /* UIImage+Hoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Hoard.swift"; sourceTree = "<group>"; };
 		B52533E91B8FF30A00126E11 /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
 		B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageCountView.swift; sourceTree = "<group>"; };
+		B583A78B1CB495BC00AF73BA /* Gulliver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gulliver.framework; sourceTree = "<group>"; };
+		B583A78C1CB495BC00AF73BA /* GulliverEXT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GulliverEXT.framework; sourceTree = "<group>"; };
 		B58D64671A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D64681A898F81005A0002 /* Hoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hoard.h; sourceTree = "<group>"; };
 		B58D646A1A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -126,8 +123,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B583A78D1CB495BC00AF73BA /* Gulliver.framework in Frameworks */,
 				B5A482591AE5DE6A001636BE /* CoreAudio.framework in Frameworks */,
 				B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */,
+				B583A78E1CB495BC00AF73BA /* GulliverEXT.framework in Frameworks */,
 				B52533EA1B8FF30A00126E11 /* Plug.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,14 +135,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B504E6951A896E82001B414B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B504E6A51A897087001B414B /* Hoard.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +166,6 @@
 			children = (
 				B504E6131A89230F001B414B /* HoardTest.app */,
 				B504E6461A8968DC001B414B /* Hoard.framework */,
-				B504E6981A896E82001B414B /* Hoard Tests.xctest */,
 				B504E6AF1A898110001B414B /* Hoard.framework */,
 			);
 			name = Products;
@@ -255,6 +245,8 @@
 		B5A482401AE5838F001636BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B583A78B1CB495BC00AF73BA /* Gulliver.framework */,
+				B583A78C1CB495BC00AF73BA /* GulliverEXT.framework */,
 				B52533E91B8FF30A00126E11 /* Plug.framework */,
 				B5A482581AE5DE6A001636BE /* CoreAudio.framework */,
 			);
@@ -320,24 +312,6 @@
 			productReference = B504E6461A8968DC001B414B /* Hoard.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B504E6971A896E82001B414B /* Hoard Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B504E6A11A896E82001B414B /* Build configuration list for PBXNativeTarget "Hoard Tests" */;
-			buildPhases = (
-				B504E6941A896E82001B414B /* Sources */,
-				B504E6951A896E82001B414B /* Frameworks */,
-				B504E6961A896E82001B414B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B58D64981A899FE9005A0002 /* PBXTargetDependency */,
-			);
-			name = "Hoard Tests";
-			productName = "Hoard Tests";
-			productReference = B504E6981A896E82001B414B /* Hoard Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		B504E6AE1A898110001B414B /* Hoard_Mac */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B504E6C21A898111001B414B /* Build configuration list for PBXNativeTarget "Hoard_Mac" */;
@@ -375,9 +349,6 @@
 					B504E6661A89690C001B414B = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
-					B504E6971A896E82001B414B = {
-						CreatedOnToolsVersion = 6.1.1;
-					};
 					B504E6AE1A898110001B414B = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
@@ -400,7 +371,6 @@
 				B504E6451A8968DC001B414B /* Hoard_iOS */,
 				B504E6AE1A898110001B414B /* Hoard_Mac */,
 				B504E6661A89690C001B414B /* Combined Framework */,
-				B504E6971A896E82001B414B /* Hoard Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -417,13 +387,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B504E6441A8968DC001B414B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B504E6961A896E82001B414B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -483,14 +446,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B504E6941A896E82001B414B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B504E69D1A896E82001B414B /* Hoard_Tests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B504E6AA1A898110001B414B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -505,14 +460,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		B58D64981A899FE9005A0002 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B504E6121A89230F001B414B /* HoardTest */;
-			targetProxy = B58D64971A899FE9005A0002 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		B58D64891A899094005A0002 /* LaunchScreen.xib */ = {
@@ -551,8 +498,9 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -594,8 +542,9 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -710,42 +659,6 @@
 			};
 			name = Release;
 		};
-		B504E6A21A896E82001B414B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestHost.app/TestHost";
-			};
-			name = Debug;
-		};
-		B504E6A31A896E82001B414B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestHost.app/TestHost";
-			};
-			name = Release;
-		};
 		B504E6C31A898111001B414B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -842,15 +755,6 @@
 			buildConfigurations = (
 				B504E6681A89690C001B414B /* Debug */,
 				B504E6691A89690C001B414B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B504E6A11A896E82001B414B /* Build configuration list for PBXNativeTarget "Hoard Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B504E6A21A896E82001B414B /* Debug */,
-				B504E6A31A896E82001B414B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
