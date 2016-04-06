@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/Plug-Swift.h</key>
 		<data>
-		Lu42uK/us8q6AT7IcOdYyqrJUyU=
+		2pqkwO9F/v6KenhclA2Bqy3BevA=
 		</data>
 		<key>Headers/Plug.h</key>
 		<data>
@@ -14,23 +14,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		TW8EOtHeVoSYFf6T9iWvGCD7RjU=
+		YNX0m0uCPYMj+8XvucKusEeujuM=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm.swiftdoc</key>
 		<data>
-		xW9yEUcSTe0QyKKTk9q8M0Exh90=
+		nYKTWP7XNJWx5qfDLpMZRmXxT9s=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm.swiftmodule</key>
 		<data>
-		lCB5P2IzkmiffDrLKOynHlM5fMk=
+		6m3B8/hr8PZF+2+f3f1WASlL24Q=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		JJpSEZVbwCwxrePq3sHlBD1ADg8=
+		2NfM8sGquYkl0EHcz/79QF/R9EA=
 		</data>
 		<key>Modules/Plug.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		ttjwXU2wi+qVWxLzFCI7vSrptpY=
+		+gSiKU8lLGoAzAPq3CAahaN3w7I=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -40,33 +40,82 @@
 	<key>files2</key>
 	<dict>
 		<key>Headers/Plug-Swift.h</key>
-		<data>
-		Lu42uK/us8q6AT7IcOdYyqrJUyU=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			2pqkwO9F/v6KenhclA2Bqy3BevA=
+			</data>
+			<key>hash2</key>
+			<data>
+			xA8t1QupU2U/ja8fLq1AFPqM/x82LTEhI+C7rB0oLhk=
+			</data>
+		</dict>
 		<key>Headers/Plug.h</key>
-		<data>
-		J+p43pbstmdRkRGcUb3G5jly40o=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			J+p43pbstmdRkRGcUb3G5jly40o=
+			</data>
+			<key>hash2</key>
+			<data>
+			B7vQt02xYjPjy+bF1lC8jszGnX/MGMIu1FH+VQrc4Gs=
+			</data>
+		</dict>
 		<key>Modules/Plug.swiftmodule/arm.swiftdoc</key>
-		<data>
-		xW9yEUcSTe0QyKKTk9q8M0Exh90=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			nYKTWP7XNJWx5qfDLpMZRmXxT9s=
+			</data>
+			<key>hash2</key>
+			<data>
+			dQll5e9thBCd15CdhE4O+W7RfNYLX/OtdiItcsZ/ehg=
+			</data>
+		</dict>
 		<key>Modules/Plug.swiftmodule/arm.swiftmodule</key>
-		<data>
-		lCB5P2IzkmiffDrLKOynHlM5fMk=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			6m3B8/hr8PZF+2+f3f1WASlL24Q=
+			</data>
+			<key>hash2</key>
+			<data>
+			SIIYdnU9Uk7v7L+OzQHXdQUYGG/y2n/Y1YMBsl7WBcY=
+			</data>
+		</dict>
 		<key>Modules/Plug.swiftmodule/arm64.swiftdoc</key>
-		<data>
-		JJpSEZVbwCwxrePq3sHlBD1ADg8=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			2NfM8sGquYkl0EHcz/79QF/R9EA=
+			</data>
+			<key>hash2</key>
+			<data>
+			3vWfoGBkyhdWf3AULcej63l2smf/U4jm1zwTrWx3ERk=
+			</data>
+		</dict>
 		<key>Modules/Plug.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		ttjwXU2wi+qVWxLzFCI7vSrptpY=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			+gSiKU8lLGoAzAPq3CAahaN3w7I=
+			</data>
+			<key>hash2</key>
+			<data>
+			MnPCYQ+pbOLDN6YPDxqcLG2eUsIfjj8vTTFyE3EY4aI=
+			</data>
+		</dict>
 		<key>Modules/module.modulemap</key>
-		<data>
-		Fr8Ipt2ssFfLl+exkT/CcaPr95Y=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Fr8Ipt2ssFfLl+exkT/CcaPr95Y=
+			</data>
+			<key>hash2</key>
+			<data>
+			PLiUkbztcwvINLrZkGpSB/Gx5Ft11DTj/K81AjJRV7Q=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
