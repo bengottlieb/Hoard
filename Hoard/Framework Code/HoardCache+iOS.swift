@@ -10,7 +10,7 @@ import UIKit
 import ImageIO
 
 public extension Hoard.Cache {
-	public func fetchImage(from: NSURL) -> UIImage? {
+	public func fetchImage(_ from: URL) -> UIImage? {
 		if let image = self.fetch(from) as? UIImage {
 			return image
 		}
@@ -23,13 +23,15 @@ public extension Hoard.Cache {
 }
 
 public extension Hoard.DiskCache {
-	public override func fetchImage(from: NSURL) -> UIImage? {
+	public override func fetchImage(_ from: URL) -> UIImage? {
 		let localURL = self.localURLForURL(from)
-		if let path = localURL.path where NSFileManager.defaultManager().fileExistsAtPath(path), let image = UIImage.decompressedImageWithURL(localURL) {
+		let path = localURL.path
+		
+		if FileManager.default.fileExists(atPath: path), let image = UIImage.decompressedImageWithURL(localURL) {
 			return image
 		}
 		
-		if let data = self.fetchData(from), image = UIImage.decompressedImageWithData(data) {
+		if let data = self.fetchData(from), let image = UIImage.decompressedImageWithData(data) {
 			return image
 		}
 		return nil
@@ -42,36 +44,36 @@ extension UIImage: CacheStoredObject {
 }
 
 public extension UIImage {
-	public class func decompressedImageWithData(data: NSData) -> UIImage? {
+	public class func decompressedImageWithData(_ data: Data) -> UIImage? {
 		let options = [String(kCGImageSourceShouldCache): true]
-		if let source = CGImageSourceCreateWithData(data, nil), cgImage = CGImageSourceCreateImageAtIndex(source, 0, options) {
-			return UIImage(CGImage: cgImage)
+		if let source = CGImageSourceCreateWithData(data as CFData, nil), let cgImage = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary?) {
+			return UIImage(cgImage: cgImage)
 		}
 		
 		return nil
 	}
 	
-	public class func decompressedImageWithURL(url: NSURL) -> UIImage? {
+	public class func decompressedImageWithURL(_ url: URL) -> UIImage? {
 		let options = [String(kCGImageSourceShouldCache): true]
-		if let data = NSData(contentsOfURL: url), source = CGImageSourceCreateWithData(data, nil), cgImage = CGImageSourceCreateImageAtIndex(source, 0, options) {
-			return UIImage(CGImage: cgImage)
+		if let data = try? Data(contentsOf: url), let source = CGImageSourceCreateWithData(data as CFData, nil), let cgImage = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary?) {
+			return UIImage(cgImage: cgImage)
 		}
 		
 		return nil
 	}
 
-	convenience public init?(decompressableData data: NSData) {
+	convenience public init?(decompressableData data: Data) {
 		let options = [String(kCGImageSourceShouldCache): true]
-		if let source = CGImageSourceCreateWithData(data, nil), cgImage = CGImageSourceCreateImageAtIndex(source, 0, options) {
-			self.init(CGImage: cgImage)
+		if let source = CGImageSourceCreateWithData(data as CFData, nil), let cgImage = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary?) {
+			self.init(cgImage: cgImage)
 		}
 		return nil
 	}
 
-	convenience public init?(decompressableURL url: NSURL) {
+	convenience public init?(decompressableURL url: URL) {
 		let options = [String(kCGImageSourceShouldCache): true]
-		if let source = CGImageSourceCreateWithURL(url, nil), cgImage = CGImageSourceCreateImageAtIndex(source, 0, options) {
-			self.init(CGImage: cgImage)
+		if let source = CGImageSourceCreateWithURL(url as CFURL, nil), let cgImage = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary?) {
+			self.init(cgImage: cgImage)
 		}
 		return nil
 	}

@@ -9,47 +9,48 @@
 import Foundation
 
 extension Hoard {
-	public class Cache: NSObject {
+	open class Cache: NSObject {
 		deinit {
-			NSNotificationCenter.defaultCenter().removeObserver(self)
+			NotificationCenter.default.removeObserver(self)
 		}
-		public static var sharedCaches: [NSObject: Cache] = [:]
+		open static var sharedCaches: [NSObject: Cache] = [:]
 		
-		public class func sensibleMemorySizeForCurrentDevice() -> Int64 {
-			let info = NSProcessInfo()
+		open class func sensibleMemorySizeForCurrentDevice() -> Int64 {
+			let info = ProcessInfo()
 			let total = Double(info.physicalMemory / (1024 * 1024))
 			let maxRatio = total <= (512) ? 0.1 : 0.2
 			let max = min(Int64(total * maxRatio), 50) * 1024 * 1024
 			return max
 		}
 		
-		public override var description: String {
-			let formatter = NSByteCountFormatter()
-			let sizeString = formatter.stringFromByteCount(self.currentSize)
-			let maxString = formatter.stringFromByteCount(self.maxSize)
+		open override var description: String {
+			let formatter = ByteCountFormatter()
+			let sizeString = formatter.string(fromByteCount: self.currentSize)
+			let maxString = formatter.string(fromByteCount: self.maxSize)
 			let prefix = self.cacheDescription == nil ? "" : "\(self.cacheDescription!): "
 			return "\(prefix)\(self.mapTable.count) objects, \(sizeString) of \(maxString)"
 		}
 		
-		public class func cacheForURL(URL: NSURL, type: DiskCache.StorageFormat = .PNG, description: String? = nil) -> Cache {
-			if let existing = self.sharedCaches[URL] { return existing }
+		open class func cacheForURL(_ URL: Foundation.URL, type: DiskCache.StorageFormat = .png, description: String? = nil) -> Cache {
+			if let existing = self.sharedCaches[URL as NSURL] { return existing }
 			
 			let cache = Cache(diskCacheURL: URL, type: type, description: description)
-			self.sharedCaches[URL] = cache
+			self.sharedCaches[URL as NSURL] = cache
 			return cache
 		}
 		
-		public class func cacheForKey(key: String, type: DiskCache.StorageFormat = .PNG, description: String? = nil) -> Cache {
-			if let cache = self.sharedCaches[key] { return cache }
+		open class func cacheForKey(_ key: String, type: DiskCache.StorageFormat = .png, description: String? = nil) -> Cache {
+			let objectKey = key as NSString
+			if let cache = self.sharedCaches[objectKey] { return cache }
 			
-			let urls = NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask)
-			let URL = urls[0].URLByAppendingPathComponent(key)
+			let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
+			let URL = urls[0].appendingPathComponent(key)
 			let cache = Cache(diskCacheURL: URL, type: type, description: description)
-			self.sharedCaches[key] = cache
+			self.sharedCaches[objectKey] = cache
 			return cache
 		}
 		
-		init(diskCacheURL: NSURL? = nil, type: DiskCache.StorageFormat = .Data, description desc: String? = nil) {
+		init(diskCacheURL: URL? = nil, type: DiskCache.StorageFormat = .data, description desc: String? = nil) {
 			if let url = diskCacheURL {
 				diskCache = DiskCache(URL: url, type: type, description: (desc ?? "") + " Disk Cache")
 			} else {
@@ -57,49 +58,49 @@ extension Hoard {
 			}
 			
 			cacheDescription = desc
-			serialQueue = NSOperationQueue()
+			serialQueue = OperationQueue()
 			serialQueue.maxConcurrentOperationCount = 1
-			serialQueue.qualityOfService = .UserInteractive
-			mapTable = NSMapTable(keyOptions: [.StrongMemory, .ObjectPersonality], valueOptions: [.StrongMemory, .ObjectPersonality])
+			serialQueue.qualityOfService = .userInteractive
+			mapTable = NSMapTable(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options())
 			super.init()
-			NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Cache.didReceiveMemoryWarning(_:)), name: UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+			NotificationCenter.default.addObserver(self, selector: #selector(Cache.didReceiveMemoryWarning(_:)), name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
 		}
 		
-		public let diskCache: DiskCache?
-		public var currentSize: Int64 = 0
-		public var maxSize = Cache.sensibleMemorySizeForCurrentDevice() { didSet {
+		open let diskCache: DiskCache?
+		open var currentSize: Int64 = 0
+		open var maxSize = Cache.sensibleMemorySizeForCurrentDevice() { didSet {
 				self.prune()
 			}
 		}
 		
-		let serialQueue: NSOperationQueue
-		var mapTable: NSMapTable
+		let serialQueue: OperationQueue
+		var mapTable: NSMapTable<AnyObject, AnyObject>
 		let cacheDescription: String?
 		
-		func serialize(block: () -> Void) { self.serialQueue.addOperationWithBlock(block) }
+		func serialize(_ block: @escaping () -> Void) { self.serialQueue.addOperation(block) }
 		
-		public func flushCache() {
+		open func flushCache() {
 			self.serialize {
-				self.mapTable = NSMapTable(keyOptions: [.StrongMemory, .ObjectPersonality], valueOptions: [.StrongMemory, .ObjectPersonality])
+				self.mapTable = NSMapTable(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options())
 				self.currentSize = 0
 			}
 		}
 		
-		public func nukeCache() {
+		open func nukeCache() {
 			self.flushCache()
 			self.diskCache?.nukeCache()
 		}
 		
-		public func store(target: NSObject?, from URL: NSURL, skipDisk: Bool = false) {
+		open func store(_ target: NSObject?, from URL: Foundation.URL, skipDisk: Bool = false) {
 			self.serialize {
 				var size = 0
 				if let object = target {
-					let key = URL.cacheKey
-					if let existing = self.mapTable.objectForKey(key) as? CachedObjectInfo {
+					let key = URL.cacheKey as NSString
+					if let existing = self.mapTable.object(forKey: key) as? CachedObjectInfo {
 						if existing.object == object { return }
 						
 						self.currentSize -= existing.size
-						self.mapTable.removeObjectForKey(key)
+						self.mapTable.removeObject(forKey: key)
 					}
 
 					if let cached = object as? CacheStoredObject {
@@ -112,7 +113,7 @@ extension Hoard {
 					self.currentSize += size
 					self.mapTable.setObject(CachedObjectInfo(object: object, size: size, key: key), forKey: key)
 					
-					if !skipDisk, let cache = self.diskCache, cachable = object as? HoardDiskCachable {
+					if !skipDisk, let cache = self.diskCache, let cachable = object as? HoardDiskCachable {
 						cache.storeData(cachable.hoardCacheData, from: URL)
 						return
 					}
@@ -125,32 +126,32 @@ extension Hoard {
 			}
 		}
 
-		public func remove(URL: NSURL) {
+		open func remove(_ URL: Foundation.URL) {
 			self.serialize {
-				let key = URL.cacheKey
-				if let current = self.mapTable.objectForKey(key) as? CachedObjectInfo {
+				let key = URL.cacheKey as NSString
+				if let current = self.mapTable.object(forKey: key) as? CachedObjectInfo {
 					self.currentSize -= current.size
-					self.mapTable.removeObjectForKey(key)
+					self.mapTable.removeObject(forKey: key)
 					self.diskCache?.remove(URL)
 				}
 			}
 		}
 		
-		public func fetch(from: NSURL) -> NSObject? {
-			if let info = self.mapTable.objectForKey(from.cacheKey) as? CachedObjectInfo {
+		open func fetch(_ from: URL) -> NSObject? {
+			if let info = self.mapTable.object(forKey: from.cacheKey) as? CachedObjectInfo {
 				self.diskCache?.updateAccessedAtForRemoteURL(from)
-				info.accessedAt = NSDate().timeIntervalSinceReferenceDate
+				info.accessedAt = Date().timeIntervalSinceReferenceDate
 				return info.object
 			}
-			return self.diskCache?.fetchData(from)
+			return nil //self.diskCache?.fetchData(from)
 		}
 		
-		public func isCacheDataAvailable(URL: NSURL) -> Bool {
-			if self.mapTable.objectForKey(URL.cacheKey) != nil { return true }
+		open func isCacheDataAvailable(_ URL: Foundation.URL) -> Bool {
+			if self.mapTable.object(forKey: URL.cacheKey) != nil { return true }
 			return self.diskCache?.isCacheDataAvailable(URL) ?? false
 		}
 		
-		public func prune(size: Int64? = nil) {
+		open func prune(_ size: Int64? = nil) {
 			Hoard.addMaintenanceBlock {
 				self.serialize {
 					let limit = size ?? self.maxSize
@@ -162,14 +163,14 @@ extension Hoard {
 					while self.currentSize >= limit && index < current.count && current.count > 1 {
 						let oldest = current[index]
 						self.currentSize -= oldest.size
-						self.mapTable.removeObjectForKey(oldest.key)
+						self.mapTable.removeObject(forKey: oldest.key as AnyObject?)
 					}
 					index += 1
 				}
 			}
 		}
 		
-		func didReceiveMemoryWarning(note: NSNotification) {
+		func didReceiveMemoryWarning(_ note: Notification) {
 			self.flushCache()
 		}
 	}
@@ -179,7 +180,7 @@ extension Hoard {
 extension Hoard.Cache {
 	var objectsSortedByLastAccess: [Hoard.Cache.CachedObjectInfo] {
 		if let objects = self.mapTable.objectEnumerator()?.allObjects as? [Hoard.Cache.CachedObjectInfo] {
-			return objects.sort { return $0.accessedAt < $1.accessedAt }
+			return objects.sorted { return $0.accessedAt < $1.accessedAt }
 		}
 		return []
 	}
@@ -189,13 +190,13 @@ extension Hoard.Cache {
 	class CachedObjectInfo {
 		let object: NSObject
 		let size: Int
-		var accessedAt: NSTimeInterval
-		let key: String
+		var accessedAt: TimeInterval
+		let key: NSString
 		
-		init(object obj: NSObject, size sz: Int, key cacheKey: String, date: NSDate? = nil) {
+		init(object obj: NSObject, size sz: Int, key cacheKey: NSString, date: Date? = nil) {
 			object = obj
 			size = sz
-			accessedAt = (date ?? NSDate()).timeIntervalSinceReferenceDate
+			accessedAt = (date ?? Date()).timeIntervalSinceReferenceDate
 			key = cacheKey
 		}
 	}

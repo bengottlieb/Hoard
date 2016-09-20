@@ -9,18 +9,18 @@
 import Foundation
 import Plug
 
-public typealias ImageCompletion = (image: UIImage?, error: NSError?, fromCache: Bool) -> Void
+public typealias ImageCompletion = (_ image: UIImage?, _ error: NSError?, _ fromCache: Bool) -> Void
 
 extension Hoard {
-	public class PendingImage: NSObject {
-		public class var defaultPriority: Int { return 10 }
+	open class PendingImage: NSObject {
+		open class var defaultPriority: Int { return 10 }
 		
-		public let URL: NSURL
-		public let completion: ImageCompletion?
-		public let priority: Int
-		public var error: NSError?
+		open let URL: Foundation.URL
+		open let completion: ImageCompletion?
+		open let priority: Int
+		open var error: NSError?
 		
-		public class func request(url: NSURL, source: HoardImageSource? = nil, cache: Cache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
+		open class func request(_ url: Foundation.URL, source: HoardImageSource? = nil, cache: Cache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
 			let pending = PendingImage(url: url, cache: cache, completion: completion)
 			
 			if pending.isCachedAvailable {
@@ -41,22 +41,22 @@ extension Hoard {
 			
 			if let source = source {
 				let generationBlock = {
-					if let image = source.generateImageForURL(url) {
+					if let image = source.generateImage(for: url) {
 						pending.fetchedImage = image
 						searchCache.store(image, from: url)
 					}
 					pending.isComplete = true
 					Hoard.main_thread {
-						completion?(image: pending.fetchedImage, error: nil, fromCache: false)
+						completion?(pending.fetchedImage, nil, false)
 					}
 				}
-				if source.isFastImageGeneratorForURL(url) {
+				if source.isFastImageGenerator(for: url) {
 					generationBlock()
 				} else {
-					Hoard.instance.generationQueue.addOperationWithBlock(generationBlock)
+					Hoard.instance.generationQueue.addOperation(generationBlock)
 				}
 			} else {
-				Hoard.instance.serializerQueue.addOperationWithBlock {
+				Hoard.instance.serializerQueue.addOperation {
 					if let existing = Hoard.instance.findExistingConnectionWithURL(url) {
 						existing.dupes.append(pending)
 					} else {
@@ -69,7 +69,7 @@ extension Hoard {
 		}
 		
 
-		public init(url: NSURL, cache imageCache: Cache? = nil, priority pri: Int = PendingImage.defaultPriority, completion comp: ImageCompletion?) {
+		public init(url: Foundation.URL, cache imageCache: Cache? = nil, priority pri: Int = PendingImage.defaultPriority, completion comp: ImageCompletion?) {
 			URL = url
 			completion = comp
 			priority = pri
@@ -81,32 +81,32 @@ extension Hoard {
 		var dupes: [PendingImage] = []
 		
 		func start() {
-			Plug.request(.GET, URL: self.URL, channel: Plug.Channel.resourceChannel).completion({ conn, data in
+			Plug.request(method: .GET, url: self.URL, channel: Plug.Channel.resourceChannel).completion { conn, data in
 				if let image = UIImage(data: data.data) {
 					self.fetchedImage = image
 				}
 				self.complete(false)
-				self.cache.store(data.data, from: self.URL)
-			}).error({ conn, error in
+				self.cache.store(NSData(data: data.data), from: self.URL)
+			}.error { conn, error in
 				print("error downloading from \(self.URL): \(error)")
-				if Hoard.debugLevel == .High { conn.log() }
+				if Hoard.debugLevel == .high { conn.log() }
 				self.error = error
 				self.complete(false)
-			}).start()
+			}.start()
 		}
 		
-		public func cancel() {
+		open func cancel() {
 			Hoard.instance.cancelPending(self)
 			self.isCancelled = true
 		}
 		
-		public var isCachedAvailable: Bool {
+		open var isCachedAvailable: Bool {
 			if self.fetchedImage != nil { return true }
 			
 			return self.cache.isCacheDataAvailable(self.URL)
 		}
 		
-		func complete(fromCache: Bool, image: UIImage? = nil) {
+		func complete(_ fromCache: Bool, image: UIImage? = nil) {
 			self.isComplete = true
 			if !self.isCancelled {
 				for dupe in self.dupes {
@@ -114,7 +114,7 @@ extension Hoard {
 				}
 				Hoard.main_thread {
 					if let completion = self.completion {
-						completion(image: self.image ?? image, error: self.error, fromCache: fromCache)
+						completion(self.image ?? image, self.error, fromCache)
 					}
 				}
 			}
@@ -122,7 +122,7 @@ extension Hoard {
 			if image == nil { Hoard.instance.completedPending(self) }
 		}
 		
-		public var image: UIImage? {
+		open var image: UIImage? {
 			if let image = self.fetchedImage { return image }
 			
 			if let image = self.cache.fetchImage(self.URL) {
@@ -137,7 +137,7 @@ extension Hoard {
 		//MARK: Private
 		
 		var fetchedImage: UIImage?
-		var localURL: NSURL?
+		var localURL: Foundation.URL?
 		var isCancelled = false
 		var isComplete = false
 		let cache: Cache

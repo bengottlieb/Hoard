@@ -7,25 +7,24 @@
 //
 
 import Foundation
-import UIKit
 
-extension NSURL {
-	public var cacheKey: String {
-		let filename = self.lastPathComponent ?? ""
-		return filename + "-" + self.absoluteString
+extension URL {
+	public var cacheKey: NSString {
+		let filename = self.lastPathComponent
+		return (filename + "-" + self.absoluteString) as NSString
 	}
 }
 
-extension NSData: CacheStoredObject, HoardDiskCachable {
-	var hoardCacheData: NSData { return self }
-	var hoardCacheSize: Int { return self.length }
+extension Data: CacheStoredObject, HoardDiskCachable {
+	var hoardCacheData: Data { return self }
+	var hoardCacheSize: Int { return self.count }
 }
 
-@objc protocol CacheStoredObject {
+protocol CacheStoredObject {
 	var hoardCacheSize: Int { get }
 }
 
 
-@objc protocol HoardDiskCachable {
-	var hoardCacheData: NSData { get }
+protocol HoardDiskCachable {
+	var hoardCacheData: Data { get }
 }

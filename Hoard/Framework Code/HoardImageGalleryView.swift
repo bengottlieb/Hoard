@@ -9,26 +9,26 @@
 import UIKit
 
 extension Hoard {
-	public class ImageGalleryView: UIImageView, UIScrollViewDelegate {
-		public enum ImageCountLocation { case None, UpperLeft, UpperRight, LowerLeft, LowerRight }
+	open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
+		public enum ImageCountLocation { case none, upperLeft, upperRight, lowerLeft, lowerRight }
 
-		public func setURLs(urls: [NSURL], placeholder: UIImage? = nil, duration: NSTimeInterval = 0.2) {
+		open func setURLs(_ urls: [URL], placeholder: UIImage? = nil, duration: TimeInterval = 0.2) {
 			self.animationDuration = duration
 			self.placeholderImage = placeholder
 			self.imageURLs = urls
 		}
 		
-		public var imageURLs: [NSURL] = [] { didSet { if self.imageURLs != oldValue { self.setNeedsLayout() } }}
-		public var useDeviceOrientation = false
-		public var tapForFullScreen = false
-		public var placeholderImage: UIImage? { didSet { if self.placeholderImage != oldValue { self.setNeedsLayout() } }}
-		public var revealAnimationDuration = 0.2 { didSet { if self.revealAnimationDuration != oldValue { self.setNeedsLayout() } }}
-		public var showPageIndicators = true { didSet { if self.showPageIndicators != oldValue { self.setupPageIndicators() }}}
-		public var pageIndicatorOffset: CGFloat = 0.1
-		public var pageIndicators: UIPageControl?
-		public var countLocation: ImageCountLocation = .None { didSet { self.updateImageCount() }}
-		public var countView: ImageCountView?
-		public func addCountView(view: ImageCountView = ImageCountView.defaultCountView(), atLocation location: ImageCountLocation = .UpperRight) {
+		open var imageURLs: [URL] = [] { didSet { if self.imageURLs != oldValue { self.setNeedsLayout() } }}
+		open var useDeviceOrientation = false
+		open var tapForFullScreen = false
+		open var placeholderImage: UIImage? { didSet { if self.placeholderImage != oldValue { self.setNeedsLayout() } }}
+		open var revealAnimationDuration = 0.2 { didSet { if self.revealAnimationDuration != oldValue { self.setNeedsLayout() } }}
+		open var showPageIndicators = true { didSet { if self.showPageIndicators != oldValue { self.setupPageIndicators() }}}
+		open var pageIndicatorOffset: CGFloat = 0.1
+		open var pageIndicators: UIPageControl?
+		open var countLocation: ImageCountLocation = .none { didSet { self.updateImageCount() }}
+		open var countView: ImageCountView?
+		open func addCountView(_ view: ImageCountView = ImageCountView.defaultCountView(), atLocation location: ImageCountLocation = .upperRight) {
 			self.countView?.removeFromSuperview()
 			self.countView = view
 			self.addSubview(view)
@@ -37,18 +37,18 @@ extension Hoard {
 		}
 		
 		
-		public func setCurrentIndex(index: Int, animated: Bool) {
+		open func setCurrentIndex(_ index: Int, animated: Bool) {
 			self.setupScrollView()
 			self.scrollView.setContentOffset(CGPoint(x: self.scrollView.bounds.width * CGFloat(index), y: 0.0), animated: animated)
 			self.updateImageCount()
 		}
 		
-		public var currentIndex: Int {
+		open var currentIndex: Int {
 			if let scrollView = self.scrollView { return Int(scrollView.contentOffset.x / scrollView.bounds.width) }
 			return 0
 		}
 		
-		public var currentImageView: ImageView? {
+		open var currentImageView: ImageView? {
 			let index = self.currentIndex
 			if index < 0 || index >= self.imageURLs.count { return nil }
 			
@@ -58,8 +58,8 @@ extension Hoard {
 			return nil
 		}
 		
-		public func makeFullScreen() {
-			self.currentImageView?.makeFullScreen()
+		open func makeFullScreen() {
+			_ = self.currentImageView?.makeFullScreen()
 		}
 		
 		//=============================================================================================
@@ -68,9 +68,9 @@ extension Hoard {
 			
 		}
 		
-		public override func didMoveToSuperview() { self.setup() }
-		public func setup() {
-			self.contentMode = .ScaleAspectFit
+		open override func didMoveToSuperview() { self.setup() }
+		open func setup() {
+			self.contentMode = .scaleAspectFit
 			self.setupScrollView();
 			if self.showPageIndicators { self.setupPageIndicators() }
 		}
@@ -84,36 +84,36 @@ extension Hoard {
 				self.scrollView = UIScrollView(frame: self.bounds)
 				self.scrollView.delegate = self
 				self.addSubview(self.scrollView)
-				self.scrollView.pagingEnabled = true
-				self.scrollView.directionalLockEnabled = true
-				self.scrollView.backgroundColor = UIColor.blackColor()
+				self.scrollView.isPagingEnabled = true
+				self.scrollView.isDirectionalLockEnabled = true
+				self.scrollView.backgroundColor = UIColor.black
 				self.scrollView.showsHorizontalScrollIndicator = false
 				self.scrollView.showsVerticalScrollIndicator = false
-				self.userInteractionEnabled = true
+				self.isUserInteractionEnabled = true
 			}
 		}
 		
 		func setupPageIndicators() {
 			if self.showPageIndicators {
 				if self.pageIndicators == nil {
-					self.pageIndicators = UIPageControl(frame: CGRectZero)
+					self.pageIndicators = UIPageControl(frame: CGRect.zero)
 					self.pageIndicators?.hidesForSinglePage = true
 					self.addSubview(self.pageIndicators!)
-					self.pageIndicators?.backgroundColor = UIColor.clearColor()
-					self.pageIndicators?.addTarget(self, action: #selector(ImageGalleryView.pageIndicatorValueChanged(_:)), forControlEvents: .ValueChanged)
-					self.pageIndicators?.autoresizingMask = [.FlexibleTopMargin, .FlexibleLeftMargin, .FlexibleRightMargin]
+					self.pageIndicators?.backgroundColor = UIColor.clear
+					self.pageIndicators?.addTarget(self, action: #selector(ImageGalleryView.pageIndicatorValueChanged(_:)), for: .valueChanged)
+					self.pageIndicators?.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin, .flexibleRightMargin]
 				}
 				
-				let size = self.pageIndicators!.sizeForNumberOfPages(self.imageURLs.count)
+				let size = self.pageIndicators!.size(forNumberOfPages: self.imageURLs.count)
 				self.pageIndicators?.numberOfPages = self.imageURLs.count
 				self.pageIndicators?.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 				self.pageIndicators?.center = CGPoint(x: self.bounds.width / 2, y: self.bounds.height * (1.0 - self.pageIndicatorOffset))
 			} else {
-				self.pageIndicators?.hidden = true
+				self.pageIndicators?.isHidden = true
 			}
 		}
 		
-		func pageIndicatorValueChanged(pageControl: UIPageControl) {
+		func pageIndicatorValueChanged(_ pageControl: UIPageControl) {
 			self.setCurrentIndex(pageControl.currentPage, animated: true)
 		}
 		
@@ -129,7 +129,7 @@ extension Hoard {
 			self.updateImageViews()
 		}
 		
-		public override func layoutSubviews() {
+		open override func layoutSubviews() {
 			super.layoutSubviews()
 			
 			self.setupScrollView()
@@ -148,19 +148,19 @@ extension Hoard {
 			
 			let numberOfVisible: Int = (CGFloat(firstVisibleIndex) * self.scrollView.bounds.width != self.scrollView.contentOffset.x) ? 2 : 1
 			let visibleURLs = Array(self.imageURLs[firstVisibleIndex..<Int(firstVisibleIndex + min(numberOfVisible, self.imageURLs.count - firstVisibleIndex))])
-			var instantiatedURLs: [NSURL] = []
+			var instantiatedURLs: [URL] = []
 			
 			for view in self.usedImageViews {
-				if let url = view.URL where visibleURLs.contains(url) {
-					removeThese.remove(view)
-					instantiatedURLs.append(url)
+				if let url = view.URL , visibleURLs.contains(url as URL) {
+					_ = removeThese.remove(view)
+					instantiatedURLs.append(url as URL)
 				}
 			}
 			
 			for view in removeThese {
 				view.removeFromSuperview()
 				view.prepareForReuse()
-				self.usedImageViews.remove(view)
+				_ = self.usedImageViews.remove(view)
 				self.availableImageViews.insert(view)
 			}
 			
@@ -198,35 +198,35 @@ extension Hoard {
 			let view = ImageView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
 			view.clipsToBounds = true
 			view.parentGallery = self
-			view.userInteractionEnabled = true
+			view.isUserInteractionEnabled = true
 			view.contentMode = self.contentMode
 			view.tapForFullScreen = self.tapForFullScreen
 			view.useDeviceOrientation = self.useDeviceOrientation
 			return view
 		}
 		
-		public func scrollViewDidScroll(scrollView: UIScrollView) { self.updateImageViews() }
-		public func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+		open func scrollViewDidScroll(_ scrollView: UIScrollView) { self.updateImageViews() }
+		open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
 			self.pageIndicators?.currentPage = self.currentIndex
 		}
-		public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 			self.pageIndicators?.currentPage = self.currentIndex
 		}
-		public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+		open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
 			self.pageIndicators?.currentPage = self.currentIndex
 		}
 		
-		public func updateImageCount() {
+		open func updateImageCount() {
 			if let view = self.countView {
 				let bounds = self.bounds
-				var center = CGPointZero
+				var center = CGPoint.zero
 				let hOffset: CGFloat = 60, vOffset: CGFloat = 30
 				
 				switch self.countLocation {
-				case .UpperLeft: center = CGPoint(x: hOffset, y: vOffset)
-				case .UpperRight: center = CGPoint(x: bounds.width - hOffset, y: vOffset)
-				case .LowerLeft: center = CGPoint(x: hOffset, y: bounds.height - vOffset)
-				case .LowerRight: center = CGPoint(x: bounds.width - hOffset, y: bounds.height - vOffset)
+				case .upperLeft: center = CGPoint(x: hOffset, y: vOffset)
+				case .upperRight: center = CGPoint(x: bounds.width - hOffset, y: vOffset)
+				case .lowerLeft: center = CGPoint(x: hOffset, y: bounds.height - vOffset)
+				case .lowerRight: center = CGPoint(x: bounds.width - hOffset, y: bounds.height - vOffset)
 				default: return
 				}
 				

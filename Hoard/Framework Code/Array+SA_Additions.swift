@@ -9,13 +9,13 @@
 import Foundation
 
 extension Array {
-	func contains<T: Equatable>(obj: T) -> Bool {
+	func contains<T: Equatable>(_ obj: T) -> Bool {
 		return self.indexOf(obj) != nil
 	}
 
-	mutating func remove<U: Equatable>(object: U) -> [Element] {
+	mutating func remove<U: Equatable>(_ object: U) -> [Element] {
 		var index: Int?
-		for (idx, objectToCompare) in self.enumerate() {
+		for (idx, objectToCompare) in self.enumerated() {
 			if let to = objectToCompare as? U {
 				if object == to {
 					index = idx
@@ -23,11 +23,11 @@ extension Array {
 			}
 		}
 		
-		if let found = index { self.removeAtIndex(found) }
+		if let found = index { self.remove(at: found) }
 		return self
 	}
 	
-	func indexOf<T: Equatable>(obj: T) -> Int? {
+	func indexOf<T: Equatable>(_ obj: T) -> Int? {
 		for i in 0..<self.count {
 			if let iter = self[i] as? T { if iter == obj { return i } }
 		}
