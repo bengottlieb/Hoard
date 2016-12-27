@@ -4,33 +4,9 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/Plug-Swift.h</key>
-		<data>
-		9lgP0Xi/Kc3W8psuB1zPE4bkSZE=
-		</data>
 		<key>Headers/Plug.h</key>
 		<data>
 		J+p43pbstmdRkRGcUb3G5jly40o=
-		</data>
-		<key>Info.plist</key>
-		<data>
-		dzazp3G4HuAiYCGU0TEPq0Zw5co=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm.swiftdoc</key>
-		<data>
-		qZtGWKvhdP1bb3Dzdf+aTlv/aqw=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm.swiftmodule</key>
-		<data>
-		utZ8FGmd8716uH3Bst9ApMlxZig=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm64.swiftdoc</key>
-		<data>
-		n3W8J9IhXl/wedsAKpd/j9tcp0o=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		bLk6gFYeLc9pjM7zsD9RPAGCSe4=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -39,17 +15,6 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/Plug-Swift.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			9lgP0Xi/Kc3W8psuB1zPE4bkSZE=
-			</data>
-			<key>hash2</key>
-			<data>
-			dCCUCVZ2cZoI114C6N3YcuipReklLZaJam28kGQy8Hs=
-			</data>
-		</dict>
 		<key>Headers/Plug.h</key>
 		<dict>
 			<key>hash</key>
@@ -59,50 +24,6 @@
 			<key>hash2</key>
 			<data>
 			B7vQt02xYjPjy+bF1lC8jszGnX/MGMIu1FH+VQrc4Gs=
-			</data>
-		</dict>
-		<key>Modules/Plug.swiftmodule/arm.swiftdoc</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			qZtGWKvhdP1bb3Dzdf+aTlv/aqw=
-			</data>
-			<key>hash2</key>
-			<data>
-			DyrDlxEnYKCNDNcf/fwUkImoa9fvod8h3ED0m9RBjGU=
-			</data>
-		</dict>
-		<key>Modules/Plug.swiftmodule/arm.swiftmodule</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			utZ8FGmd8716uH3Bst9ApMlxZig=
-			</data>
-			<key>hash2</key>
-			<data>
-			dXPRVi+ftaxqV6cW9xFUg+0IgBZR5JEsxyAXkI9Cjk8=
-			</data>
-		</dict>
-		<key>Modules/Plug.swiftmodule/arm64.swiftdoc</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			n3W8J9IhXl/wedsAKpd/j9tcp0o=
-			</data>
-			<key>hash2</key>
-			<data>
-			gEBtXrqAtSscxIUAe8RuTKlGJxlmpmO5yagYwwVaBQY=
-			</data>
-		</dict>
-		<key>Modules/Plug.swiftmodule/arm64.swiftmodule</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			bLk6gFYeLc9pjM7zsD9RPAGCSe4=
-			</data>
-			<key>hash2</key>
-			<data>
-			TGcbd8RlTG3s4q8TZUiXmRJjJoDDOXwmT/d+R9aKf4A=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -134,6 +55,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -179,6 +105,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^Info\.plist$</key>
 		<dict>
