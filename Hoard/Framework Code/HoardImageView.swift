@@ -229,9 +229,7 @@ extension Hoard {
 		}
 		
 		open func makeFullScreen() -> ImageGalleryView? {
-			var windows = UIApplication.shared.windows as [UIWindow]
-			
-			if let parent = windows[0].rootViewController {
+			if let parent = self.window?.rootViewController {
 				s_currentImageView = self
 				let host = parent.view
 				let newFrame = self.convert(self.bounds, to: host)
