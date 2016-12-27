@@ -35,7 +35,7 @@ extension Hoard {
 				self.alpha = 0.0
 			}
 			
-			let attr = [NSFontAttributeName: self.font]
+			let attr = [NSFontAttributeName: self.font ?? UIFont.systemFont(ofSize: 14)]
 			let size = NSAttributedString(string: self.text!, attributes: attr).boundingRect(with: CGSize(width: 500, height: self.font.lineHeight * 1.5), options: .usesLineFragmentOrigin, context: nil).size
 			
 			self.bounds = CGRect(x: 0, y: 0, width: size.width + 20, height: size.height + 6)
