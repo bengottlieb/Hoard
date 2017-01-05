@@ -9,13 +9,13 @@
 import Foundation
 
 extension Array {
-	func contains<T: Equatable>(obj: T) -> Bool {
+	func contains<T: Equatable>(_ obj: T) -> Bool {
 		return self.indexOf(obj) != nil
 	}
 
-	mutating func remove<U: Equatable>(object: U) -> [T] {
+	mutating func remove<U: Equatable>(_ object: U) -> [Element] {
 		var index: Int?
-		for (idx, objectToCompare) in enumerate(self) {
+		for (idx, objectToCompare) in self.enumerated() {
 			if let to = objectToCompare as? U {
 				if object == to {
 					index = idx
@@ -23,18 +23,18 @@ extension Array {
 			}
 		}
 		
-		if let found = index { self.removeAtIndex(found) }
+		if let found = index { self.remove(at: found) }
 		return self
 	}
 	
-	func indexOf<T: Equatable>(obj: T) -> Int? {
+	func indexOf<T: Equatable>(_ obj: T) -> Int? {
 		for i in 0..<self.count {
 			if let iter = self[i] as? T { if iter == obj { return i } }
 		}
 		return nil
 	}
 	
-	func shuffled() -> [T] {
+	func shuffled() -> [Element] {
 		var list = self
 		for i in 0..<(list.count - 1) {
 			let j = Int(arc4random_uniform(UInt32(list.count - i))) + i
@@ -43,10 +43,4 @@ extension Array {
 		return list
 	}
 
-}
-
-extension Set {
-	func map<U>(transform: (T) -> U) -> Set<U> {
-		return Set<U>(Swift.map(self, transform))
-	}
 }

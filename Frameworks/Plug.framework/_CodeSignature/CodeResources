@@ -4,33 +4,9 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/Plug-Swift.h</key>
-		<data>
-		ypjl6p2C4+VRt1B+R8wYIhbQOMQ=
-		</data>
 		<key>Headers/Plug.h</key>
 		<data>
 		J+p43pbstmdRkRGcUb3G5jly40o=
-		</data>
-		<key>Info.plist</key>
-		<data>
-		v+N3PHnz5SUSge7ovGIIfh3fg6Q=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm.swiftdoc</key>
-		<data>
-		it1ObwMrVLQqypWFnf5UjgiqKYI=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm.swiftmodule</key>
-		<data>
-		ZMCFCvKAS/vrjtFub2j//0PZ5Ck=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm64.swiftdoc</key>
-		<data>
-		KDEn3l3FQIK0Oq4n3cg1XZXf1HU=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		U80GxCYfLPQSv83EY1Wu3QSV+kQ=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -39,34 +15,28 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/Plug-Swift.h</key>
-		<data>
-		ypjl6p2C4+VRt1B+R8wYIhbQOMQ=
-		</data>
 		<key>Headers/Plug.h</key>
-		<data>
-		J+p43pbstmdRkRGcUb3G5jly40o=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm.swiftdoc</key>
-		<data>
-		it1ObwMrVLQqypWFnf5UjgiqKYI=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm.swiftmodule</key>
-		<data>
-		ZMCFCvKAS/vrjtFub2j//0PZ5Ck=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm64.swiftdoc</key>
-		<data>
-		KDEn3l3FQIK0Oq4n3cg1XZXf1HU=
-		</data>
-		<key>Modules/Plug.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		U80GxCYfLPQSv83EY1Wu3QSV+kQ=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			J+p43pbstmdRkRGcUb3G5jly40o=
+			</data>
+			<key>hash2</key>
+			<data>
+			B7vQt02xYjPjy+bF1lC8jszGnX/MGMIu1FH+VQrc4Gs=
+			</data>
+		</dict>
 		<key>Modules/module.modulemap</key>
-		<data>
-		Fr8Ipt2ssFfLl+exkT/CcaPr95Y=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Fr8Ipt2ssFfLl+exkT/CcaPr95Y=
+			</data>
+			<key>hash2</key>
+			<data>
+			PLiUkbztcwvINLrZkGpSB/Gx5Ft11DTj/K81AjJRV7Q=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
@@ -85,6 +55,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -130,6 +105,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^Info\.plist$</key>
 		<dict>

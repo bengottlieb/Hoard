@@ -8,95 +8,88 @@
 
 import Foundation
 
-public class Hoard: NSObject {
-	public class var cache: Hoard { struct s { static let manager = Hoard() }; return s.manager }
+@objc public protocol HoardImageSource {
+	func generateImage(for: URL) -> UXImage?
+	func isFastImageGenerator(for: URL) -> Bool
+}
+
+open class HoardState: NSObject {
+	public enum DebugLevel: Int { case none, low, high }
+	open static var instance = HoardState()
 	
 	override init() {
+		serializerQueue.maxConcurrentOperationCount = 1;
+		serializerQueue.qualityOfService = .userInitiated
+		
+		maintenanceQueue.maxConcurrentOperationCount = 1;
+		maintenanceQueue.qualityOfService = .background
+		
+		generationQueue.qualityOfService = .userInteractive
+		
 		super.init()
-		self.updateDirectory()
 	}
 	
-	public var maxConcurrentDownloads = 400
-	public var active = Set<PendingImage>()
-	public var pending = Array<PendingImage>()
-	public static var debugging = false
-	
-	public var directory: NSURL = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(
-		.LibraryDirectory, .UserDomainMask, true)[0] as! String, isDirectory: true)!.URLByAppendingPathComponent("CachedImages") { didSet {
-			self.updateDirectory()
-		}}
-	
-	func requestImageURL(url: NSURL, completion: ImageCompletion? = nil) -> PendingImage {
-		var pending = PendingImage(url: url, completion: completion)
-		
-		self.queue.addOperationWithBlock {
-			if pending.isCachedAvailable {
-				pending.complete(true)
-			} else if let existing = self.findExistingConnectionWithURL(url) {
-				existing.dupes.append(pending)
-			} else {
-				self.enqueue(pending)
-			}
+	class func main_thread(_ block: @escaping () -> Void) {
+		if Thread.isMainThread {
+			block()
+		} else {
+			DispatchQueue.main.async(execute: block)
 		}
-		
-		return pending
 	}
 	
-	public func clearCache() {
-		var error: NSError?
-		
-		if !NSFileManager.defaultManager().removeItemAtURL(self.directory, error: &error) {
-			println("Error while clearing Hoard cache: \(error)")
-		}
-		
-		self.updateDirectory()
-	}
+	open var maxConcurrentDownloads = 400
+	open var active = Set<PendingImage>()
+	open var pending = Array<PendingImage>()
+	open static var debugLevel = DebugLevel.none
+	open weak var source: HoardImageSource?
 	
-
+	open static var defaultImageCache = Cache.cacheForKey(HoardState.mainImageCacheKey)
+	open static let mainImageCacheKey = "main-hoard-cache"
+	
 	//=============================================================================================
 	//MARK: Private
-	func updateDirectory() {
-		var error: NSError?
-		if !NSFileManager.defaultManager().createDirectoryAtURL(self.directory, withIntermediateDirectories: true, attributes: nil, error: &error) {
-			println("Unable to setup images directory at \(self.directory): \(error!)")
-		}
+	
+	class func addMaintenanceBlock(_ block: @escaping () -> Void) {
+		HoardState.instance.maintenanceQueue.addOperation(block)
 	}
 	
 	func enqueue(_ pending: PendingImage? = nil) {
 		if let pending = pending { self.pending.append(pending) }
 		if self.active.count < self.maxConcurrentDownloads && self.pending.count > 0 {
-			var next = self.pending[0]
+			let next = self.pending[0]
 			self.active.insert(next)
-			self.pending.removeAtIndex(0)
+			self.pending.remove(at: 0)
 			next.start()
 		}
 	}
 	
-	func findExistingConnectionWithURL(url: NSURL) -> PendingImage? {
-		var found = filter(self.pending, { $0.URL == url })
+	func findExistingConnectionWithURL(_ url: URL) -> PendingImage? {
+		var found = self.pending.filter({ $0.URL as URL == url })
 		if found.count > 0 { return found[0] }
 		
-		found = filter(Array(self.active), { $0.URL == url })
+		found = Array(self.active).filter({ $0.URL as URL == url })
 		if found.count > 0 { return found[0] }
 		
 		return nil
 	}
 	
-	func completedPending(image: PendingImage) {
-		self.pending.remove(image)
+	func completedPending(_ image: PendingImage) {
+		_ = self.pending.remove(image)
 		
 		if image.isComplete {
 			self.active.remove(image)
 		}
-		self.queue.addOperationWithBlock {
+		self.serializerQueue.addOperation {
 			self.enqueue()
 		}
 	}
 	
-	func cancelPending(image: PendingImage) {
+	func cancelPending(_ image: PendingImage) {
 		self.completedPending(image)
 	}
 	
-	let queue: NSOperationQueue = { var queue = NSOperationQueue(); queue.maxConcurrentOperationCount = 1; return queue }()
+	let serializerQueue = OperationQueue()
+	let maintenanceQueue = OperationQueue()
+	let generationQueue = OperationQueue()
 
 }
