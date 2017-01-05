@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 		// Override point for customization after application launch
 		
-	//	HoardState.defaultImageCache.nukeCache()
+	//	HoardState.defaultImageCache.nuke()
 		HoardState.debugLevel = .high
 		return true
 	}

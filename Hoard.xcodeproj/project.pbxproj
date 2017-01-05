@@ -25,6 +25,7 @@
 		B52533EA1B8FF30A00126E11 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; };
 		B52533EC1B8FF32300126E11 /* Plug.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B52533ED1B8FF33D00126E11 /* Plug.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B544A57C1E1EB30300EEA266 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
 		B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */; };
 		B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B583A78D1CB495BC00AF73BA /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B583A78B1CB495BC00AF73BA /* Gulliver.framework */; };
@@ -40,7 +41,6 @@
 		B58D64961A899285005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D646B1A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B59323351D91914B00A55E8F /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59323341D91914B00A55E8F /* Plug.framework */; };
 		B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
-		B5A0005B1B90752B00FF4576 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
 		B5A0005D1B907AAD00FF4576 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */; };
 		B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; };
 		B5A0006A1B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; };
@@ -461,12 +461,12 @@
 			files = (
 				B5CB6FA01E1E7C9A00116EB6 /* HoardPendingImage.swift in Sources */,
 				B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */,
-				B5A0005B1B90752B00FF4576 /* HoardDiskCache.swift in Sources */,
 				B58D64831A898FBE005A0002 /* Hoard.swift in Sources */,
 				B5A4824B1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */,
 				B5CB6F9F1E1E7B8600116EB6 /* HoardCache+iOS.swift in Sources */,
 				B5CB6F9E1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */,
 				B5A0006A1B9461BB00FF4576 /* HoardCache.swift in Sources */,
+				B544A57C1E1EB30300EEA266 /* HoardDiskCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,7 +513,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -561,7 +561,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -622,7 +622,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -653,7 +652,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",

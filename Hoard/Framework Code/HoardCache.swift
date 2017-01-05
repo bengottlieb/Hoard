@@ -12,6 +12,7 @@ open class Cache: NSObject {
 	deinit {
 		NotificationCenter.default.removeObserver(self)
 	}
+	
 	open static var sharedCaches: [NSObject: Cache] = [:]
 	
 	open class func sensibleMemorySizeForCurrentDevice() -> Int64 {
@@ -87,9 +88,9 @@ open class Cache: NSObject {
 		}
 	}
 	
-	open func nukeCache() {
+	public func nuke() {
 		self.flushCache()
-		self.diskCache?.nukeCache()
+		self.diskCache?.clearOut()
 	}
 	
 	open func store(_ target: NSObject?, from URL: Foundation.URL, skipDisk: Bool = false) {

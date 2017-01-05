@@ -51,7 +51,7 @@ import Foundation
 		public func pngData() -> Data? {
 			if let tiff = self.tiffRepresentation {
 				let rep = NSBitmapImageRep(data: tiff)
-				return rep?.representation(using: .PNG, properties: [NSImageCompressionFactor: quality])
+				return rep?.representation(using: .PNG, properties: [:])
 			}
 			return nil
 		}
@@ -59,6 +59,10 @@ import Foundation
 		public class func withJPEGData(_ data: Data?) -> NSImage? {
 			guard let data = data else { return nil }
 			return NSImage(data: data)
+		}
+		
+		public convenience init(cgImage: CGImage) {
+			self.init(cgImage: cgImage, size: NSSize.zero)
 		}
 	}
 	

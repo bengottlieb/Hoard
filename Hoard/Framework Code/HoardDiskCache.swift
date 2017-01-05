@@ -45,7 +45,7 @@ open class DiskCache: Cache {
 		super.init(description: description)
 		self.maxSize = self.optimalCacheSize()
 		self.cacheLimitSize = Int64(Double(self.maxSize) * 1.25)
-		self.diskOperation {
+		self.performDiskOperation {
 			self.currentSize = self.onDiskSize()
 			if HoardState.debugLevel != .none {
 				print("Current cache size: \(self.currentSize)")
@@ -53,12 +53,12 @@ open class DiskCache: Cache {
 		}
 	}
 	
-	func diskOperation(_ block: @escaping () -> Void) { self.diskQueue.addOperation(block) }
+	func performDiskOperation(_ block: @escaping () -> Void) { self.diskQueue.addOperation(block) }
 
 	var cacheLimitSize: Int64 = 0		//what size do we start pruning the cache at?
 	
-	open override func nukeCache() {
-		self.diskOperation {
+	func clearOut() {
+		self.performDiskOperation {
 			do {
 				try FileManager.default.removeItem(at: self.baseURL)
 				try FileManager.default.createDirectory(at: self.baseURL, withIntermediateDirectories: true, attributes: nil)
@@ -94,17 +94,10 @@ open class DiskCache: Cache {
 		return nil
 	}
 	
-	override open func store(_ target: NSObject?, from URL: Foundation.URL, skipDisk: Bool = false) {
-		if let data = self.dataForObject(target) {
-			self.storeData(data, from: URL, suggestedFileExtension: nil)
-		}
-
-	}
-
 	open func storeData(_ data: Data?, from URL: Foundation.URL, suggestedFileExtension: String? = nil) {
 		if !self.valid { return }
 	
-		self.diskOperation {
+		self.performDiskOperation {
 			if let data = data {
 				let cacheURL = self.localURLForURL(URL)
 				if (try? data.write(to: cacheURL, options: [.atomic])) != nil {
@@ -120,22 +113,9 @@ open class DiskCache: Cache {
 	}
 	
 	func updateAccessedAtForRemoteURL(_ URL: Foundation.URL) {
-		self.diskOperation {
+		self.performDiskOperation {
 			let cachedURL = self.localURLForURL(URL)
 			self.updateAccessedAt(cachedURL)
-		}
-	}
-	
-	open override func remove(_ URL: Foundation.URL) {
-		self.diskOperation {
-			let cacheURL = self.localURLForURL(URL)
-			
-			self.currentSize -= FileManager.default.fileSizeAtURL(cacheURL)
-			do {
-				try FileManager.default.removeItem(at: cacheURL)
-			} catch let error {
-				print("Failed to remove cached data for URL \(URL.path): \(error)")
-			}
 		}
 	}
 	
@@ -149,26 +129,8 @@ open class DiskCache: Cache {
 	}
 	
 	
-	open override func isCacheDataAvailable(_ URL: Foundation.URL) -> Bool {
-		return FileManager.default.fileExists(atPath: self.localURLForURL(URL).path)
-	}
-	
 	open func localURLForURL(_ URL: Foundation.URL) -> Foundation.URL {
 		return self.baseURL.appendingPathComponent(URL.cachedFilename(self.storageFormat.suggestedFileExtension))
-	}
-	
-	override open func prune(_ size: Int64? = nil) {
-		HoardState.addMaintenanceBlock {
-			let files = self.buildFileList().sorted(by: <)
-			var size: Int64 = files.reduce(0, { $0 + $1.size })
-			let max = self.maxSize
-			var index = 0
-			
-			while size > max && index < files.count {
-				size -= files[index].remove()
-				index += 1
-			}
-		}
 	}
 	
 	func optimalCacheSize() -> Int64 {
@@ -202,6 +164,48 @@ open class DiskCache: Cache {
 		
 		return total
 	}
+
+	public override func nuke() {
+		self.clearOut()
+	}
+
+	override open func store(_ target: NSObject?, from URL: Foundation.URL, skipDisk: Bool = false) {
+		if let data = self.dataForObject(target) {
+			self.storeData(data, from: URL, suggestedFileExtension: nil)
+		}
+	}
+
+	open override func remove(_ URL: Foundation.URL) {
+		self.performDiskOperation {
+			let cacheURL = self.localURLForURL(URL)
+			
+			self.currentSize -= FileManager.default.fileSizeAtURL(cacheURL)
+			do {
+				try FileManager.default.removeItem(at: cacheURL)
+			} catch let error {
+				print("Failed to remove cached data for URL \(URL.path): \(error)")
+			}
+		}
+	}
+
+	open override func isCacheDataAvailable(_ URL: Foundation.URL) -> Bool {
+		return FileManager.default.fileExists(atPath: self.localURLForURL(URL).path)
+	}
+	
+	override open func prune(_ size: Int64? = nil) {
+		HoardState.addMaintenanceBlock {
+			let files = self.buildFileList().sorted(by: <)
+			var size: Int64 = files.reduce(0, { $0 + $1.size })
+			let max = self.maxSize
+			var index = 0
+			
+			while size > max && index < files.count {
+				size -= files[index].remove()
+				index += 1
+			}
+		}
+	}
+	
 }
 
 let HoardLastAccessedAtDateAttributeName = "lastAccessed:com.standalone.hoard"
