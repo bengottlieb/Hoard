@@ -6,15 +6,14 @@
 //  Copyright © 2015 Stand Alone, inc. All rights reserved.
 //
 
-import UIKit
 import ImageIO
 
-public extension Hoard.Cache {
-	public func fetchImage(_ from: URL) -> UIImage? {
-		if let image = self.fetch(from) as? UIImage {
+public extension Cache {
+	public func fetchImage(_ from: URL) -> HoardPrimitiveImage? {
+		if let image = self.fetch(from) as? HoardPrimitiveImage {
 			return image
 		}
-		if let cached = self.diskCache?.fetchImage(from) ?? self.fetch(from) as? UIImage {
+		if let cached = self.diskCache?.fetchImage(from) ?? self.fetch(from) as? HoardPrimitiveImage {
 			self.store(cached, from: from, skipDisk: true)
 			return cached
 		}
@@ -22,16 +21,16 @@ public extension Hoard.Cache {
 	}
 }
 
-public extension Hoard.DiskCache {
-	public override func fetchImage(_ from: URL) -> UIImage? {
+public extension DiskCache {
+	public override func fetchImage(_ from: URL) -> HoardPrimitiveImage? {
 		let localURL = self.localURLForURL(from)
 		let path = localURL.path
 		
-		if FileManager.default.fileExists(atPath: path), let image = UIImage.decompressedImageWithURL(localURL) {
+		if FileManager.default.fileExists(atPath: path), let image = HoardPrimitiveImage.decompressedImageWithURL(localURL) {
 			return image
 		}
 		
-		if let data = self.fetchData(from), let image = UIImage.decompressedImageWithData(data) {
+		if let data = self.fetchData(from), let image = HoardPrimitiveImage.decompressedImageWithData(data) {
 			return image
 		}
 		return nil
@@ -39,24 +38,24 @@ public extension Hoard.DiskCache {
 	
 }
 
-extension UIImage: CacheStoredObject {
+extension HoardPrimitiveImage: CacheStoredObject {
 	public var hoardCacheSize: Int { return Int(self.size.width) * Int(self.size.height) }
 }
 
-public extension UIImage {
-	public class func decompressedImageWithData(_ data: Data) -> UIImage? {
+public extension HoardPrimitiveImage {
+	public class func decompressedImageWithData(_ data: Data) -> HoardPrimitiveImage? {
 		let options = [String(kCGImageSourceShouldCache): true]
 		if let source = CGImageSourceCreateWithData(data as CFData, nil), let cgImage = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary?) {
-			return UIImage(cgImage: cgImage)
+			return HoardPrimitiveImage(cgImage: cgImage)
 		}
 		
 		return nil
 	}
 	
-	public class func decompressedImageWithURL(_ url: URL) -> UIImage? {
+	public class func decompressedImageWithURL(_ url: URL) -> HoardPrimitiveImage? {
 		let options = [String(kCGImageSourceShouldCache): true]
 		if let data = try? Data(contentsOf: url), let source = CGImageSourceCreateWithData(data as CFData, nil), let cgImage = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary?) {
-			return UIImage(cgImage: cgImage)
+			return HoardPrimitiveImage(cgImage: cgImage)
 		}
 		
 		return nil

@@ -9,13 +9,13 @@
 import Foundation
 
 @objc public protocol HoardImageSource {
-	func generateImage(for: URL) -> UIImage?
+	func generateImage(for: URL) -> HoardPrimitiveImage?
 	func isFastImageGenerator(for: URL) -> Bool
 }
 
-open class Hoard: NSObject {
+open class HoardState: NSObject {
 	public enum DebugLevel: Int { case none, low, high }
-	open static var instance = Hoard()
+	open static var instance = HoardState()
 	
 	override init() {
 		serializerQueue.maxConcurrentOperationCount = 1;
@@ -43,14 +43,14 @@ open class Hoard: NSObject {
 	open static var debugLevel = DebugLevel.none
 	open weak var source: HoardImageSource?
 	
-	open static var defaultImageCache = Cache.cacheForKey(Hoard.mainImageCacheKey)
+	open static var defaultImageCache = Cache.cacheForKey(HoardState.mainImageCacheKey)
 	open static let mainImageCacheKey = "main-hoard-cache"
 	
 	//=============================================================================================
 	//MARK: Private
 	
 	class func addMaintenanceBlock(_ block: @escaping () -> Void) {
-		Hoard.instance.maintenanceQueue.addOperation(block)
+		HoardState.instance.maintenanceQueue.addOperation(block)
 	}
 	
 	func enqueue(_ pending: PendingImage? = nil) {

@@ -20,7 +20,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		Hoard.defaultImageCache.maxSize = 100000
+		HoardState.defaultImageCache.maxSize = 100000
 		self.view.backgroundColor = UIColor.green
 	
 	}
@@ -30,7 +30,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 		// Dispose of any resources that can be recreated.
 	}
 
-	var gallery: Hoard.ImageGalleryView!
+	var gallery: ImageGalleryView!
 	
 	var collectionView: UICollectionView!
 	let layout = UICollectionViewFlowLayout()
@@ -56,9 +56,9 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 				urls.append(URL(string: "http://lorempixel.com/\((arc4random() % 400 + 30))/\((arc4random() % 400 + 40))/")!)
 			}
 			
-			let cache = Hoard.defaultImageCache.diskCache
+			let cache = HoardState.defaultImageCache.diskCache
 			for url in urls {
-				_ = Hoard.PendingImage.request(url, cache: cache)
+				_ = PendingImage.request(url, cache: cache)
 			}
 			print("Starting downloads")
 
@@ -95,7 +95,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 		
 		while top < size.height {
 			let frame = CGRect(x: left, y: top, width: width, height: height)
-			let view = Hoard.ImageView(frame: frame)
+			let view = ImageView(frame: frame)
 			
 			view.backgroundColor = UIColor.black
 			view.contentMode = .scaleAspectFill
@@ -134,11 +134,11 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 }
 
 class TestCeollectionViewCell: UICollectionViewCell, HoardImageSource {
-	var hoardView: Hoard.ImageView!
+	var hoardView: ImageView!
 	
 	func setupImageView() {
 		if self.hoardView == nil {
-			self.hoardView = Hoard.ImageView(frame: self.contentView.bounds)
+			self.hoardView = ImageView(frame: self.contentView.bounds)
 			self.contentView.addSubview(self.hoardView)
 			self.hoardView.imageSource = self
 		}
