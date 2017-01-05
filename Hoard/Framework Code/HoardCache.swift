@@ -106,7 +106,7 @@ open class Cache: NSObject {
 
 				if let cached = object as? CacheStoredObject {
 					size = cached.hoardCacheSize
-				} else if let image = object as? HoardPrimitiveImage {
+				} else if let image = object as? UXImage {
 					size = image.hoardCacheSize
 				} else {
 					print("not a cachable object")

@@ -9,7 +9,7 @@
 import Foundation
 
 @objc public protocol HoardImageSource {
-	func generateImage(for: URL) -> HoardPrimitiveImage?
+	func generateImage(for: URL) -> UXImage?
 	func isFastImageGenerator(for: URL) -> Bool
 }
 

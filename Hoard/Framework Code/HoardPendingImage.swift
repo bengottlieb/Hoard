@@ -9,7 +9,7 @@
 import Foundation
 import Plug
 
-public typealias ImageCompletion = (_ image: HoardPrimitiveImage?, _ error: NSError?, _ fromCache: Bool) -> Void
+public typealias ImageCompletion = (_ image: UXImage?, _ error: NSError?, _ fromCache: Bool) -> Void
 
 open class PendingImage: NSObject {
 	open class var defaultPriority: Int { return 10 }
@@ -81,7 +81,7 @@ open class PendingImage: NSObject {
 	
 	func start() {
 		Plug.request(method: .GET, url: self.URL, channel: Plug.Channel.resourceChannel).completion { conn, data in
-			if let image = HoardPrimitiveImage(data: data.data) {
+			if let image = UXImage(data: data.data) {
 				self.fetchedImage = image
 			}
 			self.complete(false)
@@ -105,7 +105,7 @@ open class PendingImage: NSObject {
 		return self.cache.isCacheDataAvailable(self.URL)
 	}
 	
-	func complete(_ fromCache: Bool, image: HoardPrimitiveImage? = nil) {
+	func complete(_ fromCache: Bool, image: UXImage? = nil) {
 		self.isComplete = true
 		if !self.isCancelled {
 			for dupe in self.dupes {
@@ -121,7 +121,7 @@ open class PendingImage: NSObject {
 		if image == nil { HoardState.instance.completedPending(self) }
 	}
 	
-	open var image: HoardPrimitiveImage? {
+	open var image: UXImage? {
 		if let image = self.fetchedImage { return image }
 		
 		if let image = self.cache.fetchImage(self.URL) {
@@ -135,7 +135,7 @@ open class PendingImage: NSObject {
 	//=============================================================================================
 	//MARK: Private
 	
-	var fetchedImage: HoardPrimitiveImage?
+	var fetchedImage: UXImage?
 	var localURL: Foundation.URL?
 	var isCancelled = false
 	var isComplete = false

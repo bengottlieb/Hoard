@@ -70,21 +70,23 @@ open class DiskCache: Cache {
 	}
 	
 	func dataForObject(_ target: NSObject?) -> Data? {
-		if let image = target as? HoardPrimitiveImage {
+		if let image = target as? UXImage {
 			let data = NSMutableData()
 			let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, "image/jpeg" as CFString, nil)!.takeRetainedValue()
 
-			if let destination = CGImageDestinationCreateWithData(data, uti, 1, nil), let cgImage = image.cgImage {
-				CGImageDestinationAddImage(destination, cgImage, nil)
-				if !CGImageDestinationFinalize(destination) {
-					return nil
+			#if os(iOS)
+				if let destination = CGImageDestinationCreateWithData(data, uti, 1, nil), let cgImage = image.cgImage {
+					CGImageDestinationAddImage(destination, cgImage, nil)
+					if !CGImageDestinationFinalize(destination) {
+						return nil
+					}
+					return data as Data
 				}
-				return data as Data
-			}
+			#endif
 			
 			switch self.storageFormat {
-			case .jpeg: return image.jpegRepresentation(self.imageStorageQuality)
-			case .png: return image.pngRepresentation
+			case .jpeg: return image.jpegData(self.imageStorageQuality)
+			case .png: return image.pngData()
 			case .data: return nil
 			}
 		}
