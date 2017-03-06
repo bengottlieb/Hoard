@@ -1,0 +1,12 @@
+{
+  "mac-output" : [
+    "..\/Mac Framework\/Hoard.framework"
+  ],
+  "name" : "Hoard",
+  "working-directory" : "..\/",
+  "ios-output" : [
+    "..\/iOS Framework\/Hoard.framework"
+  ],
+  "scriptpath" : "..\/Hoard\/BuildFramework.sh",
+  "disabled" : false
+}
