@@ -1,0 +1,15 @@
+{
+  "disabled" : false,
+  "name": "Hoard",
+  "ios-frameworks" : [
+    "../Frameworks/Gulliver.framework",
+    "../Frameworks/GulliverUI.framework",
+    "../Frameworks/Plug.framework",
+    "../Frameworks/CommonCrypto.framework",
+    "../Frameworks/zlib.framework",
+  ],
+  "mac-frameworks" : [
+    "../Frameworks/MacFrameworks/Gulliver.framework",
+    "../Frameworks/MacFrameworks/Plug.framework",
+  ],
+}

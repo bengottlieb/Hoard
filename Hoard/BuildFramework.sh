@@ -19,17 +19,21 @@ MAC_FRAMEWORKS=/Users/ben/Documents/ManagedProjects/Frameworks/Mac_Builds
 GIT_BRANCH=`git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"`
 GIT_REV=`git rev-parse --short HEAD`
 
-BUILD_DATE=`date`
+BUILD_DATE=`date "+%c%m%d%H%M%S"`
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+BUILD_NUMBER=`echo $(expr $(git rev-list $BRANCH --count) - $(git rev-list HEAD..$BRANCH --count))`
 
 IOS_PLIST_PATH="${PROJECT_DIR}/Hoard/iOS/info.plist"
 /usr/libexec/PlistBuddy "${IOS_PLIST_PATH}" -c "Add :branch string ${GIT_BRANCH}"
 /usr/libexec/PlistBuddy "${IOS_PLIST_PATH}" -c "Add :rev string ${GIT_REV}"
 /usr/libexec/PlistBuddy "${IOS_PLIST_PATH}" -c "Add :built string ${BUILD_DATE}"
+/usr/libexec/PlistBuddy "${IOS_PLIST_PATH}" -c "Add :git_number string ${BUILD_NUMBER}"
 
 MAC_PLIST_PATH="${PROJECT_DIR}/Hoard/Mac/info.plist"
 /usr/libexec/PlistBuddy "${MAC_PLIST_PATH}" -c "Add :branch string ${GIT_BRANCH}"
 /usr/libexec/PlistBuddy "${MAC_PLIST_PATH}" -c "Add :rev string ${GIT_REV}"
 /usr/libexec/PlistBuddy "${MAC_PLIST_PATH}" -c "Add :built string ${BUILD_DATE}"
+/usr/libexec/PlistBuddy "${MAC_PLIST_PATH}" -c "Add :git_number string ${BUILD_NUMBER}"
 
 echo "plists updated"
 # make sure the output directory exists
@@ -103,10 +107,12 @@ cp -R "${BASE_BUILD_DIR}/${CONFIG}/${FRAMEWORK_NAME}.framework" "${MAC_FRAMEWORK
 $(/usr/libexec/PlistBuddy "${MAC_PLIST_PATH}" -c "Delete :branch" 2> /dev/null)
 $(/usr/libexec/PlistBuddy "${MAC_PLIST_PATH}" -c "Delete :rev" 2> /dev/null)
 $(/usr/libexec/PlistBuddy "${MAC_PLIST_PATH}" -c "Delete :built" 2> /dev/null)
+$(/usr/libexec/PlistBuddy "${MAC_PLIST_PATH}" -c "Delete :git_number" 2> /dev/null)
 
 $(/usr/libexec/PlistBuddy "${IOS_PLIST_PATH}" -c "Delete :branch" 2> /dev/null)
 $(/usr/libexec/PlistBuddy "${IOS_PLIST_PATH}" -c "Delete :rev" 2> /dev/null)
 $(/usr/libexec/PlistBuddy "${IOS_PLIST_PATH}" -c "Delete :built" 2> /dev/null)
+$(/usr/libexec/PlistBuddy "${IOS_PLIST_PATH}" -c "Delete :git_number" 2> /dev/null)
 
 # Step 7. Convenience step to open the project's directory in Finder
 #open "${PROJECT_DIR}"
