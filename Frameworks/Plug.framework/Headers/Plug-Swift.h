@@ -128,7 +128,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 @interface NSArray (SWIFT_EXTENSION(Plug))
-@property (nonatomic, readonly, copy) NSData * _Nullable JSONData;
+@property (nonatomic, readonly, copy) NSData * _Nullable jsonData;
 @end
 
 
@@ -138,7 +138,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 @interface NSDictionary (SWIFT_EXTENSION(Plug))
-@property (nonatomic, readonly, copy) NSData * _Nullable JSONData;
+@property (nonatomic, readonly, copy) NSData * _Nullable jsonData;
 @end
 
 
@@ -155,15 +155,17 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 @end
 
 
+@interface NSNull (SWIFT_EXTENSION(Plug))
+@end
+
+
 @interface NSNumber (SWIFT_EXTENSION(Plug))
-@property (nonatomic, readonly, copy) NSString * _Nullable JSONString;
-@property (nonatomic, readonly, copy) NSData * _Nullable JSONData;
+@property (nonatomic, readonly, copy) NSString * _Nullable jsonString;
 @end
 
 
 @interface NSString (SWIFT_EXTENSION(Plug))
-@property (nonatomic, readonly, copy) NSString * _Nullable JSONString;
-@property (nonatomic, readonly, copy) NSData * _Nullable JSONData;
+@property (nonatomic, readonly, copy) NSString * _Nullable jsonString;
 @end
 
 @class NSOperationQueue;
@@ -188,6 +190,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSURL * _Nonnu
 + (NSURL * _Nonnull)plugDirectoryURL;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (void)didBecomeActive;
++ (void)attemptReconnectionWithCompletion:(void (^ _Nullable)(void))completion;
 @property (nonatomic, readonly) BOOL areConnectionsInFlight;
 - (void)rebuildSession;
 - (void)setOnlineViaWifi:(BOOL)wifi orWAN:(BOOL)wan;
@@ -213,6 +216,12 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSURL * _Nonnu
 
 
 @interface Plug (SWIFT_EXTENSION(Plug))
+@end
+
+@class UIViewController;
+
+@interface Plug (SWIFT_EXTENSION(Plug))
++ (void)warnIfOfflineIn:(UIViewController * _Nonnull)parent title:(NSString * _Nullable)title message:(NSString * _Nullable)message execute:(void (^ _Nonnull)(void))execute;
 @end
 
 
