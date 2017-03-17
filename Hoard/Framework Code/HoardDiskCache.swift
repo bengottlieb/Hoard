@@ -11,6 +11,7 @@ import Foundation
 	import MobileCoreServices
 #endif
 import ImageIO
+import CrossPlatformKit
 
 open class DiskCache: Cache {
 	public enum StorageFormat: Int { case data, jpeg, png

@@ -7,6 +7,7 @@
 //
 
 import ImageIO
+import CrossPlatformKit
 
 public extension Cache {
 	public func fetchImage(_ from: URL) -> UXImage? {

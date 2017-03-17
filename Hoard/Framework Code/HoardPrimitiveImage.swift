@@ -7,13 +7,10 @@
 //
 
 import Foundation
+import CrossPlatformKit
 
 #if os(iOS)
 	import UIKit
-	public typealias UXImage = UIImage
-	public typealias UXRect = CGRect
-	public typealias UXColor = UIColor
-	
 	extension UIImage {
 		public var suggestedFileExtension: String { return "png" }
 		public class func withJPEGData(_ data: Data?) -> UIImage? {
@@ -37,10 +34,6 @@ import Foundation
 	}
 #else
 	import AppKit
-	public typealias UXImage = NSImage
-	public typealias UXRect = NSRect
-	public typealias UXColor = NSColor
-	
 	extension NSImage {
 		public var suggestedFileExtension: String { return "png" }
 		public func jpegData(_ quality: CGFloat) -> Data? {

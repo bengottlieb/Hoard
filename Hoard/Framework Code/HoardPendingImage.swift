@@ -8,6 +8,7 @@
 
 import Foundation
 import Plug
+import CrossPlatformKit
 
 public typealias ImageCompletion = (_ image: UXImage?, _ error: NSError?, _ fromCache: Bool) -> Void
 

@@ -52,6 +52,8 @@
 		B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */; };
 		B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
 		B5A482591AE5DE6A001636BE /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A482581AE5DE6A001636BE /* CoreAudio.framework */; };
+		B5C047881E7C314D00A2BE64 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C047871E7C314D00A2BE64 /* CrossPlatformKit.framework */; };
+		B5C0478A1E7C315A00A2BE64 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C047891E7C315A00A2BE64 /* CrossPlatformKit.framework */; };
 		B5CB6F9D1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */; };
 		B5CB6F9E1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */; };
 		B5CB6F9F1E1E7B8600116EB6 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */; };
@@ -115,6 +117,8 @@
 		B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+SA_Additions.swift"; sourceTree = "<group>"; };
 		B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageView.swift; sourceTree = "<group>"; };
 		B5A482581AE5DE6A001636BE /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		B5C047871E7C314D00A2BE64 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
+		B5C047891E7C315A00A2BE64 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
 		B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardPrimitiveImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5C0478A1E7C315A00A2BE64 /* CrossPlatformKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B59323351D91914B00A55E8F /* Plug.framework in Frameworks */,
+				B5C047881E7C314D00A2BE64 /* CrossPlatformKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +251,7 @@
 		B59323331D91914B00A55E8F /* MacFrameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B5C047871E7C314D00A2BE64 /* CrossPlatformKit.framework */,
 				B59323341D91914B00A55E8F /* Plug.framework */,
 			);
 			path = MacFrameworks;
@@ -253,6 +260,7 @@
 		B5A482401AE5838F001636BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B5C047891E7C315A00A2BE64 /* CrossPlatformKit.framework */,
 				B59323331D91914B00A55E8F /* MacFrameworks */,
 				B583A78B1CB495BC00AF73BA /* Gulliver.framework */,
 				B52533E91B8FF30A00126E11 /* Plug.framework */,
@@ -628,6 +636,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Frameworks/MacFrameworks",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -659,6 +668,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Frameworks/MacFrameworks",
 				);
 				INFOPLIST_FILE = Hoard/iOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

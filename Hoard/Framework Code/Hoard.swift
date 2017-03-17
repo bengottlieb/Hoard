@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CrossPlatformKit
 
 @objc public protocol HoardImageSource {
 	func generateImage(for: URL) -> UXImage?

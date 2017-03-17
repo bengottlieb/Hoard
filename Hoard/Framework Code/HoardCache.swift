@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CrossPlatformKit
 
 open class Cache: NSObject {
 	deinit {
