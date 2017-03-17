@@ -12,6 +12,7 @@ import Foundation
 	import UIKit
 	public typealias UXImage = UIImage
 	public typealias UXRect = CGRect
+	public typealias UXColor = UIColor
 	
 	extension UIImage {
 		public var suggestedFileExtension: String { return "png" }
@@ -38,6 +39,7 @@ import Foundation
 	import AppKit
 	public typealias UXImage = NSImage
 	public typealias UXRect = NSRect
+	public typealias UXColor = NSColor
 	
 	extension NSImage {
 		public var suggestedFileExtension: String { return "png" }
