@@ -4,9 +4,9 @@
   ],
   "name" : "Hoard",
   "working-directory" : "..\/",
-  "disabled" : false,
-  "scriptpath" : "..\/Hoard\/BuildFramework.sh",
   "ios-output" : [
     "..\/iOS Framework\/Hoard.framework"
-  ]
+  ],
+  "scriptpath" : "..\/Hoard\/BuildFramework.sh",
+  "disabled" : true
 }
