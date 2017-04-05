@@ -296,11 +296,11 @@ open class ImageView: UIView {
 		
 		switch (UIDevice.current.orientation) {
 		case .landscapeLeft:
-			transform = CGAffineTransform(rotationAngle: CGFloat(M_PI / 2.0))
+			transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2.0)
 			frame = CGRect(x: 0, y: 0, width: frame.height, height: frame.width)
 			
 		case .landscapeRight:
-			transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI / 2.0))
+			transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2.0)
 			frame = CGRect(x: 0, y: 0, width: frame.height, height: frame.width)
 			
 		default: break

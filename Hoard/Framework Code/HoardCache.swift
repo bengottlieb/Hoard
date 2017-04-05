@@ -102,7 +102,7 @@ open class Cache: NSObject {
 				if let existing = self.mapTable.object(forKey: key) as? CachedObjectInfo {
 					if existing.object == object { return }
 					
-					self.currentSize -= existing.size
+					self.currentSize -= Int64(existing.size)
 					self.mapTable.removeObject(forKey: key)
 				}
 
@@ -113,7 +113,7 @@ open class Cache: NSObject {
 				} else {
 					print("not a cachable object")
 				}
-				self.currentSize += size
+				self.currentSize += Int64(size)
 				self.mapTable.setObject(CachedObjectInfo(object: object, size: size, key: key), forKey: key)
 				
 				if !skipDisk, let cache = self.diskCache, let cachable = object as? HoardDiskCachable {
@@ -133,7 +133,7 @@ open class Cache: NSObject {
 		self.serialize {
 			let key = URL.cacheKey as NSString
 			if let current = self.mapTable.object(forKey: key) as? CachedObjectInfo {
-				self.currentSize -= current.size
+				self.currentSize -= Int64(current.size)
 				self.mapTable.removeObject(forKey: key)
 				self.diskCache?.remove(URL)
 			}
@@ -165,7 +165,7 @@ open class Cache: NSObject {
 			
 				while self.currentSize >= limit && index < current.count && current.count > 1 {
 					let oldest = current[index]
-					self.currentSize -= oldest.size
+					self.currentSize -= Int64(oldest.size)
 					self.mapTable.removeObject(forKey: oldest.key as AnyObject?)
 				}
 				index += 1

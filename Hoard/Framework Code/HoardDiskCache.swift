@@ -103,7 +103,7 @@ open class DiskCache: Cache {
 				let cacheURL = self.localURLForURL(URL)
 				if (try? data.write(to: cacheURL, options: [.atomic])) != nil {
 					self.updateAccessedAt(cacheURL)
-					self.currentSize += data.count
+					self.currentSize += Int64(data.count)
 				}
 				
 				if self.currentSize > self.cacheLimitSize { self.prune() }
