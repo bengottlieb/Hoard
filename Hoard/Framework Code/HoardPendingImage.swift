@@ -29,7 +29,7 @@ open class PendingImage: NSObject {
 		}
 		
 		let searchCache = pending.cache
-		if let image = searchCache.fetchImage(url) {
+		if let image = searchCache.fetchImage(for: url) {
 			pending.fetchedImage = image
 			pending.complete(true)
 //				pending.isComplete = true
@@ -43,7 +43,7 @@ open class PendingImage: NSObject {
 			let generationBlock = {
 				if let image = source.generateImage(for: url) {
 					pending.fetchedImage = image
-					searchCache.store(image, from: url)
+					searchCache.store(object: image, from: url)
 				}
 				pending.isComplete = true
 				HoardState.main_thread {
@@ -57,10 +57,10 @@ open class PendingImage: NSObject {
 			}
 		} else {
 			HoardState.instance.serializerQueue.addOperation {
-				if let existing = HoardState.instance.findExistingConnectionWithURL(url) {
+				if let existing = HoardState.instance.findExistingConnection(with: url) {
 					existing.dupes.append(pending)
 				} else {
-					HoardState.instance.enqueue(pending)
+					HoardState.instance.enqueue(pending: pending)
 				}
 			}
 		}
@@ -86,7 +86,7 @@ open class PendingImage: NSObject {
 				self.fetchedImage = image
 			}
 			self.complete(false)
-			self.cache.store(NSData(data: data.data), from: self.URL)
+			self.cache.store(object: data.data, from: self.URL)
 		}.error { conn, error in
 			print("error downloading from \(self.URL): \(error)")
 			if HoardState.debugLevel == .high { conn.log() }
@@ -96,14 +96,14 @@ open class PendingImage: NSObject {
 	}
 	
 	open func cancel() {
-		HoardState.instance.cancelPending(self)
+		HoardState.instance.cancel(image: self)
 		self.isCancelled = true
 	}
 	
 	open var isCachedAvailable: Bool {
 		if self.fetchedImage != nil { return true }
 		
-		return self.cache.isCacheDataAvailable(self.URL)
+		return self.cache.isCacheDataAvailable(for: self.URL)
 	}
 	
 	func complete(_ fromCache: Bool, image: UXImage? = nil) {
@@ -119,13 +119,13 @@ open class PendingImage: NSObject {
 			}
 		}
 		
-		if image == nil { HoardState.instance.completedPending(self) }
+		if image == nil { HoardState.instance.completed(image: self) }
 	}
 	
 	open var image: UXImage? {
 		if let image = self.fetchedImage { return image }
 		
-		if let image = self.cache.fetchImage(self.URL) {
+		if let image = self.cache.fetchImage(for: self.URL) {
 			self.fetchedImage = image
 			return image
 		}

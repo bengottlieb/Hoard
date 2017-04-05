@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CrossPlatformKit
 
 extension URL {
 	public var cacheKey: NSString {
@@ -16,15 +17,26 @@ extension URL {
 }
 
 extension Data: CacheStoredObject, HoardDiskCachable {
-	var hoardCacheData: Data { return self }
-	var hoardCacheSize: Int { return self.count }
+	public var hoardCacheData: Data { return self }
+	public var hoardCacheSize: Int { return self.count }
 }
 
-protocol CacheStoredObject {
+public protocol CacheStoredObject {
 	var hoardCacheSize: Int { get }
 }
 
 
-protocol HoardDiskCachable {
+public protocol HoardDiskCachable {
 	var hoardCacheData: Data { get }
+	var hashValue: Int { get }
+}
+
+func ==(lhs: HoardDiskCachable, rhs: HoardDiskCachable) -> Bool {
+	return lhs.hashValue == rhs.hashValue
+}
+
+
+extension UXImage: HoardDiskCachable {
+	public var hoardCacheData: Data { return self.pngData() ?? Data() }
+	public var hoardCacheSize: Int { return Int(self.size.width) * Int(self.size.height) }
 }

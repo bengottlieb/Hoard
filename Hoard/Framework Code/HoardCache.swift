@@ -14,7 +14,7 @@ open class Cache: NSObject {
 		NotificationCenter.default.removeObserver(self)
 	}
 	
-	open static var sharedCaches: [NSObject: Cache] = [:]
+	open static var sharedCaches: [AnyHashable: Cache] = [:]
 	
 	open class func sensibleMemorySizeForCurrentDevice() -> Int64 {
 		let info = ProcessInfo()
@@ -32,15 +32,15 @@ open class Cache: NSObject {
 		return "\(prefix)\(self.mapTable.count) objects, \(sizeString) of \(maxString)"
 	}
 	
-	open class func cacheForURL(_ URL: Foundation.URL, type: DiskCache.StorageFormat = .png, description: String? = nil) -> Cache {
-		if let existing = self.sharedCaches[URL as NSURL] { return existing }
+	open class func cache(for url: URL, type: DiskCache.StorageFormat = .png, description: String? = nil) -> Cache {
+		if let existing = self.sharedCaches[url] { return existing }
 		
-		let cache = Cache(diskCacheURL: URL, type: type, description: description)
-		self.sharedCaches[URL as NSURL] = cache
+		let cache = Cache(diskCacheURL: url, type: type, description: description)
+		self.sharedCaches[url] = cache
 		return cache
 	}
 	
-	open class func cacheForKey(_ key: String, type: DiskCache.StorageFormat = .png, description: String? = nil) -> Cache {
+	open class func cache(for key: String, type: DiskCache.StorageFormat = .png, description: String? = nil) -> Cache {
 		let objectKey = key as NSString
 		if let cache = self.sharedCaches[objectKey] { return cache }
 		
@@ -65,7 +65,7 @@ open class Cache: NSObject {
 		mapTable = NSMapTable(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options())
 		super.init()
 		#if os(iOS)
-			NotificationCenter.default.addObserver(self, selector: #selector(Cache.didReceiveMemoryWarning(_:)), name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
+			NotificationCenter.default.addObserver(self, selector: #selector(Cache.didReceiveMemoryWarning), name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
 		#endif
 	}
 	
@@ -94,11 +94,11 @@ open class Cache: NSObject {
 		self.diskCache?.clearOut()
 	}
 	
-	open func store(_ target: NSObject?, from URL: Foundation.URL, skipDisk: Bool = false) {
+	open func store(object: HoardDiskCachable?, from url: URL, skipDisk: Bool = false) {
 		self.serialize {
 			var size = 0
-			if let object = target {
-				let key = URL.cacheKey as NSString
+			if let object = object {
+				let key = url.cacheKey as NSString
 				if let existing = self.mapTable.object(forKey: key) as? CachedObjectInfo {
 					if existing.object == object { return }
 					
@@ -116,46 +116,46 @@ open class Cache: NSObject {
 				self.currentSize += Int64(size)
 				self.mapTable.setObject(CachedObjectInfo(object: object, size: size, key: key), forKey: key)
 				
-				if !skipDisk, let cache = self.diskCache, let cachable = object as? HoardDiskCachable {
-					cache.storeData(cachable.hoardCacheData, from: URL)
+				if !skipDisk, let cache = self.diskCache {
+					cache.storeData(object.hoardCacheData, from: url)
 					return
 				}
 				
 				self.prune()
-				self.diskCache?.store(object, from: URL)
+				self.diskCache?.store(object: object, from: url)
 			} else {
-				self.remove(URL)
+				self.remove(url)
 			}
 		}
 	}
 
-	open func remove(_ URL: Foundation.URL) {
+	open func remove(_ url: URL) {
 		self.serialize {
-			let key = URL.cacheKey as NSString
+			let key = url.cacheKey as NSString
 			if let current = self.mapTable.object(forKey: key) as? CachedObjectInfo {
 				self.currentSize -= Int64(current.size)
 				self.mapTable.removeObject(forKey: key)
-				self.diskCache?.remove(URL)
+				self.diskCache?.remove(url)
 			}
 		}
 	}
 	
-	open func fetch(_ from: URL) -> NSObject? {
-		if let info = self.mapTable.object(forKey: from.cacheKey) as? CachedObjectInfo {
-			self.diskCache?.updateAccessedAtForRemoteURL(from)
+	open func fetch(for url: URL) -> HoardDiskCachable? {
+		if let info = self.mapTable.object(forKey: url.cacheKey) as? CachedObjectInfo {
+			self.diskCache?.updateAccessedAtForRemoteURL(url)
 			info.accessedAt = Date().timeIntervalSinceReferenceDate
 			return info.object
 		}
 		return nil //self.diskCache?.fetchData(from)
 	}
 	
-	open func isCacheDataAvailable(_ URL: Foundation.URL) -> Bool {
-		if self.mapTable.object(forKey: URL.cacheKey) != nil { return true }
-		return self.diskCache?.isCacheDataAvailable(URL) ?? false
+	open func isCacheDataAvailable(for url: URL) -> Bool {
+		if self.mapTable.object(forKey: url.cacheKey) != nil { return true }
+		return self.diskCache?.isCacheDataAvailable(for: url) ?? false
 	}
 	
-	open func prune(_ size: Int64? = nil) {
-		HoardState.addMaintenanceBlock {
+	open func prune(to size: Int64? = nil) {
+		HoardState.addMaintenance {
 			self.serialize {
 				let limit = size ?? self.maxSize
 				if self.currentSize < limit { return }
@@ -173,7 +173,7 @@ open class Cache: NSObject {
 		}
 	}
 	
-	func didReceiveMemoryWarning(_ note: Notification) {
+	func didReceiveMemoryWarning(note: Notification) {
 		self.flushCache()
 	}
 }
@@ -190,12 +190,12 @@ extension Cache {
 
 extension Cache {
 	class CachedObjectInfo {
-		let object: NSObject
+		let object: HoardDiskCachable
 		let size: Int
 		var accessedAt: TimeInterval
 		let key: NSString
 		
-		init(object obj: NSObject, size sz: Int, key cacheKey: NSString, date: Date? = nil) {
+		init(object obj: HoardDiskCachable, size sz: Int, key cacheKey: NSString, date: Date? = nil) {
 			object = obj
 			size = sz
 			accessedAt = (date ?? Date()).timeIntervalSinceReferenceDate

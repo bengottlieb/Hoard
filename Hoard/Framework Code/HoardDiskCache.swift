@@ -70,7 +70,7 @@ open class DiskCache: Cache {
 		}
 	}
 	
-	func dataForObject(_ target: NSObject?) -> Data? {
+	func data(for target: HoardDiskCachable?) -> Data? {
 		if let image = target as? UXImage {
 			let data = NSMutableData()
 			let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, "image/jpeg" as CFString, nil)!.takeRetainedValue()
@@ -91,8 +91,7 @@ open class DiskCache: Cache {
 			case .data: return nil
 			}
 		}
-		if let storable = target as? HoardDiskCachable { return storable.hoardCacheData as Data }
-		return nil
+		return target?.hoardCacheData
 	}
 	
 	open func storeData(_ data: Data?, from URL: Foundation.URL, suggestedFileExtension: String? = nil) {
@@ -120,10 +119,10 @@ open class DiskCache: Cache {
 		}
 	}
 	
-	open func fetchData(_ from: URL) -> Data? {
-		let cachedURL = self.localURLForURL(from)
+	open func fetchData(for url: URL) -> Data? {
+		let cachedURL = self.localURLForURL(url)
 		if let data = try? Data(contentsOf: cachedURL) {
-			HoardState.addMaintenanceBlock { self.updateAccessedAt(cachedURL) }
+			HoardState.addMaintenance { self.updateAccessedAt(cachedURL) }
 			return data
 		}
 		return nil
@@ -170,8 +169,8 @@ open class DiskCache: Cache {
 		self.clearOut()
 	}
 
-	override open func store(_ target: NSObject?, from URL: Foundation.URL, skipDisk: Bool = false) {
-		if let data = self.dataForObject(target) {
+	override open func store(object: HoardDiskCachable?, from URL: Foundation.URL, skipDisk: Bool = false) {
+		if let data = self.data(for: object) {
 			self.storeData(data, from: URL, suggestedFileExtension: nil)
 		}
 	}
@@ -189,12 +188,12 @@ open class DiskCache: Cache {
 		}
 	}
 
-	open override func isCacheDataAvailable(_ URL: Foundation.URL) -> Bool {
-		return FileManager.default.fileExists(atPath: self.localURLForURL(URL).path)
+	open override func isCacheDataAvailable(for url: URL) -> Bool {
+		return FileManager.default.fileExists(atPath: self.localURLForURL(url).path)
 	}
 	
-	override open func prune(_ size: Int64? = nil) {
-		HoardState.addMaintenanceBlock {
+	override open func prune(to size: Int64? = nil) {
+		HoardState.addMaintenance {
 			let files = self.buildFileList().sorted(by: <)
 			var size: Int64 = files.reduce(0, { $0 + $1.size })
 			let max = self.maxSize

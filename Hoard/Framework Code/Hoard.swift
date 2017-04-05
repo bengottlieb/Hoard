@@ -44,17 +44,17 @@ open class HoardState: NSObject {
 	open static var debugLevel = DebugLevel.none
 	open weak var source: HoardImageSource?
 	
-	open static var defaultImageCache = Cache.cacheForKey(HoardState.mainImageCacheKey)
+	open static var defaultImageCache = Cache.cache(for: HoardState.mainImageCacheKey)
 	open static let mainImageCacheKey = "main-hoard-cache"
 	
 	//=============================================================================================
 	//MARK: Private
 	
-	class func addMaintenanceBlock(_ block: @escaping () -> Void) {
+	class func addMaintenance(block: @escaping () -> Void) {
 		HoardState.instance.maintenanceQueue.addOperation(block)
 	}
 	
-	func enqueue(_ pending: PendingImage? = nil) {
+	func enqueue(pending: PendingImage? = nil) {
 		if let pending = pending { self.pending.append(pending) }
 		if self.active.count < self.maxConcurrentDownloads && self.pending.count > 0 {
 			let next = self.pending[0]
@@ -64,7 +64,7 @@ open class HoardState: NSObject {
 		}
 	}
 	
-	func findExistingConnectionWithURL(_ url: URL) -> PendingImage? {
+	func findExistingConnection(with url: URL) -> PendingImage? {
 		var found = self.pending.filter({ $0.URL as URL == url })
 		if found.count > 0 { return found[0] }
 		
@@ -74,7 +74,7 @@ open class HoardState: NSObject {
 		return nil
 	}
 	
-	func completedPending(_ image: PendingImage) {
+	func completed(image: PendingImage) {
 		_ = self.pending.remove(image)
 		
 		if image.isComplete {
@@ -85,8 +85,8 @@ open class HoardState: NSObject {
 		}
 	}
 	
-	func cancelPending(_ image: PendingImage) {
-		self.completedPending(image)
+	func cancel(image: PendingImage) {
+		self.completed(image: image)
 	}
 	
 	let serializerQueue = OperationQueue()
