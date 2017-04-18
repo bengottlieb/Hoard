@@ -215,54 +215,49 @@ let HoardLastAccessedAtDateAttributeName = "lastAccessed:com.standalone.hoard"
 let HoardLastStoredAtDateAttributeName = "lastStored:com.standalone.hoard"
 
 extension DiskCache {
-	func updateAccessedAt(_ URL: Foundation.URL) {
-		var seconds = Date().timeIntervalSinceReferenceDate
-		let size = MemoryLayout<TimeInterval>.size
-		let path = URL.path
-		
-		if !FileManager.default.fileExists(atPath: path) { return }
-		let result = setxattr(URL.path, HoardLastAccessedAtDateAttributeName, &seconds, size, 0, 0)
-		if result != 0 {
-			print("Unable to set accessed at on \(path): \(result)")
-		}
+	func updateAccessedAt(_ url: URL) {
+		url.set(timestamp: Date().timeIntervalSinceReferenceDate, forAttribute: HoardLastAccessedAtDateAttributeName)
 	}
 	
-	func accessedAt(_ URL: Foundation.URL) -> Date? {
-		var seconds: TimeInterval = 0
-		let result = getxattr(URL.path, HoardLastAccessedAtDateAttributeName, &seconds, MemoryLayout<TimeInterval>.size, 0, 0)
-		
-		if result == MemoryLayout<TimeInterval>.size {
-			return Date(timeIntervalSinceReferenceDate: TimeInterval(seconds))
-		}
-		
-		return nil
+	func accessedAt(_ url: URL) -> Date? {
+		return url.timestamp(forAttribute: HoardLastAccessedAtDateAttributeName)
 	}
 
-	func updateStoredAt(_ URL: Foundation.URL) {
-		var seconds = Date().timeIntervalSinceReferenceDate
-		let size = MemoryLayout<TimeInterval>.size
-		let path = URL.path
-		
-		if !FileManager.default.fileExists(atPath: path) { return }
-		let result = setxattr(URL.path, HoardLastStoredAtDateAttributeName, &seconds, size, 0, 0)
-		if result != 0 {
-			print("Unable to set stored at on \(path): \(result)")
-		}
+	func updateStoredAt(_ url: URL) {
+		url.set(timestamp: Date().timeIntervalSinceReferenceDate, forAttribute: HoardLastStoredAtDateAttributeName)
 	}
 	
-	func storedAt(_ URL: Foundation.URL) -> Date? {
-		var seconds: TimeInterval = 0
-		let result = getxattr(URL.path, HoardLastStoredAtDateAttributeName, &seconds, MemoryLayout<TimeInterval>.size, 0, 0)
-		
-		if result == MemoryLayout<TimeInterval>.size {
-			return Date(timeIntervalSinceReferenceDate: TimeInterval(seconds))
-		}
-		
-		return nil
+	func storedAt(_ url: URL) -> Date? {
+		return url.timestamp(forAttribute: HoardLastStoredAtDateAttributeName)
 	}
 }
 
-extension Foundation.URL {
+extension URL {
+	public func set(timestamp: TimeInterval, forAttribute name: String) {
+		if !self.isFileURL { return }
+
+		var seconds = timestamp
+		let size = MemoryLayout<TimeInterval>.size
+		let path = self.path
+		
+		if !FileManager.default.fileExists(atPath: path) { return }
+		let result = setxattr(path, name, &seconds, size, 0, 0)
+		if result != 0 {
+			print("Unable to set \(name) at on \(path): \(result)")
+		}
+	}
+	
+	public func timestamp(forAttribute name: String) -> Date? {
+		if !self.isFileURL { return nil }
+		var seconds: TimeInterval = 0
+		let result = getxattr(self.path, name, &seconds, MemoryLayout<TimeInterval>.size, 0, 0)
+		
+		if result == MemoryLayout<TimeInterval>.size {
+			return Date(timeIntervalSinceReferenceDate: TimeInterval(seconds))
+		}
+		return nil
+	}
+	
 	public func cachedFilename(_ suggestedFileExtension: String? = nil) -> String {
 		let basic = self.lastPathComponent
 		let nameOnly = (basic as NSString).deletingPathExtension
