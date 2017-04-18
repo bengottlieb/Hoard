@@ -45,8 +45,12 @@ open class Cache: NSObject {
 		if let cache = self.sharedCaches[objectKey] { return cache }
 		
 		let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-		let URL = urls[0].appendingPathComponent(key)
-		let cache = Cache(diskCacheURL: URL, type: type, description: description)
+		var url = urls[0]
+		
+		if let bundleID = Bundle.main.bundleIdentifier { url = url.appendingPathComponent(bundleID) }
+		url = url.appendingPathComponent(key)
+		
+		let cache = Cache(diskCacheURL: url, type: type, description: description)
 		self.sharedCaches[objectKey] = cache
 		return cache
 	}
@@ -140,7 +144,7 @@ open class Cache: NSObject {
 		}
 	}
 	
-	open func fetch(for url: URL) -> HoardDiskCachable? {
+	open func fetch(for url: URL, moreRecentThan: Date? = nil) -> HoardDiskCachable? {
 		if let info = self.mapTable.object(forKey: url.cacheKey) as? CachedObjectInfo {
 			self.diskCache?.updateAccessedAtForRemoteURL(url)
 			info.accessedAt = Date().timeIntervalSinceReferenceDate

@@ -101,7 +101,7 @@ open class DiskCache: Cache {
 			if let data = data {
 				let cacheURL = self.localURLForURL(URL)
 				if (try? data.write(to: cacheURL, options: [.atomic])) != nil {
-					self.updateAccessedAt(cacheURL)
+					self.updateStoredAt(cacheURL)
 					self.currentSize += Int64(data.count)
 				}
 				
@@ -119,8 +119,11 @@ open class DiskCache: Cache {
 		}
 	}
 	
-	open func fetchData(for url: URL) -> Data? {
+	open func fetchData(for url: URL, moreRecentThan: Date? = nil) -> Data? {
 		let cachedURL = self.localURLForURL(url)
+		
+		if let date = moreRecentThan, let storedAt = self.storedAt(cachedURL), storedAt < date { return nil }
+		
 		if let data = try? Data(contentsOf: cachedURL) {
 			HoardState.addMaintenance { self.updateAccessedAt(cachedURL) }
 			return data
@@ -209,6 +212,7 @@ open class DiskCache: Cache {
 }
 
 let HoardLastAccessedAtDateAttributeName = "lastAccessed:com.standalone.hoard"
+let HoardLastStoredAtDateAttributeName = "lastStored:com.standalone.hoard"
 
 extension DiskCache {
 	func updateAccessedAt(_ URL: Foundation.URL) {
@@ -230,7 +234,30 @@ extension DiskCache {
 		if result == MemoryLayout<TimeInterval>.size {
 			return Date(timeIntervalSinceReferenceDate: TimeInterval(seconds))
 		}
+		
+		return nil
+	}
 
+	func updateStoredAt(_ URL: Foundation.URL) {
+		var seconds = Date().timeIntervalSinceReferenceDate
+		let size = MemoryLayout<TimeInterval>.size
+		let path = URL.path
+		
+		if !FileManager.default.fileExists(atPath: path) { return }
+		let result = setxattr(URL.path, HoardLastStoredAtDateAttributeName, &seconds, size, 0, 0)
+		if result != 0 {
+			print("Unable to set stored at on \(path): \(result)")
+		}
+	}
+	
+	func storedAt(_ URL: Foundation.URL) -> Date? {
+		var seconds: TimeInterval = 0
+		let result = getxattr(URL.path, HoardLastStoredAtDateAttributeName, &seconds, MemoryLayout<TimeInterval>.size, 0, 0)
+		
+		if result == MemoryLayout<TimeInterval>.size {
+			return Date(timeIntervalSinceReferenceDate: TimeInterval(seconds))
+		}
+		
 		return nil
 	}
 }
