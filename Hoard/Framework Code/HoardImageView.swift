@@ -23,11 +23,11 @@ open class ImageView: UIView {
 	open var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
 	
 	var shouldFadeIn = false
-	var imageURL: Foundation.URL?
-	open var URL: Foundation.URL? {
+	var imageURL: URL?
+	open var url: URL? {
 		set {
 			if newValue == self.displayedURL && (self.image != nil || self.pendingImage != nil)  { return }
-			if let pendingURL = self.pendingImage?.url, let actualURL = newValue, actualURL == pendingURL as URL { return }
+			if let pendingURL = self.pendingImage?.url, let actualURL = newValue, actualURL == pendingURL { return }
 			self.shouldFadeIn = false
 			self.setURL(newValue)
 			self.shouldFadeIn = true
@@ -37,7 +37,7 @@ open class ImageView: UIView {
 	}
 	
 	open func reloadImage() {
-		if let url = self.URL {
+		if let url = self.url {
 			self.setURL(url)
 		}
 	}
@@ -56,7 +56,7 @@ open class ImageView: UIView {
 		self.loadingIndicator?.stopAnimating()
 	}
 	
-	open func setURL(_ url: Foundation.URL?, placeholder: UIImage? = nil, duration: TimeInterval = 0.2) {
+	open func setURL(_ url: URL?, placeholder: UIImage? = nil, duration: TimeInterval = 0.2) {
 		self.imageURL = url
 		
 		self.pendingImage?.cancel()
@@ -95,9 +95,9 @@ open class ImageView: UIView {
 				}
 			})
 			
-			if let image = self.pendingImage?.image, let url = self.pendingImage?.url , (self.displayedURL == nil || self.displayedURL != url as URL) {
+			if let image = self.pendingImage?.image, let url = self.pendingImage?.url , (self.displayedURL == nil || self.displayedURL != url) {
 				self.image = image
-				self.displayedURL = url as URL
+				self.displayedURL = url
 			}
 		} else {
 			self.hideActivityIndicator()
@@ -117,7 +117,7 @@ open class ImageView: UIView {
 		self.backgroundColor = UIColor.clear
 	}
 	
-	var displayedURL: Foundation.URL? { didSet {
+	var displayedURL: URL? { didSet {
 		if let url = self.displayedURL {
 			self.urlLabel?.text = url.absoluteString
 		} else {
@@ -224,7 +224,7 @@ open class ImageView: UIView {
 	
 	var parentGallery: ImageGalleryView?
 	var galleryIndex: Int? {
-		return self.parentGallery?.imageURLs.index(of: self.URL!)
+		return self.parentGallery?.imageURLs.index(of: self.url!)
 	}
 	
 	open func makeFullScreen() -> ImageGalleryView? {
@@ -236,9 +236,9 @@ open class ImageView: UIView {
 			
 			if let parent = self.parentGallery {
 				self.fullScreenView!.setURLs(parent.imageURLs, placeholder: self.placeholder)
-				self.fullScreenView!.setCurrentIndex(parent.imageURLs.index(of: self.URL!) ?? 0, animated: false)
+				self.fullScreenView!.setCurrentIndex(parent.imageURLs.index(of: self.url!) ?? 0, animated: false)
 			} else {
-				self.fullScreenView?.setURLs(self.parentGallery?.imageURLs ?? [self.URL!], placeholder: self.placeholder)
+				self.fullScreenView?.setURLs(self.parentGallery?.imageURLs ?? [self.url!], placeholder: self.placeholder)
 			}
 			self.fullScreenView?.backgroundColor = UIColor.black
 			//self.fullScreenView?.image = self.image

@@ -57,7 +57,7 @@ open class Cache: NSObject {
 	
 	init(diskCacheURL: URL? = nil, type: DiskCache.StorageFormat = .data, description desc: String? = nil) {
 		if let url = diskCacheURL {
-			diskCache = DiskCache(URL: url, type: type, description: (desc ?? "") + " Disk Cache")
+			diskCache = DiskCache(url: url, type: type, description: (desc ?? "") + " Disk Cache")
 		} else {
 			diskCache = nil
 		}

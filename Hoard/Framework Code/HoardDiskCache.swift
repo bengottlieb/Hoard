@@ -29,18 +29,18 @@ open class DiskCache: Cache {
 	open var imageStorageQuality: CGFloat = 0.9
 	var diskQueue: OperationQueue
 	
-	public init(URL: Foundation.URL, type: StorageFormat = .png, description: String?) {
-		baseURL = URL
+	public init(url: URL, type: StorageFormat = .png, description: String?) {
+		baseURL = url
 		storageFormat = type
 		diskQueue = OperationQueue()
 		diskQueue.maxConcurrentOperationCount = 1
 		diskQueue.qualityOfService = .utility
 
 		do {
-			try FileManager.default.createDirectory(at: URL, withIntermediateDirectories: true, attributes: nil)
+			try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
 			valid = true
 		} catch let error {
-			print("Unable to instantiate a disk cache at \(URL.path): \(error)")
+			print("Unable to instantiate a disk cache at \(url.path): \(error)")
 			valid = false
 		}
 		super.init(description: description)
@@ -94,12 +94,12 @@ open class DiskCache: Cache {
 		return target?.hoardCacheData
 	}
 	
-	open func storeData(_ data: Data?, from URL: Foundation.URL, suggestedFileExtension: String? = nil, validUntil: Date? = nil) {
+	open func storeData(_ data: Data?, from url: URL, suggestedFileExtension: String? = nil, validUntil: Date? = nil) {
 		if !self.valid { return }
 	
 		self.performDiskOperation {
 			if let data = data {
-				var cacheURL = self.localURLForURL(URL)
+				var cacheURL = self.localURLForURL(url)
 				if (try? data.write(to: cacheURL, options: [.atomic])) != nil {
 					cacheURL.storedAt = Date()
 					self.currentSize += Int64(data.count)
@@ -108,14 +108,14 @@ open class DiskCache: Cache {
 				
 				if self.currentSize > self.cacheLimitSize { self.prune() }
 			} else {
-				self.remove(URL)
+				self.remove(url)
 			}
 		}
 	}
 	
-	func updateAccessedAtForRemoteURL(_ URL: Foundation.URL) {
+	func updateAccessedAtForRemoteURL(_ url: URL) {
 		self.performDiskOperation {
-			var cachedURL = self.localURLForURL(URL)
+			var cachedURL = self.localURLForURL(url)
 			cachedURL.accessedAt = Date()
 		}
 	}
@@ -133,8 +133,8 @@ open class DiskCache: Cache {
 	}
 	
 	
-	open func localURLForURL(_ URL: Foundation.URL) -> Foundation.URL {
-		return self.baseURL.appendingPathComponent(URL.cachedFilename(self.storageFormat.suggestedFileExtension))
+	open func localURLForURL(_ url: URL) -> URL {
+		return self.baseURL.appendingPathComponent(url.cachedFilename(self.storageFormat.suggestedFileExtension))
 	}
 	
 	func optimalCacheSize() -> Int64 {
@@ -150,7 +150,7 @@ open class DiskCache: Cache {
 		do {
 			let urls = try FileManager.default.contentsOfDirectory(at: self.baseURL, includingPropertiesForKeys: [URLResourceKey.fileSizeKey], options: [.skipsSubdirectoryDescendants, .skipsHiddenFiles])
 			for url in urls {
-				files.append(HoardFileInfo(URL: url))
+				files.append(HoardFileInfo(url: url))
 			}
 		} catch {}
 		
@@ -173,21 +173,21 @@ open class DiskCache: Cache {
 		self.clearOut()
 	}
 
-	override open func store(object: HoardDiskCachable?, from URL: Foundation.URL, skipDisk: Bool = false, validUntil: Date? = nil) {
+	override open func store(object: HoardDiskCachable?, from url: URL, skipDisk: Bool = false, validUntil: Date? = nil) {
 		if let data = self.data(for: object) {
-			self.storeData(data, from: URL, suggestedFileExtension: nil, validUntil: validUntil)
+			self.storeData(data, from: url, suggestedFileExtension: nil, validUntil: validUntil)
 		}
 	}
 
-	open override func remove(_ URL: Foundation.URL) {
+	open override func remove(_ url: URL) {
 		self.performDiskOperation {
-			let cacheURL = self.localURLForURL(URL)
+			let cacheURL = self.localURLForURL(url)
 			
 			self.currentSize -= FileManager.default.fileSizeAtURL(cacheURL)
 			do {
 				try FileManager.default.removeItem(at: cacheURL)
 			} catch let error {
-				print("Failed to remove cached data for URL \(URL.path): \(error)")
+				print("Failed to remove cached data for URL \(url.path): \(error)")
 			}
 		}
 	}
@@ -269,21 +269,21 @@ extension URL {
 }
 
 class HoardFileInfo: CustomStringConvertible, Comparable {
-	let URL: Foundation.URL
+	let url: URL
 	let size: Int64
 	let accessedAt: TimeInterval
-	init(URL file: Foundation.URL) {
-		URL = file
+	init(url file: URL) {
+		url = file
 		let path = file.path
 		var seconds: TimeInterval = 0
 		let result = getxattr(path, HoardLastAccessedAtDateAttributeName, &seconds, MemoryLayout<TimeInterval>.size, 0, 0)
 		accessedAt = result == MemoryLayout<TimeInterval>.size ? seconds : TimeInterval(0)
-		size = FileManager.default.fileSizeAtURL(URL)
+		size = FileManager.default.fileSizeAtURL(url)
 	}
 	
 	func remove() -> Int64 {
 		do {
-			try FileManager.default.removeItem(at: self.URL)
+			try FileManager.default.removeItem(at: self.url)
 			return self.size
 		} catch {}
 		return 0
@@ -294,13 +294,13 @@ class HoardFileInfo: CustomStringConvertible, Comparable {
 		if self.size < 1024 * 1024 { return "\(self.size / 1024) KB" }
 		return "\(self.size / (1024 * 1024)) MB"
 	}
-	var description: String { return "\(self.accessedAt) / \(self.URL.lastPathComponent) / \(self.sizeString)" }
+	var description: String { return "\(self.accessedAt) / \(self.url.lastPathComponent) / \(self.sizeString)" }
 }
 
 extension FileManager {
-	func fileSizeAtURL(_ URL: Foundation.URL) -> Int64 {
+	func fileSizeAtURL(_ url: URL) -> Int64 {
 		do {
-			let info = try FileManager.default.attributesOfItem(atPath: URL.path)
+			let info = try FileManager.default.attributesOfItem(atPath: url.path)
 			return Int64(info[FileAttributeKey.size] as? Int ?? 0)
 		} catch {
 			return 0
@@ -313,5 +313,5 @@ func <(lhs: HoardFileInfo, rhs: HoardFileInfo) -> Bool {
 }
 
 func ==(lhs: HoardFileInfo, rhs: HoardFileInfo) -> Bool {
-	return lhs.URL == rhs.URL
+	return lhs.url == rhs.url
 }

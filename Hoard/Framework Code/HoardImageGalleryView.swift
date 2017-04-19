@@ -52,7 +52,7 @@ open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
 		if index < 0 || index >= self.imageURLs.count { return nil }
 		
 		for imageView in self.usedImageViews {
-			if imageView.URL == self.imageURLs[index] { return imageView }
+			if imageView.url == self.imageURLs[index] { return imageView }
 		}
 		return nil
 	}
@@ -150,9 +150,9 @@ open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
 		var instantiatedURLs: [URL] = []
 		
 		for view in self.usedImageViews {
-			if let url = view.URL , visibleURLs.contains(url as URL) {
+			if let url = view.url , visibleURLs.contains(url) {
 				_ = removeThese.remove(view)
-				instantiatedURLs.append(url as URL)
+				instantiatedURLs.append(url)
 			}
 		}
 		
