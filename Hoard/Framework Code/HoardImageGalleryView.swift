@@ -11,7 +11,7 @@ import UIKit
 open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
 	public enum ImageCountLocation { case none, upperLeft, upperRight, lowerLeft, lowerRight }
 
-	open func setURLs(_ urls: [URL], placeholder: UIImage? = nil, duration: TimeInterval = 0.2) {
+	open func load(urls: [URL], placeholder: UIImage? = nil, duration: TimeInterval = 0.2) {
 		self.animationDuration = duration
 		self.placeholderImage = placeholder
 		self.imageURLs = urls
@@ -36,7 +36,7 @@ open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
 	}
 	
 	
-	open func setCurrentIndex(_ index: Int, animated: Bool) {
+	open func setCurrent(index: Int, animated: Bool) {
 		self.setupScrollView()
 		self.scrollView.setContentOffset(CGPoint(x: self.scrollView.bounds.width * CGFloat(index), y: 0.0), animated: animated)
 		self.updateImageCount()
@@ -99,7 +99,7 @@ open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
 				self.pageIndicators?.hidesForSinglePage = true
 				self.addSubview(self.pageIndicators!)
 				self.pageIndicators?.backgroundColor = UIColor.clear
-				self.pageIndicators?.addTarget(self, action: #selector(ImageGalleryView.pageIndicatorValueChanged(_:)), for: .valueChanged)
+				self.pageIndicators?.addTarget(self, action: #selector(ImageGalleryView.pageIndicatorValueChanged), for: .valueChanged)
 				self.pageIndicators?.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin, .flexibleRightMargin]
 			}
 			
@@ -113,7 +113,7 @@ open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
 	}
 	
 	func pageIndicatorValueChanged(_ pageControl: UIPageControl) {
-		self.setCurrentIndex(pageControl.currentPage, animated: true)
+		self.setCurrent(index: pageControl.currentPage, animated: true)
 	}
 	
 	func resetContents() {
@@ -174,7 +174,7 @@ open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
 			let url = self.imageURLs[index]
 			if !instantiatedURLs.contains(url) {
 				let view = self.nextAvailableImageView
-				view.setURL(self.imageURLs[index], placeholder: self.placeholderImage)
+				view.set(url: self.imageURLs[index], placeholder: self.placeholderImage)
 				view.bounds = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
 				view.center = CGPoint(x: left + view.bounds.width / 2, y: view.bounds.height / 2)
 				self.usedImageViews.append(view)

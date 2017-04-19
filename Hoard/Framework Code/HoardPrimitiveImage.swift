@@ -17,14 +17,6 @@ import CrossPlatformKit
 			guard let data = data else { return nil }
 			return UIImage(data: data)
 		}
-		
-		public func jpegData(_ quality: CGFloat) -> Data? {
-			return UIImageJPEGRepresentation(self, 0.9)
-		}
-		
-		public func pngData() -> Data? {
-			return UIImagePNGRepresentation(self)
-		}
 	}
 	
 	extension Bundle {
@@ -36,25 +28,6 @@ import CrossPlatformKit
 	import AppKit
 	extension NSImage {
 		public var suggestedFileExtension: String { return "png" }
-		public func jpegData(_ quality: CGFloat) -> Data? {
-			if let tiff = self.tiffRepresentation {
-				let rep = NSBitmapImageRep(data: tiff)
-				return rep?.representation(using: .JPEG, properties: [NSImageCompressionFactor: quality])
-			}
-			return nil
-		}
-		public func pngData() -> Data? {
-			if let tiff = self.tiffRepresentation {
-				let rep = NSBitmapImageRep(data: tiff)
-				return rep?.representation(using: .PNG, properties: [:])
-			}
-			return nil
-		}
-  
-		public class func withJPEGData(_ data: Data?) -> NSImage? {
-			guard let data = data else { return nil }
-			return NSImage(data: data)
-		}
 		
 		public convenience init(cgImage: CGImage) {
 			self.init(cgImage: cgImage, size: NSSize.zero)

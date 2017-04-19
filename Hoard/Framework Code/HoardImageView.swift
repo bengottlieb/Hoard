@@ -29,7 +29,7 @@ open class ImageView: UIView {
 			if newValue == self.displayedURL && (self.image != nil || self.pendingImage != nil)  { return }
 			if let pendingURL = self.pendingImage?.url, let actualURL = newValue, actualURL == pendingURL { return }
 			self.shouldFadeIn = false
-			self.setURL(newValue)
+			self.set(url: newValue)
 			self.shouldFadeIn = true
 			if self.pendingImage?.isComplete ?? false { self.pendingImage = nil }
 		}
@@ -38,7 +38,7 @@ open class ImageView: UIView {
 	
 	open func reloadImage() {
 		if let url = self.url {
-			self.setURL(url)
+			self.set(url: url)
 		}
 	}
 	
@@ -56,7 +56,7 @@ open class ImageView: UIView {
 		self.loadingIndicator?.stopAnimating()
 	}
 	
-	open func setURL(_ url: URL?, placeholder: UIImage? = nil, duration: TimeInterval = 0.2) {
+	open func set(url: URL?, placeholder: UIImage? = nil, duration: TimeInterval = 0.2) {
 		self.imageURL = url
 		
 		self.pendingImage?.cancel()
@@ -67,7 +67,7 @@ open class ImageView: UIView {
 			if HoardState.debugLevel != .none { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString.hash % 255) / 255.0, green: CGFloat(url.absoluteString.hash % 253) / 255.0, blue: CGFloat(url.absoluteString.hash % 254) / 255.0, alpha: 1.0) }
 			let tempURL = url
 			self.displayedURL = nil
-			self.pendingImage = PendingImage.request(url, source: self.imageSource, cache: self.imageCache, completion: { [weak self] image, error, fromCache in
+			self.pendingImage = PendingImage.request(from: url, source: self.imageSource, cache: self.imageCache, completion: { [weak self] image, error, fromCache in
 				if let imageView = self {
 					if let error = error { print("Error while downloading image from \(url): \(error)") }
 					imageView.hideActivityIndicator()
@@ -146,7 +146,7 @@ open class ImageView: UIView {
 				
 				self.imageLayer.opacity = 1.0
 				self.imageLayer.contents = image.cgImage
-				self.imageLayer.frame = self.frameForImageSize(image.size)
+				self.imageLayer.frame = self.frame(for: image.size)
 			} else {
 				self.imageLayer?.contents = nil
 				self.imageLayer?.opacity = 0.0
@@ -156,7 +156,7 @@ open class ImageView: UIView {
 	
 	}
 
-	func frameForImageSize(_ size: CGSize) -> CGRect {
+	func frame(for size: CGSize) -> CGRect {
 		let aspectRatio = size.width / size.height
 		let myRatio = self.bounds.width / self.bounds.height
 		var height: CGFloat = 0
@@ -205,7 +205,7 @@ open class ImageView: UIView {
 	open override func layoutSubviews() {
 		super.layoutSubviews()
 		if let image = self.image {
-			self.imageLayer?.frame = self.frameForImageSize(image.size)
+			self.imageLayer?.frame = self.frame(for: image.size)
 		}
 	}
 	
@@ -214,7 +214,7 @@ open class ImageView: UIView {
 	
 	func updateDeviceOrientationNotifications() {
 		if self.useDeviceOrientation {
-			NotificationCenter.default.addObserver(self, selector: #selector(ImageView.orientationChanged(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+			NotificationCenter.default.addObserver(self, selector: #selector(ImageView.orientationChanged), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		} else {
 			NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		}
@@ -235,10 +235,10 @@ open class ImageView: UIView {
 			self.fullScreenView = ImageGalleryView(frame: newFrame)
 			
 			if let parent = self.parentGallery {
-				self.fullScreenView!.setURLs(parent.imageURLs, placeholder: self.placeholder)
-				self.fullScreenView!.setCurrentIndex(parent.imageURLs.index(of: self.url!) ?? 0, animated: false)
+				self.fullScreenView!.load(urls: parent.imageURLs, placeholder: self.placeholder)
+				self.fullScreenView!.setCurrent(index: parent.imageURLs.index(of: self.url!) ?? 0, animated: false)
 			} else {
-				self.fullScreenView?.setURLs(self.parentGallery?.imageURLs ?? [self.url!], placeholder: self.placeholder)
+				self.fullScreenView?.load(urls: self.parentGallery?.imageURLs ?? [self.url!], placeholder: self.placeholder)
 			}
 			self.fullScreenView?.backgroundColor = UIColor.black
 			//self.fullScreenView?.image = self.image
@@ -255,7 +255,7 @@ open class ImageView: UIView {
 				self.fullScreenView?.alpha = 1.0
 				self.fullScreenView?.frame = (host?.frame)!
 			}, completion: { completed in })
-			self.fullScreenView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ImageView.fullScreenTouched(_:))))
+			self.fullScreenView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ImageView.fullScreenTouched)))
 		//	self.fullScreenView?.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "share:"))
 		}
 		
@@ -265,7 +265,7 @@ open class ImageView: UIView {
 		return self.fullScreenView
 	}
 	
-	func fullScreenTouched(_ recog: UITapGestureRecognizer) {
+	func fullScreenTouched(recog: UITapGestureRecognizer) {
 		let location = recog.location(in: self.fullScreenView!)
 		let hit = self.fullScreenView!.hitTest(location, with: nil)
 		
@@ -274,7 +274,7 @@ open class ImageView: UIView {
 	
 	func dismissFullScreen() {
 		if s_currentImageView == self { s_currentImageView = nil }
-		self.parentGallery?.setCurrentIndex(self.fullScreenView!.currentIndex, animated: false)
+		self.parentGallery?.setCurrent(index: self.fullScreenView!.currentIndex, animated: false)
 		if let host = self.fullScreenView?.superview {
 			let newFrame = self.convert(self.bounds, to: host)
 			UIView.animate(withDuration: 0.25 * (HoardState.debugLevel != .none ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
@@ -290,7 +290,7 @@ open class ImageView: UIView {
 		}
 	}
 	
-	func orientationChanged(_ note: Notification) {
+	func orientationChanged(note: Notification) {
 		var frame = UIScreen.main.bounds
 		var transform = CGAffineTransform.identity
 		
@@ -321,7 +321,7 @@ open class ImageView: UIView {
 		if self.tapForFullScreen {
 			if self.tapRecognizer == nil {
 				self.isUserInteractionEnabled = true
-				self.tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageView.imageTapped(_:)))
+				self.tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageView.imageTapped))
 				self.addGestureRecognizer(self.tapRecognizer!)
 			}
 		} else {
@@ -332,7 +332,7 @@ open class ImageView: UIView {
 		}
 	}
 	
-	func imageTapped(_ recog: UITapGestureRecognizer) {
+	func imageTapped(recog: UITapGestureRecognizer) {
 		let location = recog.location(in: self)
 		if let tapped = self.hitTest(location, with: nil) as? ImageView {
 			_ = tapped.makeFullScreen()

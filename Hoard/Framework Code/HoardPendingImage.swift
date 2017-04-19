@@ -20,7 +20,7 @@ open class PendingImage: NSObject {
 	open let priority: Int
 	open var error: NSError?
 	
-	open class func request(_ url: URL, source: HoardImageSource? = nil, cache: Cache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
+	open class func request(from url: URL, source: HoardImageSource? = nil, cache: Cache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
 		let pending = PendingImage(url: url, cache: cache, completion: completion)
 		
 		if pending.isCachedAvailable {

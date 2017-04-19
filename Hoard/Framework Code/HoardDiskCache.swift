@@ -86,7 +86,7 @@ open class DiskCache: Cache {
 			#endif
 			
 			switch self.storageFormat {
-			case .jpeg: return image.jpegData(self.imageStorageQuality)
+			case .jpeg: return image.jpegData(withQuality: self.imageStorageQuality)
 			case .png: return image.pngData()
 			case .data: return nil
 			}
