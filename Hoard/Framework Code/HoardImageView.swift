@@ -27,7 +27,7 @@ open class ImageView: UIView {
 	open var URL: Foundation.URL? {
 		set {
 			if newValue == self.displayedURL && (self.image != nil || self.pendingImage != nil)  { return }
-			if let pendingURL = self.pendingImage?.URL, let actualURL = newValue , actualURL == pendingURL as URL { return }
+			if let pendingURL = self.pendingImage?.url, let actualURL = newValue, actualURL == pendingURL as URL { return }
 			self.shouldFadeIn = false
 			self.setURL(newValue)
 			self.shouldFadeIn = true
@@ -95,7 +95,7 @@ open class ImageView: UIView {
 				}
 			})
 			
-			if let image = self.pendingImage?.image, let url = self.pendingImage?.URL , (self.displayedURL == nil || self.displayedURL != url as URL) {
+			if let image = self.pendingImage?.image, let url = self.pendingImage?.url , (self.displayedURL == nil || self.displayedURL != url as URL) {
 				self.image = image
 				self.displayedURL = url as URL
 			}

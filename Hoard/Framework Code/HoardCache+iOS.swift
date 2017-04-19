@@ -27,7 +27,7 @@ public extension DiskCache {
 		let localURL = self.localURLForURL(url)
 		let path = localURL.path
 		
-		if let date = moreRecentThan, let storedAt = self.storedAt(localURL), storedAt < date { return nil }
+		if let date = moreRecentThan, let storedAt = localURL.storedAt, storedAt < date { return nil }
 
 		if FileManager.default.fileExists(atPath: path), let image = UXImage.decompressedImage(with: localURL) {
 			return image

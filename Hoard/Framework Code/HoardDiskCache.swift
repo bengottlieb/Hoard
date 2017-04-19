@@ -94,15 +94,16 @@ open class DiskCache: Cache {
 		return target?.hoardCacheData
 	}
 	
-	open func storeData(_ data: Data?, from URL: Foundation.URL, suggestedFileExtension: String? = nil) {
+	open func storeData(_ data: Data?, from URL: Foundation.URL, suggestedFileExtension: String? = nil, validUntil: Date? = nil) {
 		if !self.valid { return }
 	
 		self.performDiskOperation {
 			if let data = data {
-				let cacheURL = self.localURLForURL(URL)
+				var cacheURL = self.localURLForURL(URL)
 				if (try? data.write(to: cacheURL, options: [.atomic])) != nil {
-					self.updateStoredAt(cacheURL)
+					cacheURL.storedAt = Date()
 					self.currentSize += Int64(data.count)
+					if let date = validUntil { cacheURL.expiresAt = date }
 				}
 				
 				if self.currentSize > self.cacheLimitSize { self.prune() }
@@ -114,18 +115,18 @@ open class DiskCache: Cache {
 	
 	func updateAccessedAtForRemoteURL(_ URL: Foundation.URL) {
 		self.performDiskOperation {
-			let cachedURL = self.localURLForURL(URL)
-			self.updateAccessedAt(cachedURL)
+			var cachedURL = self.localURLForURL(URL)
+			cachedURL.accessedAt = Date()
 		}
 	}
 	
 	open func fetchData(for url: URL, moreRecentThan: Date? = nil) -> Data? {
-		let cachedURL = self.localURLForURL(url)
+		var cachedURL = self.localURLForURL(url)
 		
-		if let date = moreRecentThan, let storedAt = self.storedAt(cachedURL), storedAt < date { return nil }
+		if let date = moreRecentThan, let storedAt = cachedURL.storedAt, storedAt < date { return nil }
 		
 		if let data = try? Data(contentsOf: cachedURL) {
-			HoardState.addMaintenance { self.updateAccessedAt(cachedURL) }
+			HoardState.addMaintenance { cachedURL.accessedAt = Date() }
 			return data
 		}
 		return nil
@@ -172,9 +173,9 @@ open class DiskCache: Cache {
 		self.clearOut()
 	}
 
-	override open func store(object: HoardDiskCachable?, from URL: Foundation.URL, skipDisk: Bool = false) {
+	override open func store(object: HoardDiskCachable?, from URL: Foundation.URL, skipDisk: Bool = false, validUntil: Date? = nil) {
 		if let data = self.data(for: object) {
-			self.storeData(data, from: URL, suggestedFileExtension: nil)
+			self.storeData(data, from: URL, suggestedFileExtension: nil, validUntil: validUntil)
 		}
 	}
 
@@ -212,27 +213,25 @@ open class DiskCache: Cache {
 }
 
 let HoardLastAccessedAtDateAttributeName = "lastAccessed:com.standalone.hoard"
-let HoardLastStoredAtDateAttributeName = "lastStored:com.standalone.hoard"
-
-extension DiskCache {
-	func updateAccessedAt(_ url: URL) {
-		url.set(timestamp: Date().timeIntervalSinceReferenceDate, forAttribute: HoardLastAccessedAtDateAttributeName)
-	}
-	
-	func accessedAt(_ url: URL) -> Date? {
-		return url.timestamp(forAttribute: HoardLastAccessedAtDateAttributeName)
-	}
-
-	func updateStoredAt(_ url: URL) {
-		url.set(timestamp: Date().timeIntervalSinceReferenceDate, forAttribute: HoardLastStoredAtDateAttributeName)
-	}
-	
-	func storedAt(_ url: URL) -> Date? {
-		return url.timestamp(forAttribute: HoardLastStoredAtDateAttributeName)
-	}
-}
+let HoardLastStoredAtDateAttributeName = "stored:com.standalone.hoard"
+let HoardLastExpiresAtDateAttributeName = "expiresAt:com.standalone.hoard"
 
 extension URL {
+	var accessedAt: Date? {
+		get { return self.timestamp(forAttribute: HoardLastAccessedAtDateAttributeName) }
+		set { self.set(timestamp: Date().timeIntervalSinceReferenceDate, forAttribute: HoardLastAccessedAtDateAttributeName) }
+	}
+
+	var storedAt: Date? {
+		get { return self.timestamp(forAttribute: HoardLastStoredAtDateAttributeName) }
+		set { self.set(timestamp: Date().timeIntervalSinceReferenceDate, forAttribute: HoardLastStoredAtDateAttributeName) }
+	}
+	
+	var expiresAt: Date? {
+		get { return self.timestamp(forAttribute: HoardLastExpiresAtDateAttributeName) }
+		set { self.set(timestamp: Date().timeIntervalSinceReferenceDate, forAttribute: HoardLastExpiresAtDateAttributeName) }
+	}
+	
 	public func set(timestamp: TimeInterval, forAttribute name: String) {
 		if !self.isFileURL { return }
 

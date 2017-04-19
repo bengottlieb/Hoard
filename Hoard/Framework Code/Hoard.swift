@@ -65,10 +65,10 @@ open class HoardState: NSObject {
 	}
 	
 	func findExistingConnection(with url: URL) -> PendingImage? {
-		var found = self.pending.filter({ $0.URL as URL == url })
+		var found = self.pending.filter({ $0.url == url })
 		if found.count > 0 { return found[0] }
 		
-		found = Array(self.active).filter({ $0.URL as URL == url })
+		found = Array(self.active).filter({ $0.url == url })
 		if found.count > 0 { return found[0] }
 		
 		return nil

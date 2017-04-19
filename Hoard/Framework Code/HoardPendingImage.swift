@@ -15,12 +15,12 @@ public typealias ImageCompletion = (_ image: UXImage?, _ error: NSError?, _ from
 open class PendingImage: NSObject {
 	open class var defaultPriority: Int { return 10 }
 	
-	open let URL: Foundation.URL
+	open let url: URL
 	open let completion: ImageCompletion?
 	open let priority: Int
 	open var error: NSError?
 	
-	open class func request(_ url: Foundation.URL, source: HoardImageSource? = nil, cache: Cache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
+	open class func request(_ url: URL, source: HoardImageSource? = nil, cache: Cache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
 		let pending = PendingImage(url: url, cache: cache, completion: completion)
 		
 		if pending.isCachedAvailable {
@@ -69,11 +69,11 @@ open class PendingImage: NSObject {
 	}
 	
 
-	public init(url: Foundation.URL, cache imageCache: Cache? = nil, priority pri: Int = PendingImage.defaultPriority, completion comp: ImageCompletion?) {
-		URL = url
-		completion = comp
-		priority = pri
-		cache = imageCache ?? HoardState.defaultImageCache
+	public init(url: URL, cache imageCache: Cache? = nil, priority pri: Int = PendingImage.defaultPriority, completion comp: ImageCompletion?) {
+		self.url = url
+		self.completion = comp
+		self.priority = pri
+		self.cache = imageCache ?? HoardState.defaultImageCache
 		
 		super.init()
 	}
@@ -81,14 +81,14 @@ open class PendingImage: NSObject {
 	var dupes: [PendingImage] = []
 	
 	func start() {
-		Plug.request(method: .GET, url: self.URL, channel: Plug.Channel.resourceChannel).completion { conn, data in
+		Plug.request(method: .GET, url: self.url, channel: Plug.Channel.resourceChannel).completion { conn, data in
 			if let image = UXImage(data: data.data) {
 				self.fetchedImage = image
 			}
 			self.complete(false)
-			self.cache.store(object: data.data, from: self.URL)
+			self.cache.store(object: data.data, from: self.url)
 		}.error { conn, error in
-			print("error downloading from \(self.URL): \(error)")
+			print("error downloading from \(self.url): \(error)")
 			if HoardState.debugLevel == .high { conn.log() }
 			self.error = error
 			self.complete(false)
@@ -103,7 +103,7 @@ open class PendingImage: NSObject {
 	open var isCachedAvailable: Bool {
 		if self.fetchedImage != nil { return true }
 		
-		return self.cache.isCacheDataAvailable(for: self.URL)
+		return self.cache.isCacheDataAvailable(for: self.url)
 	}
 	
 	func complete(_ fromCache: Bool, image: UXImage? = nil) {
@@ -125,7 +125,7 @@ open class PendingImage: NSObject {
 	open var image: UXImage? {
 		if let image = self.fetchedImage { return image }
 		
-		if let image = self.cache.fetchImage(for: self.URL) {
+		if let image = self.cache.fetchImage(for: self.url) {
 			self.fetchedImage = image
 			return image
 		}
@@ -137,7 +137,7 @@ open class PendingImage: NSObject {
 	//MARK: Private
 	
 	var fetchedImage: UXImage?
-	var localURL: Foundation.URL?
+	var localURL: URL?
 	var isCancelled = false
 	var isComplete = false
 	let cache: Cache

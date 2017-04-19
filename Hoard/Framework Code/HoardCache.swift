@@ -98,7 +98,7 @@ open class Cache: NSObject {
 		self.diskCache?.clearOut()
 	}
 	
-	open func store(object: HoardDiskCachable?, from url: URL, skipDisk: Bool = false) {
+	open func store(object: HoardDiskCachable?, from url: URL, skipDisk: Bool = false, validUntil: Date? = nil) {
 		self.serialize {
 			var size = 0
 			if let object = object {
@@ -126,7 +126,7 @@ open class Cache: NSObject {
 				}
 				
 				self.prune()
-				self.diskCache?.store(object: object, from: url)
+				self.diskCache?.store(object: object, from: url, validUntil: validUntil)
 			} else {
 				self.remove(url)
 			}
