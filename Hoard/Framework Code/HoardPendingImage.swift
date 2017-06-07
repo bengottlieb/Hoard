@@ -10,7 +10,7 @@ import Foundation
 import Plug
 import CrossPlatformKit
 
-public typealias ImageCompletion = (_ image: UXImage?, _ error: NSError?, _ fromCache: Bool) -> Void
+public typealias ImageCompletion = (_ image: UXImage?, _ error: Error?, _ fromCache: Bool) -> Void
 
 open class PendingImage: NSObject {
 	open class var defaultPriority: Int { return 10 }
@@ -18,7 +18,7 @@ open class PendingImage: NSObject {
 	open let url: URL
 	open let completion: ImageCompletion?
 	open let priority: Int
-	open var error: NSError?
+	open var error: Error?
 	
 	open class func request(from url: URL, source: HoardImageSource? = nil, cache: Cache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
 		let pending = PendingImage(url: url, cache: cache, completion: completion)

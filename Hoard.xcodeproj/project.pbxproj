@@ -47,8 +47,6 @@
 		B5A0006F1B946EB400FF4576 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */; };
 		B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */; };
 		B5A482461AE5B390001636BE /* HoardPendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482451AE5B390001636BE /* HoardPendingImage.swift */; };
-		B5A4824A1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */; };
-		B5A4824B1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */; };
 		B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */; };
 		B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
 		B5A482591AE5DE6A001636BE /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A482581AE5DE6A001636BE /* CoreAudio.framework */; };
@@ -114,7 +112,6 @@
 		B5A000681B9461BB00FF4576 /* HoardCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardCache.swift; sourceTree = "<group>"; };
 		B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardProtocols.swift; sourceTree = "<group>"; };
 		B5A482451AE5B390001636BE /* HoardPendingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardPendingImage.swift; sourceTree = "<group>"; };
-		B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+SA_Additions.swift"; sourceTree = "<group>"; };
 		B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageView.swift; sourceTree = "<group>"; };
 		B5A482581AE5DE6A001636BE /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		B5C047871E7C314D00A2BE64 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
@@ -229,7 +226,6 @@
 				B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */,
 				B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */,
 				B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */,
-				B5A482491AE5DB19001636BE /* Array+SA_Additions.swift */,
 			);
 			name = "Framework Code";
 			path = "Hoard/Framework Code";
@@ -353,7 +349,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Stand Alone, inc.";
 				TargetAttributes = {
 					B504E6121A89230F001B414B = {
@@ -454,7 +450,6 @@
 				B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */,
 				B5A0006F1B946EB400FF4576 /* HoardProtocols.swift in Sources */,
 				B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */,
-				B5A4824A1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */,
 				B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */,
 				B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */,
 				B5A0005D1B907AAD00FF4576 /* HoardCache+iOS.swift in Sources */,
@@ -470,7 +465,6 @@
 				B5CB6FA01E1E7C9A00116EB6 /* HoardPendingImage.swift in Sources */,
 				B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */,
 				B58D64831A898FBE005A0002 /* Hoard.swift in Sources */,
-				B5A4824B1AE5DB19001636BE /* Array+SA_Additions.swift in Sources */,
 				B5CB6F9F1E1E7B8600116EB6 /* HoardCache+iOS.swift in Sources */,
 				B5CB6F9E1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */,
 				B5A0006A1B9461BB00FF4576 /* HoardCache.swift in Sources */,
@@ -509,14 +503,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -558,14 +558,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
