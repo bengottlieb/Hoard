@@ -13,7 +13,7 @@ import Hoard
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
-
+	let pendingImage = IncomingImage(url: URL(string: "http://www.nationalgeographic.com/content/dam/photography/photos/000/953/95377.ngsversion.1471316919695.adapt.1900.1.jpg")!)
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 		// Override point for customization after application launch
