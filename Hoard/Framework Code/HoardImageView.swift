@@ -23,11 +23,15 @@ open class ImageView: UIView {
 	open var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
 	open var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
 	open var incomingImage: IncomingImage? { didSet {
-		self.incomingImage?.resolved { [weak self] image in
-			if Thread.isMainThread {
-				self?.image = image
-			} else {
-				DispatchQueue.main.async { self?.image = image }
+		if let image = self.incomingImage?.result {
+			self.image = image
+		} else {
+			self.incomingImage?.resolved { [weak self] image in
+				if Thread.isMainThread {
+					self?.image = image
+				} else {
+					DispatchQueue.main.async { self?.image = image }
+				}
 			}
 		}
 	}}

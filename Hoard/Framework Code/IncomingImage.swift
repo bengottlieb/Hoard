@@ -11,12 +11,16 @@ import Plug
 
 public class IncomingImage {
 	var incoming: Incoming<UIImage>
-	public init(url: URL, method: Plug.Method = .GET, parameters: Plug.Parameters? = nil, deferredStart: Bool = false) {
+	public init(url: URL, method: Plug.Method = .GET, parameters: Plug.Parameters? = nil, deferredStart: Bool = false, cache: Cache = Cache.defaultImageCache) {
 		self.incoming = Incoming<UIImage>(url: url, method: method, parameters: parameters, deferredStart: true) { data in
-			return data.image
+			if let image = data.image {
+				cache.store(object: image, from: url)
+				return image
+			}
+			return nil
 		}
 		
-		if let image = Cache.defaultImageCache.fetchImage(for: url) {
+		if let image = cache.fetchImage(for: url) {
 			self.incoming.result = image
 			self.incoming.isComplete = true
 		} else if !deferredStart {
