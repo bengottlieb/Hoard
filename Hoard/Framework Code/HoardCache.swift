@@ -16,6 +16,8 @@ open class Cache: NSObject {
 	
 	open static var sharedCaches: [AnyHashable: Cache] = [:]
 	
+	open static var defaultImageCache: Cache { return HoardState.defaultImageCache }
+	
 	open class func sensibleMemorySizeForCurrentDevice() -> Int64 {
 		let info = ProcessInfo()
 		let total = Double(info.physicalMemory / (1024 * 1024))

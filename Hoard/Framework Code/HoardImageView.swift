@@ -135,7 +135,7 @@ open class ImageView: UIView {
 	
 	var imageLayer: CALayer!
 	var imageView: UIImageView!
-	var image: UIImage? {
+	public var image: UIImage? {
 		didSet {
 			CATransaction.setDisableActions(true)
 			if let image = self.image {
