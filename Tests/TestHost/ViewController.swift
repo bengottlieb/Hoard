@@ -58,7 +58,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 			
 			let cache = HoardState.defaultImageCache.diskCache
 			for url in urls {
-				_ = PendingImage.request(url, cache: cache)
+				_ = PendingImage.request(from: url, cache: cache)
 			}
 			print("Starting downloads")
 
@@ -101,7 +101,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 			view.contentMode = .scaleAspectFill
 			view.tapForFullScreen = true
 			view.useDeviceOrientation = false
-			view.URL = URL(string: "http://lorempixel.com/\((arc4random() % 32 + 80))/\((arc4random() % 32 + 50))/")
+			view.url = URL(string: "http://lorempixel.com/\((arc4random() % 32 + 80))/\((arc4random() % 32 + 50))/")
 			self.view.addSubview(view)
 			
 			left += width
@@ -125,7 +125,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 		let url = URL(string: "http://test.com/\(indexPath.row)")
 		
 		cell.setupImageView()
-		cell.hoardView?.URL = url
+		cell.hoardView?.url = url
 		return cell
 	}
 	
@@ -159,7 +159,7 @@ class TestCeollectionViewCell: UICollectionViewCell, HoardImageSource {
 		
 		UIColor.black.setFill()
 		UIRectFill(bounds)
-		let string = NSAttributedString(string: url.path, attributes: [NSForegroundColorAttributeName: UIColor.white])
+		let string = NSAttributedString(string: url.path, attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
 		string.draw(in: bounds)
 		
 		let image = UIGraphicsGetImageFromCurrentImageContext()

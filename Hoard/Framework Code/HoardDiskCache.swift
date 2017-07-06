@@ -210,6 +210,21 @@ open class DiskCache: Cache {
 		}
 	}
 	
+	public override func fetchImage(for url: URL, moreRecentThan: Date? = nil) -> UXImage? {
+		let localURL = self.localURLForURL(url)
+		let path = localURL.path
+		
+		if let date = moreRecentThan, let storedAt = localURL.storedAt, storedAt < date { return nil }
+		
+		if FileManager.default.fileExists(atPath: path), let image = UXImage.decompressedImage(with: localURL) {
+			return image
+		}
+		
+		if let data = self.fetchData(for: url, moreRecentThan: moreRecentThan), let image = UXImage.decompressedImage(with: data) {
+			return image
+		}
+		return nil
+	}
 }
 
 let HoardLastAccessedAtDateAttributeName = "lastAccessed:com.standalone.hoard"

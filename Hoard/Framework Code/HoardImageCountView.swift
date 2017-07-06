@@ -13,7 +13,7 @@ open class ImageCountView: UILabel {
 	open var numberOfImages = 0 { didSet { self.updateDisplay() }}
 	open var formatString = "Photo %d/%d"
 	
-	class func defaultCountView() -> ImageCountView {
+	open class func defaultCountView() -> ImageCountView {
 		let view = ImageCountView(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
 		view.backgroundColor = UIColor.darkGray
 		view.layer.borderColor = view.textColor.cgColor
@@ -34,7 +34,7 @@ open class ImageCountView: UILabel {
 			self.alpha = 0.0
 		}
 		
-		let attr = [NSFontAttributeName: self.font ?? UIFont.systemFont(ofSize: 14)]
+		let attr = [NSAttributedStringKey.font: self.font ?? UIFont.systemFont(ofSize: 14)]
 		let size = NSAttributedString(string: self.text!, attributes: attr).boundingRect(with: CGSize(width: 500, height: self.font.lineHeight * 1.5), options: .usesLineFragmentOrigin, context: nil).size
 		
 		self.bounds = CGRect(x: 0, y: 0, width: size.width + 20, height: size.height + 6)

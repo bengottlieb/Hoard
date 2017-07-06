@@ -112,7 +112,7 @@ open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
 		}
 	}
 	
-	func pageIndicatorValueChanged(_ pageControl: UIPageControl) {
+	@objc func pageIndicatorValueChanged(_ pageControl: UIPageControl) {
 		self.setCurrent(index: pageControl.currentPage, animated: true)
 	}
 	

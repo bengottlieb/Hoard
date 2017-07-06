@@ -265,7 +265,7 @@ open class ImageView: UIView {
 		return self.fullScreenView
 	}
 	
-	func fullScreenTouched(recog: UITapGestureRecognizer) {
+	@objc func fullScreenTouched(recog: UITapGestureRecognizer) {
 		let location = recog.location(in: self.fullScreenView!)
 		let hit = self.fullScreenView!.hitTest(location, with: nil)
 		
@@ -290,7 +290,7 @@ open class ImageView: UIView {
 		}
 	}
 	
-	func orientationChanged(note: Notification) {
+	@objc func orientationChanged(note: Notification) {
 		var frame = UIScreen.main.bounds
 		var transform = CGAffineTransform.identity
 		
@@ -332,7 +332,7 @@ open class ImageView: UIView {
 		}
 	}
 	
-	func imageTapped(recog: UITapGestureRecognizer) {
+	@objc func imageTapped(recog: UITapGestureRecognizer) {
 		let location = recog.location(in: self)
 		if let tapped = self.hitTest(location, with: nil) as? ImageView {
 			_ = tapped.makeFullScreen()

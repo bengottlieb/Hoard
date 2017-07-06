@@ -10,34 +10,9 @@ import ImageIO
 import CrossPlatformKit
 
 public extension Cache {
-	public func fetchImage(for url: URL, moreRecentThan: Date? = nil) -> UXImage? {
-		if let image = self.fetch(for: url, moreRecentThan: moreRecentThan) as? UXImage {
-			return image
-		}
-		if let cached = self.diskCache?.fetchImage(for: url, moreRecentThan: moreRecentThan) ?? self.fetch(for: url, moreRecentThan: moreRecentThan) as? UXImage {
-			self.store(object: cached, from: url, skipDisk: true)
-			return cached
-		}
-		return nil
-	}
 }
 
 public extension DiskCache {
-	public override func fetchImage(for url: URL, moreRecentThan: Date? = nil) -> UXImage? {
-		let localURL = self.localURLForURL(url)
-		let path = localURL.path
-		
-		if let date = moreRecentThan, let storedAt = localURL.storedAt, storedAt < date { return nil }
-
-		if FileManager.default.fileExists(atPath: path), let image = UXImage.decompressedImage(with: localURL) {
-			return image
-		}
-		
-		if let data = self.fetchData(for: url, moreRecentThan: moreRecentThan), let image = UXImage.decompressedImage(with: data) {
-			return image
-		}
-		return nil
-	}
 	
 }
 

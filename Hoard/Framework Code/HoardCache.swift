@@ -177,8 +177,19 @@ open class Cache: NSObject {
 		}
 	}
 	
-	func didReceiveMemoryWarning(note: Notification) {
+	@objc func didReceiveMemoryWarning(note: Notification) {
 		self.flushCache()
+	}
+	
+	public func fetchImage(for url: URL, moreRecentThan: Date? = nil) -> UXImage? {
+		if let image = self.fetch(for: url, moreRecentThan: moreRecentThan) as? UXImage {
+			return image
+		}
+		if let cached = self.diskCache?.fetchImage(for: url, moreRecentThan: moreRecentThan) ?? self.fetch(for: url, moreRecentThan: moreRecentThan) as? UXImage {
+			self.store(object: cached, from: url, skipDisk: true)
+			return cached
+		}
+		return nil
 	}
 }
 
