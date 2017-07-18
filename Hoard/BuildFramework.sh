@@ -7,6 +7,7 @@
 #  Copyright (c) 2015 Stand Alone, Inc. All rights reserved.
 
 BASE_BUILD_DIR="${BUILD_DIR}/Products"
+PRODUCTS_DIR="${BUILD_DIR}"
 FRAMEWORK_NAME="Hoard"
 IOS_SUFFIX=""
 MAC_SUFFIX=""
@@ -64,8 +65,8 @@ rm -f "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}${IOS_SUFFIX}.framework/_CodeS
 
 
 # Step 4. Create universal binary file using lipo and place the combined executable in the copied framework directory
-echo "lipo'ing files"
-lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}${IOS_SUFFIX}.framework/${FRAMEWORK_NAME}${IOS_SUFFIX}" "${BASE_BUILD_DIR}/${CONFIG}-iphonesimulator/${FRAMEWORK_NAME}${IOS_SUFFIX}.framework/${FRAMEWORK_NAME}${IOS_SUFFIX}" "${BASE_BUILD_DIR}/${CONFIG}-iphoneos/${FRAMEWORK_NAME}${IOS_SUFFIX}.framework/${FRAMEWORK_NAME}${IOS_SUFFIX}"
+echo "lipo'ing files, using ${PRODUCTS_DIR}"
+lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}${IOS_SUFFIX}.framework/${FRAMEWORK_NAME}${IOS_SUFFIX}" "${PRODUCTS_DIR}/${CONFIG}-iphonesimulator/${FRAMEWORK_NAME}${IOS_SUFFIX}.framework/${FRAMEWORK_NAME}${IOS_SUFFIX}" "${PRODUCTS_DIR}/${CONFIG}-iphoneos/${FRAMEWORK_NAME}${IOS_SUFFIX}.framework/${FRAMEWORK_NAME}${IOS_SUFFIX}"
 
 echo "copying to iOS Framework folder"
 # Step 5. Convenience step to copy the framework to the project's directory
@@ -77,7 +78,7 @@ cp -R "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}${IOS_SUFFIX}.framework" "${PR
 echo "copying to Mac OS Framework folder"
 mkdir -p "${PROJECT_DIR}/Mac Framework/"
 	rm -rf "${PROJECT_DIR}/Mac Framework/${FRAMEWORK_NAME}.framework"
-cp -R "${BASE_BUILD_DIR}/${CONFIG}/${FRAMEWORK_NAME}.framework" "${PROJECT_DIR}/Mac Framework"
+cp -R "${PRODUCTS_DIR}/${CONFIG}/${FRAMEWORK_NAME}.framework" "${PROJECT_DIR}/Mac Framework"
 
 # Step 7. Copy the iOS framework to the /iOS_Builds folder
 if [ ! -d "${IOS_FRAMEWORKS}" ]; then
@@ -101,7 +102,7 @@ if [ -d "${MAC_FRAMEWORKS}/${FRAMEWORK_NAME}.framework" ]; then
 	rm -rf "${MAC_FRAMEWORKS}/${FRAMEWORK_NAME}.framework"
 fi
 
-cp -R "${BASE_BUILD_DIR}/${CONFIG}/${FRAMEWORK_NAME}.framework" "${MAC_FRAMEWORKS}/${FRAMEWORK_NAME}.framework"
+cp -R "${PRODUCTS_DIR}/${CONFIG}/${FRAMEWORK_NAME}.framework" "${MAC_FRAMEWORKS}/${FRAMEWORK_NAME}.framework"
 
 
 $(/usr/libexec/PlistBuddy "${MAC_PLIST_PATH}" -c "Delete :branch" 2> /dev/null)

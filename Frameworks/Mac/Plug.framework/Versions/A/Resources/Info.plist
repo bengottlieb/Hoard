@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>17A306f</string>
+	<string>16F73</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -47,10 +47,10 @@
 	<key>branch</key>
 	<string>swift_4</string>
 	<key>built</key>
-	<string>Tue Jul 11 09:01:26 20170711090126</string>
+	<string>Tue Jul 18 15:16:33 20170718151633</string>
 	<key>git_number</key>
-	<string>193</string>
+	<string>194</string>
 	<key>rev</key>
-	<string>944cdbb</string>
+	<string>5c98426</string>
 </dict>
 </plist>
