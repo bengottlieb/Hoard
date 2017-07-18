@@ -6,7 +6,7 @@
 #  Created by Ben Gottlieb on 1/21/15.
 #  Copyright (c) 2015 Stand Alone, Inc. All rights reserved.
 
-BASE_BUILD_DIR="${BUILD_DIR}/Products"
+BASE_BUILD_DIR="${BUILD_DIR}"
 PRODUCTS_DIR="${BUILD_DIR}"
 FRAMEWORK_NAME="Hoard"
 IOS_SUFFIX=""
