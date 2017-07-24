@@ -27,17 +27,17 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>9M174d</string>
+	<string>9M189t</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>17A306e</string>
+	<string>17A315g</string>
 	<key>DTSDKName</key>
 	<string>macosx10.13</string>
 	<key>DTXcode</key>
 	<string>0900</string>
 	<key>DTXcodeBuild</key>
-	<string>9M174d</string>
+	<string>9M189t</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2015 Stand Alone, inc. All rights reserved.</string>
 	<key>UIDeviceFamily</key>
@@ -47,10 +47,10 @@
 	<key>branch</key>
 	<string>swift_4</string>
 	<key>built</key>
-	<string>Tue Jul 18 15:16:33 20170718151633</string>
+	<string>Mon Jul 24 17:15:36 20170724171536</string>
 	<key>git_number</key>
-	<string>194</string>
+	<string>195</string>
 	<key>rev</key>
-	<string>5c98426</string>
+	<string>89f6872</string>
 </dict>
 </plist>

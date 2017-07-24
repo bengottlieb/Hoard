@@ -1,0 +1,6 @@
+framework module zlib {
+  umbrella header "zlib.h"
+
+  export *
+  module * { export * }
+}
