@@ -8,6 +8,7 @@
 
 import UIKit
 import Hoard
+import Plug
 
 class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSource, UICollectionViewDelegate {
 	func generateImage(for: URL) -> UIImage? {
@@ -62,26 +63,31 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 			}
 			print("Starting downloads")
 
-			/*
+			
 			self.gallery = ImageGalleryView(frame: CGRect(x: 50, y: 120, width: self.view.bounds.width - 100, height: 150))
 			self.gallery.tapForFullScreen = true
 			self.view.addSubview(self.gallery)
 			
-			self.gallery.imageURLs = URLs
+			self.gallery.imageURLs = urls
 			self.gallery.addCountView()
-			*/
 			
-			self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 300, width: self.view.bounds.width, height: self.view.bounds.height - 300), collectionViewLayout: self.layout)
-			self.collectionView.dataSource = self
-			self.collectionView.delegate = self
-			self.collectionView.register(TestCeollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-			self.view.addSubview(self.collectionView)
+			
+//			self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 300, width: self.view.bounds.width, height: self.view.bounds.height - 300), collectionViewLayout: self.layout)
+//			self.collectionView.dataSource = self
+//			self.collectionView.delegate = self
+//			self.collectionView.register(TestCeollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+//			self.view.addSubview(self.collectionView)
 			
 //			let imageView = ImageView(frame: CGRect(x: 50, y: 300, width: self.view.bounds.width - 100, height: 100))
 //			self.view.addSubview(imageView)
 //			imageView.imageSource = self
 //			imageView.URL = NSURL(fileURLWithPath: "/")
 		}
+		
+		let searchURL = URL(string: "https://api.qwant.com/api/search/images?count=100&offset=1&q=stop%20sign")!
+		let conn = Connection(method: .GET, url: searchURL)
+		
+		conn?.start()
 	}
 	
 	func layoutTiles() {
