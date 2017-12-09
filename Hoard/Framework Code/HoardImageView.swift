@@ -56,10 +56,10 @@ open class ImageView: UIView {
 		self.loadingIndicator?.stopAnimating()
 	}
 	
-	open func set(url: URL?, placeholder: UIImage? = nil, duration: TimeInterval = 0.2) {
+	open func set(url: URL?, placeholder: UIImage? = nil, clearingOld: Bool = true, cancellingOld: Bool = true, duration: TimeInterval = 0.2) {
 		self.imageURL = url
-		
-		self.pendingImage?.cancel()
+		if clearingOld { self.image = nil }
+		if let pending = self.pendingImage, pending.dupes.count == 0, cancellingOld { pending.cancel() }
 		
 		if let url = url {
 			self.showActivityIndicator()
