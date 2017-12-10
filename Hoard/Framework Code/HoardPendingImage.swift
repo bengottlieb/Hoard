@@ -88,7 +88,7 @@ open class PendingImage: NSObject {
 			self.complete(false)
 			self.cache.store(object: data.data, from: self.url)
 		}.error { conn, error in
-			print("error downloading from \(self.url): \(error)")
+			print(HoardErrorLogPrefix + "error downloading from \(self.url): \(error.localizedDescription)")
 			if HoardState.debugLevel == .high { conn.log() }
 			self.error = error
 			self.complete(false)

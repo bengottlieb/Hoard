@@ -9,6 +9,8 @@
 import Foundation
 import CrossPlatformKit
 
+let HoardErrorLogPrefix = "** HOARD ** "
+
 @objc public protocol HoardImageSource {
 	func generateImage(for: URL) -> UXImage?
 	func isFastImageGenerator(for: URL) -> Bool
