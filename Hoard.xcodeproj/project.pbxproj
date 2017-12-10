@@ -22,19 +22,17 @@
 
 /* Begin PBXBuildFile section */
 		B5040ECA1AEF1599008DBB12 /* HoardImageGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */; };
-		B52533EA1B8FF30A00126E11 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; };
-		B52533EC1B8FF32300126E11 /* Plug.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B52533ED1B8FF33D00126E11 /* Plug.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B52533E91B8FF30A00126E11 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B544A57C1E1EB30300EEA266 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
+		B55CCDDC1FDCAFBA00C0C892 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */; };
+		B55CCDDD1FDCAFBA00C0C892 /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */; };
+		B55CCDDE1FDCAFBA00C0C892 /* GulliverUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDA1FDCAFBA00C0C892 /* GulliverUI.framework */; };
+		B55CCDDF1FDCAFBA00C0C892 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; };
+		B55CCDE41FDCAFC200C0C892 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE11FDCAFC200C0C892 /* CrossPlatformKit.framework */; };
+		B55CCDE51FDCAFC200C0C892 /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */; };
+		B55CCDE61FDCAFC200C0C892 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE31FDCAFC200C0C892 /* Plug.framework */; };
 		B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */; };
 		B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B583A78D1CB495BC00AF73BA /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B583A78B1CB495BC00AF73BA /* Gulliver.framework */; };
-		B583A78F1CB495BF00AF73BA /* Gulliver.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B583A78B1CB495BC00AF73BA /* Gulliver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B586AF411EFAD67B00CA72CE /* IncomingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586AF401EFAD67B00CA72CE /* IncomingImage.swift */; };
-		B586AF421EFAF8F100CA72CE /* CrossPlatformKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5C047891E7C315A00A2BE64 /* CrossPlatformKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B586AF461EFAF97600CA72CE /* SwearKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B586AF451EFAF97600CA72CE /* SwearKit.framework */; };
-		B586AF471EFAF97600CA72CE /* SwearKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B586AF451EFAF97600CA72CE /* SwearKit.framework */; };
-		B586AF481EFAF97A00CA72CE /* SwearKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B586AF451EFAF97600CA72CE /* SwearKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B58D64791A898F89005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D64681A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
 		B58D64831A898FBE005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
@@ -44,7 +42,6 @@
 		B58D64931A899094005A0002 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B58D648D1A899094005A0002 /* Images.xcassets */; };
 		B58D64951A899094005A0002 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D648F1A899094005A0002 /* ViewController.swift */; };
 		B58D64961A899285005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D646B1A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B59323351D91914B00A55E8F /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59323341D91914B00A55E8F /* Plug.framework */; };
 		B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
 		B5A0005D1B907AAD00FF4576 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */; };
 		B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; };
@@ -54,9 +51,6 @@
 		B5A482461AE5B390001636BE /* HoardPendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482451AE5B390001636BE /* HoardPendingImage.swift */; };
 		B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */; };
 		B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
-		B5A482591AE5DE6A001636BE /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A482581AE5DE6A001636BE /* CoreAudio.framework */; };
-		B5C047881E7C314D00A2BE64 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C047871E7C314D00A2BE64 /* CrossPlatformKit.framework */; };
-		B5C0478A1E7C315A00A2BE64 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C047891E7C315A00A2BE64 /* CrossPlatformKit.framework */; };
 		B5CB6F9D1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */; };
 		B5CB6F9E1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */; };
 		B5CB6F9F1E1E7B8600116EB6 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */; };
@@ -70,7 +64,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B52533EC1B8FF32300126E11 /* Plug.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,11 +74,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B52533ED1B8FF33D00126E11 /* Plug.framework in CopyFiles */,
-				B583A78F1CB495BF00AF73BA /* Gulliver.framework in CopyFiles */,
-				B586AF481EFAF97A00CA72CE /* SwearKit.framework in CopyFiles */,
 				B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */,
-				B586AF421EFAF8F100CA72CE /* CrossPlatformKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,11 +88,15 @@
 		B504E69B1A896E82001B414B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B504E69C1A896E82001B414B /* Hoard_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hoard_Tests.swift; sourceTree = "<group>"; };
 		B504E6AF1A898110001B414B /* Hoard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hoard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B52533E91B8FF30A00126E11 /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
+		B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
+		B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gulliver.framework; sourceTree = "<group>"; };
+		B55CCDDA1FDCAFBA00C0C892 /* GulliverUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GulliverUI.framework; sourceTree = "<group>"; };
+		B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
+		B55CCDE11FDCAFC200C0C892 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
+		B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gulliver.framework; sourceTree = "<group>"; };
+		B55CCDE31FDCAFC200C0C892 /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
 		B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageCountView.swift; sourceTree = "<group>"; };
-		B583A78B1CB495BC00AF73BA /* Gulliver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gulliver.framework; sourceTree = "<group>"; };
 		B586AF401EFAD67B00CA72CE /* IncomingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomingImage.swift; sourceTree = "<group>"; };
-		B586AF451EFAF97600CA72CE /* SwearKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwearKit.framework; sourceTree = "<group>"; };
 		B58D64671A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D64681A898F81005A0002 /* Hoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hoard.h; sourceTree = "<group>"; };
 		B58D646A1A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -115,16 +108,12 @@
 		B58D648D1A899094005A0002 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B58D648E1A899094005A0002 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D648F1A899094005A0002 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B59323341D91914B00A55E8F /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
 		B5A000591B90752B00FF4576 /* HoardDiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardDiskCache.swift; sourceTree = "<group>"; };
 		B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HoardCache+iOS.swift"; sourceTree = "<group>"; };
 		B5A000681B9461BB00FF4576 /* HoardCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardCache.swift; sourceTree = "<group>"; };
 		B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardProtocols.swift; sourceTree = "<group>"; };
 		B5A482451AE5B390001636BE /* HoardPendingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardPendingImage.swift; sourceTree = "<group>"; };
 		B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageView.swift; sourceTree = "<group>"; };
-		B5A482581AE5DE6A001636BE /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
-		B5C047871E7C314D00A2BE64 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
-		B5C047891E7C315A00A2BE64 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
 		B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardPrimitiveImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,11 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B583A78D1CB495BC00AF73BA /* Gulliver.framework in Frameworks */,
-				B5A482591AE5DE6A001636BE /* CoreAudio.framework in Frameworks */,
 				B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */,
-				B586AF461EFAF97600CA72CE /* SwearKit.framework in Frameworks */,
-				B52533EA1B8FF30A00126E11 /* Plug.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,8 +130,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B586AF471EFAF97600CA72CE /* SwearKit.framework in Frameworks */,
-				B5C0478A1E7C315A00A2BE64 /* CrossPlatformKit.framework in Frameworks */,
+				B55CCDDE1FDCAFBA00C0C892 /* GulliverUI.framework in Frameworks */,
+				B55CCDDD1FDCAFBA00C0C892 /* Gulliver.framework in Frameworks */,
+				B55CCDDF1FDCAFBA00C0C892 /* Plug.framework in Frameworks */,
+				B55CCDDC1FDCAFBA00C0C892 /* CrossPlatformKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,8 +141,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B59323351D91914B00A55E8F /* Plug.framework in Frameworks */,
-				B5C047881E7C314D00A2BE64 /* CrossPlatformKit.framework in Frameworks */,
+				B55CCDE51FDCAFC200C0C892 /* Gulliver.framework in Frameworks */,
+				B55CCDE41FDCAFC200C0C892 /* CrossPlatformKit.framework in Frameworks */,
+				B55CCDE61FDCAFC200C0C892 /* Plug.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,26 +190,39 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B55CCDD71FDCAFBA00C0C892 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */,
+				B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */,
+				B55CCDDA1FDCAFBA00C0C892 /* GulliverUI.framework */,
+				B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */,
+			);
+			name = iOS;
+			path = Frameworks/iOS;
+			sourceTree = "<group>";
+		};
+		B55CCDE01FDCAFC200C0C892 /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				B55CCDE11FDCAFC200C0C892 /* CrossPlatformKit.framework */,
+				B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */,
+				B55CCDE31FDCAFC200C0C892 /* Plug.framework */,
+			);
+			name = Mac;
+			path = Frameworks/Mac;
+			sourceTree = "<group>";
+		};
 		B586AF3E1EFAD3E300CA72CE /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				B55CCDD71FDCAFBA00C0C892 /* iOS */,
+				B55CCDE01FDCAFC200C0C892 /* Mac */,
 				B58D64661A898F81005A0002 /* Hoard_Mac */,
 				B58D64691A898F81005A0002 /* Hoard_iOS */,
 				B5A482401AE5838F001636BE /* Frameworks */,
 			);
 			name = Infrastructure;
-			sourceTree = "<group>";
-		};
-		B586AF3F1EFAD4D000CA72CE /* iOS Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B586AF451EFAF97600CA72CE /* SwearKit.framework */,
-				B5C047891E7C315A00A2BE64 /* CrossPlatformKit.framework */,
-				B583A78B1CB495BC00AF73BA /* Gulliver.framework */,
-				B52533E91B8FF30A00126E11 /* Plug.framework */,
-				B5A482581AE5DE6A001636BE /* CoreAudio.framework */,
-			);
-			name = "iOS Frameworks";
 			sourceTree = "<group>";
 		};
 		B58D64661A898F81005A0002 /* Hoard_Mac */ = {
@@ -276,20 +277,9 @@
 			path = TestHost;
 			sourceTree = "<group>";
 		};
-		B59323331D91914B00A55E8F /* MacFrameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B5C047871E7C314D00A2BE64 /* CrossPlatformKit.framework */,
-				B59323341D91914B00A55E8F /* Plug.framework */,
-			);
-			path = MacFrameworks;
-			sourceTree = "<group>";
-		};
 		B5A482401AE5838F001636BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B586AF3F1EFAD4D000CA72CE /* iOS Frameworks */,
-				B59323331D91914B00A55E8F /* MacFrameworks */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -671,8 +661,7 @@
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks",
-					"$(PROJECT_DIR)/Frameworks/MacFrameworks",
+					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -684,6 +673,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hoard;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -703,8 +693,7 @@
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks",
-					"$(PROJECT_DIR)/Frameworks/MacFrameworks",
+					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				INFOPLIST_FILE = Hoard/iOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -713,6 +702,7 @@
 				PRODUCT_NAME = Hoard;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -747,7 +737,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks/MacFrameworks",
+					"$(PROJECT_DIR)/Frameworks/Mac",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -762,6 +752,7 @@
 				PRODUCT_NAME = Hoard;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -780,7 +771,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks/MacFrameworks",
+					"$(PROJECT_DIR)/Frameworks/Mac",
 				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Hoard/Mac/Info.plist;
@@ -791,6 +782,7 @@
 				PRODUCT_NAME = Hoard;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};

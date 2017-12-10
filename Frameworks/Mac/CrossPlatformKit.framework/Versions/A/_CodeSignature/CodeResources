@@ -6,37 +6,75 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		SpLK+1F0sAI4uSwSqPnS1w+kS0w=
+		rqKhRBRpoliNRYB3TYPL0NaRcZU=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/zlib-mac.h</key>
+		<key>Headers/CrossPlatformKit-Swift.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			M5Av7BZ56S0c02Rz/836+izKaKA=
+			</data>
 			<key>hash2</key>
 			<data>
-			kStlkQ7pnS9ZAzuv39kuAF0AIz6DhhysGR6sGX6ndTg=
+			Isdfywnmdkzg5EZDwyQEKFhnCDdjRGG8EGo5Owf6RhI=
+			</data>
+		</dict>
+		<key>Headers/CrossPlatformKit.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qSbkjUInYI3mojqmUh+yi0+m3ws=
+			</data>
+			<key>hash2</key>
+			<data>
+			5dfwO23FHj1MT5Vg4ssyDji9zv5JHPZVAwLzhsUHUFM=
+			</data>
+		</dict>
+		<key>Modules/CrossPlatformKit.swiftmodule/x86_64.swiftdoc</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			aHp/BJVTHrBY18l9O2UVm1x4CjU=
+			</data>
+			<key>hash2</key>
+			<data>
+			4lRTGe9hSyovO+7Wa6SfqJgYntXBTHJMhNkbDtWlbDk=
+			</data>
+		</dict>
+		<key>Modules/CrossPlatformKit.swiftmodule/x86_64.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			rusxGviAdW8dQGRd88GVXxN3bR8=
+			</data>
+			<key>hash2</key>
+			<data>
+			NiX34j2F7XEixlo7Gc+CnvtNvNs41l6ilmC89mAO78g=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
-			<key>hash2</key>
+			<key>hash</key>
 			<data>
-			FCePiq4qyBn3eRgQUTMcsE53HiQpemRzQPiS0P6PwMQ=
+			EflJ7rDqvV6ZpVzag1ol5VKFni4=
 			</data>
-		</dict>
-		<key>PrivateHeaders/zlib.h</key>
-		<dict>
 			<key>hash2</key>
 			<data>
-			Jk1vmkIbwDHMZy/vHCQwXZuELaNp7wxXX9w6sTW3J3A=
+			ZU1y+mFUw6piNaYEEW0+ljNk0MqYOHYsGzvgLJQNeGQ=
 			</data>
 		</dict>
 		<key>Resources/Info.plist</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			rqKhRBRpoliNRYB3TYPL0NaRcZU=
+			</data>
 			<key>hash2</key>
 			<data>
-			n43fotplU8n+1wnLIN678uPUwiRj1600f3cyA2MQcco=
+			bbwSkQr3v4fllIRB0p04VOPcQTgtM/H+obWJHqWwcPo=
 			</data>
 		</dict>
 	</dict>
