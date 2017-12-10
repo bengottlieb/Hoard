@@ -13,11 +13,17 @@ var s_currentImageView: ImageView?
 
 open class HoardImageView: ImageView {}
 
+public protocol HoardImageViewDelegate: class {
+	func finishLoadingImageImage(for: URL, in: HoardImageView)
+	func failedToFetchImage(for: URL, in: HoardImageView, withError: Error?)
+}
+
 open class ImageView: UIView {
 	deinit {
 		NotificationCenter.default.removeObserver(self)
 	}
 	
+	weak public var imageViewDelegate: HoardImageViewDelegate?
 	open var imageSource: HoardImageSource?
 	open var imageCache: Cache?
 	open var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
@@ -83,7 +89,7 @@ open class ImageView: UIView {
 			self.displayedURL = nil
 			self.pendingImage = PendingImage.request(from: url, source: self.imageSource, cache: self.imageCache, completion: { [weak self] image, error, fromCache in
 				if let imageView = self {
-					if let error = error { print("Error while downloading image from \(url): \(error)") }
+					if let error = error { print(HoardErrorLogPrefix + "error downloading from \(url): \(error.localizedDescription)") }
 					imageView.hideActivityIndicator()
 					
 					if let image = image, let view = self {
@@ -100,11 +106,13 @@ open class ImageView: UIView {
 								imageView.imageLayer!.add(anim, forKey: "reveal")
 							}
 							imageView.pendingImage = nil
+							if let slf = self as? HoardImageView { slf.imageViewDelegate?.finishLoadingImageImage(for: url, in: slf) }
 						}
 					} else {
 						imageView.displayedURL = nil
 						imageView.image = nil
-						print("missing image: \(tempURL)")
+						if let slf = self as? HoardImageView { slf.imageViewDelegate?.failedToFetchImage(for: url, in: slf, withError: error) }
+						if self?.imageViewDelegate == nil { print(HoardErrorLogPrefix + "Failed to load image: \(tempURL)") }
 					}
 				}
 			})
