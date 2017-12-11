@@ -166,7 +166,7 @@ class TestCeollectionViewCell: UICollectionViewCell, HoardImageSource {
 		
 		UIColor.black.setFill()
 		UIRectFill(bounds)
-		let string = NSAttributedString(string: url.path, attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+		let string = NSAttributedString(string: url.path, attributes: [.foregroundColor: UIColor.white])
 		string.draw(in: bounds)
 		
 		let image = UIGraphicsGetImageFromCurrentImageContext()

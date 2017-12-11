@@ -33,6 +33,7 @@
 		B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */; };
 		B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B586AF411EFAD67B00CA72CE /* IncomingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586AF401EFAD67B00CA72CE /* IncomingImage.swift */; };
+		B5883EE61FDEAC5B00D051C9 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; };
 		B58D64791A898F89005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D64681A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
 		B58D64831A898FBE005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
@@ -122,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5883EE61FDEAC5B00D051C9 /* Plug.framework in Frameworks */,
 				B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -625,11 +627,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/TestHost/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -640,11 +644,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/TestHost/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

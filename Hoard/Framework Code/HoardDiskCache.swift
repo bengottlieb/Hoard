@@ -12,6 +12,7 @@ import Foundation
 #endif
 import ImageIO
 import CrossPlatformKit
+import Plug
 
 open class DiskCache: Cache {
 	public enum StorageFormat: Int { case data, jpeg, png
@@ -52,6 +53,37 @@ open class DiskCache: Cache {
 				print("Current cache size: \(self.currentSize)")
 			}
 		}
+	}
+	
+	open func prefetch(from url: URL, validUntil: Date? = nil, completion: (() -> Void)? = nil) { self.prefetch(from: [url], validUntil: validUntil, completion: completion) }
+	
+	open func prefetch(from urls: [URL], validUntil: Date? = nil, completion: (() -> Void)? = nil) {
+		self.serialize {
+			let completionQueue = DispatchQueue(label: "fetchAll", qos: .utility)
+			completionQueue.suspend()
+			if let comp = completion { completionQueue.async(execute: comp) }
+			
+			for url in urls {
+				if !self.hasData(for: url) {
+					guard let connection = Connection(url: url) else { continue }
+					completionQueue.suspend()
+					connection.completion() { conn, data in
+						self.storeData(data.data, from: url)
+						completionQueue.resume()
+					}.error() { conn, error in
+						print("Error while downloading: \(error) from \(url)")
+						completionQueue.resume()
+					}
+				}
+			}
+			
+			completionQueue.resume()
+		}
+	}
+	
+	open func hasData(for url: URL) -> Bool {
+		let cacheURL = self.localURLForURL(url)
+		return FileManager.default.fileExists(atPath: cacheURL.path)
 	}
 	
 	func performDiskOperation(_ block: @escaping () -> Void) { self.diskQueue.addOperation(block) }
