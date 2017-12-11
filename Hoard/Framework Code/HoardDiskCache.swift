@@ -55,9 +55,7 @@ open class DiskCache: Cache {
 		}
 	}
 	
-	open func prefetch(from url: URL, validUntil: Date? = nil, completion: (() -> Void)? = nil) { self.prefetch(from: [url], validUntil: validUntil, completion: completion) }
-	
-	open func prefetch(from urls: [URL], validUntil: Date? = nil, completion: (() -> Void)? = nil) {
+	open override func prefetch(from urls: [URL], validUntil: Date? = nil, completion: (() -> Void)? = nil) {
 		self.serialize {
 			let completionQueue = DispatchQueue(label: "fetchAll", qos: .utility)
 			completionQueue.suspend()
@@ -65,7 +63,11 @@ open class DiskCache: Cache {
 			
 			for url in urls {
 				if !self.hasData(for: url) {
-					guard let connection = Connection(url: url) else { continue }
+					if let data: Data = Cache.fetch(for: url) {
+						self.storeData(data, from: url)
+						continue
+					}
+					guard let connection = self.delegate?.connection(for: url) ?? Connection(url: url) else { continue }
 					completionQueue.suspend()
 					connection.completion() { conn, data in
 						self.storeData(data.data, from: url)
@@ -81,7 +83,7 @@ open class DiskCache: Cache {
 		}
 	}
 	
-	open func hasData(for url: URL) -> Bool {
+	open override func hasData(for url: URL) -> Bool {
 		let cacheURL = self.localURLForURL(url)
 		return FileManager.default.fileExists(atPath: cacheURL.path)
 	}
@@ -150,6 +152,15 @@ open class DiskCache: Cache {
 			var cachedURL = self.localURLForURL(url)
 			cachedURL.accessedAt = Date()
 		}
+	}
+	
+	open override func fetch<T: HoardDiskCachable>(for url: URL, moreRecentThan: Date? = nil) -> T? {
+		if let item: T = super.fetch(for: url) { return item }
+		
+		if let data = self.fetchData(for: url, moreRecentThan: moreRecentThan) {
+			return data as? T
+		}
+		return nil
 	}
 	
 	open func fetchData(for url: URL, moreRecentThan: Date? = nil) -> Data? {

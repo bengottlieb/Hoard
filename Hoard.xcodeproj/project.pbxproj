@@ -31,6 +31,16 @@
 		B55CCDE51FDCAFC200C0C892 /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */; };
 		B55CCDE61FDCAFC200C0C892 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE31FDCAFC200C0C892 /* Plug.framework */; };
 		B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */; };
+		B57B7DA01FDED1840095DB12 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57B7D9F1FDED1840095DB12 /* Delegates.swift */; };
+		B57B7DA11FDED1840095DB12 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57B7D9F1FDED1840095DB12 /* Delegates.swift */; };
+		B57B7DA21FDED7A60095DB12 /* Plug.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B57B7DA31FDED7AA0095DB12 /* CrossPlatformKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B57B7DA51FDED7DF0095DB12 /* SwearKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */; };
+		B57B7DA61FDED7DF0095DB12 /* SwearKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */; };
+		B57B7DA71FDED7DF0095DB12 /* SwearKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */; };
+		B57B7DA81FDED7E20095DB12 /* SwearKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B57B7DA91FDED7FA0095DB12 /* Gulliver.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B57B7DAA1FDED7FA0095DB12 /* GulliverUI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDDA1FDCAFBA00C0C892 /* GulliverUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B586AF411EFAD67B00CA72CE /* IncomingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586AF401EFAD67B00CA72CE /* IncomingImage.swift */; };
 		B5883EE61FDEAC5B00D051C9 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; };
@@ -75,7 +85,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B57B7DA91FDED7FA0095DB12 /* Gulliver.framework in CopyFiles */,
+				B57B7DAA1FDED7FA0095DB12 /* GulliverUI.framework in CopyFiles */,
 				B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */,
+				B57B7DA31FDED7AA0095DB12 /* CrossPlatformKit.framework in CopyFiles */,
+				B57B7DA21FDED7A60095DB12 /* Plug.framework in CopyFiles */,
+				B57B7DA81FDED7E20095DB12 /* SwearKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +112,8 @@
 		B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gulliver.framework; sourceTree = "<group>"; };
 		B55CCDE31FDCAFC200C0C892 /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
 		B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageCountView.swift; sourceTree = "<group>"; };
+		B57B7D9F1FDED1840095DB12 /* Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegates.swift; sourceTree = "<group>"; };
+		B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwearKit.framework; sourceTree = "<group>"; };
 		B586AF401EFAD67B00CA72CE /* IncomingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomingImage.swift; sourceTree = "<group>"; };
 		B58D64671A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D64681A898F81005A0002 /* Hoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hoard.h; sourceTree = "<group>"; };
@@ -125,6 +142,7 @@
 			files = (
 				B5883EE61FDEAC5B00D051C9 /* Plug.framework in Frameworks */,
 				B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */,
+				B57B7DA51FDED7DF0095DB12 /* SwearKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +153,7 @@
 				B55CCDDE1FDCAFBA00C0C892 /* GulliverUI.framework in Frameworks */,
 				B55CCDDD1FDCAFBA00C0C892 /* Gulliver.framework in Frameworks */,
 				B55CCDDF1FDCAFBA00C0C892 /* Plug.framework in Frameworks */,
+				B57B7DA61FDED7DF0095DB12 /* SwearKit.framework in Frameworks */,
 				B55CCDDC1FDCAFBA00C0C892 /* CrossPlatformKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B57B7DA71FDED7DF0095DB12 /* SwearKit.framework in Frameworks */,
 				B55CCDE51FDCAFC200C0C892 /* Gulliver.framework in Frameworks */,
 				B55CCDE41FDCAFC200C0C892 /* CrossPlatformKit.framework in Frameworks */,
 				B55CCDE61FDCAFC200C0C892 /* Plug.framework in Frameworks */,
@@ -195,6 +215,7 @@
 		B55CCDD71FDCAFBA00C0C892 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */,
 				B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */,
 				B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */,
 				B55CCDDA1FDCAFBA00C0C892 /* GulliverUI.framework */,
@@ -255,6 +276,7 @@
 				B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */,
 				B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */,
 				B5A000681B9461BB00FF4576 /* HoardCache.swift */,
+				B57B7D9F1FDED1840095DB12 /* Delegates.swift */,
 				B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */,
 				B5A000591B90752B00FF4576 /* HoardDiskCache.swift */,
 				B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */,
@@ -470,6 +492,7 @@
 				B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */,
 				B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */,
 				B5A0006F1B946EB400FF4576 /* HoardProtocols.swift in Sources */,
+				B57B7DA01FDED1840095DB12 /* Delegates.swift in Sources */,
 				B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */,
 				B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */,
 				B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */,
@@ -484,6 +507,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B57B7DA11FDED1840095DB12 /* Delegates.swift in Sources */,
 				B5CB6FA01E1E7C9A00116EB6 /* HoardPendingImage.swift in Sources */,
 				B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */,
 				B58D64831A898FBE005A0002 /* Hoard.swift in Sources */,
@@ -744,6 +768,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/Mac",
+					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -778,6 +803,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/Mac",
+					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Hoard/Mac/Info.plist;

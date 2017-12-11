@@ -73,7 +73,7 @@ open class PendingImage: NSObject {
 		self.url = url
 		self.completion = comp
 		self.priority = pri
-		self.cache = imageCache ?? HoardState.defaultImageCache
+		self.cache = imageCache ?? Cache.defaultImageCache
 		
 		super.init()
 	}

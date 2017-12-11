@@ -10,6 +10,31 @@ import UIKit
 import Hoard
 import Plug
 
+extension URL {
+	static func generateTestURLs(number: Int) -> [URL] {
+		var urls = [
+			URL(string: "http://redriverunited.org/wp-content/uploads/2014/01/1.png")!,
+			URL(string: "http://tomreynolds.com/wp/wp-content/uploads/2014/01/2-graphic-300x300.png")!,
+			URL(string: "http://vignette3.wikia.nocookie.net/candy-crush-saga/images/9/9a/Red-rounded-with-number-3-md.png/revision/latest?cb=20140802162943")!,
+			URL(string: "http://cdn.marketplaceimages.windowsphone.com/v8/images/4b85303b-410f-492f-b554-26473010af71?imageType=ws_icon_large")!,
+			URL(string: "http://static.comicvine.com/uploads/original/11111/111116692/3150494-7873411214-5.jpg.jpg")!,
+			URL(string: "http://upload.wikimedia.org/wikipedia/commons/5/5a/MRT_Singapore_Destination_6.png")!,
+			URL(string: "https://clauzzen.files.wordpress.com/2011/11/7.jpg")!,
+			URL(string: "http://www.donewaiting.com/wp-content/uploads/2011/01/8ball.jpg")!,
+			URL(string: "http://triadstrategies.typepad.com/.a/6a0120a6abf659970b015436794df1970c-pi")!,
+			URL(string: "http://www.nature.com/polopoly_fs/7.14368.1387365090!/image/natures-10-lead-2.jpg_gen/derivatives/landscape_630/natures-10-lead-2.jpg")!
+		]
+		
+		if urls.count >= number { return Array(urls[0..<number]) }
+		
+		for _ in 0..<(number - urls.count) {
+			urls.append(URL(string: "http://lorempixel.com/\((arc4random() % 400 + 30))/\((arc4random() % 400 + 40))/")!)
+		}
+		
+		return urls
+	}
+}
+
 class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSource, UICollectionViewDelegate {
 	let pendingImage = IncomingImage(url: URL(string: "http://www.nationalgeographic.com/content/dam/photography/photos/000/953/95377.ngsversion.1471316919695.adapt.1900.1.jpg")!)
 	func generateImage(for: URL) -> UIImage? {
@@ -22,7 +47,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		HoardState.defaultImageCache.maxSize = 100000
+		Cache.defaultImageCache.maxSize = 100000
 		self.view.backgroundColor = UIColor.green
 	
 	}
@@ -41,24 +66,15 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 	override func viewDidLayoutSubviews() {
 		if !self.setup {
 			self.setup = true
-			var urls = [
-				URL(string: "http://redriverunited.org/wp-content/uploads/2014/01/1.png")!,
-				URL(string: "http://tomreynolds.com/wp/wp-content/uploads/2014/01/2-graphic-300x300.png")!,
-				URL(string: "http://vignette3.wikia.nocookie.net/candy-crush-saga/images/9/9a/Red-rounded-with-number-3-md.png/revision/latest?cb=20140802162943")!,
-				URL(string: "http://cdn.marketplaceimages.windowsphone.com/v8/images/4b85303b-410f-492f-b554-26473010af71?imageType=ws_icon_large")!,
-				URL(string: "http://static.comicvine.com/uploads/original/11111/111116692/3150494-7873411214-5.jpg.jpg")!,
-				URL(string: "http://upload.wikimedia.org/wikipedia/commons/5/5a/MRT_Singapore_Destination_6.png")!,
-				URL(string: "https://clauzzen.files.wordpress.com/2011/11/7.jpg")!,
-				URL(string: "http://www.donewaiting.com/wp-content/uploads/2011/01/8ball.jpg")!,
-				URL(string: "http://triadstrategies.typepad.com/.a/6a0120a6abf659970b015436794df1970c-pi")!,
-				URL(string: "http://www.nature.com/polopoly_fs/7.14368.1387365090!/image/natures-10-lead-2.jpg_gen/derivatives/landscape_630/natures-10-lead-2.jpg")!
-			]
+			let urls = URL.generateTestURLs(number: 10)
 			
-			for _ in 0...30 {
-				urls.append(URL(string: "http://lorempixel.com/\((arc4random() % 400 + 30))/\((arc4random() % 400 + 40))/")!)
-			}
+			let cacheURL = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, [.userDomainMask], true).first!).appendingPathComponent("TestPreCache.cache")
+			let testCache = Hoard.Cache.cache(for: cacheURL)
+			//testCache.prefetch(from: urls) { print("Prefetch completed") }
+			Cache.defaultImageCache.diskCache?.prefetch(from: urls) { print("Prefetch completed") }
+			return
 			
-			let cache = HoardState.defaultImageCache.diskCache
+			let cache = Cache.defaultImageCache.diskCache
 			for url in urls {
 				_ = PendingImage.request(from: url, cache: cache)
 			}

@@ -46,9 +46,6 @@ open class HoardState: NSObject {
 	open static var debugLevel = DebugLevel.none
 	open weak var source: HoardImageSource?
 	
-	open static var defaultImageCache = Cache.cache(for: HoardState.mainImageCacheKey)
-	open static let mainImageCacheKey = "main-hoard-cache"
-	
 	//=============================================================================================
 	//MARK: Private
 	

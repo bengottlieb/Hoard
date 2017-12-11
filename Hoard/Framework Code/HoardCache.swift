@@ -8,15 +8,42 @@
 
 import Foundation
 import CrossPlatformKit
+import Plug
 
 open class Cache: NSObject {
-	deinit {
-		NotificationCenter.default.removeObserver(self)
+	public static var defaultImageCache = Cache.cache(for: Cache.mainImageCacheKey)
+	public static let mainImageCacheKey = "main-hoard-cache"
+
+	public let diskCache: DiskCache?
+	public weak var delegate: HoardCacheDelegate?
+	public var currentSize: Int64 = 0
+	public var maxSize = Cache.sensibleMemorySizeForCurrentDevice() { didSet {
+		self.prune()
+		}
 	}
 	
-	open static var sharedCaches: [AnyHashable: Cache] = [:]
+	let serialQueue: OperationQueue
+	var mapTable: NSMapTable<AnyObject, AnyObject>
+	let cacheDescription: String?
 	
-	open static var defaultImageCache: Cache { return HoardState.defaultImageCache }
+	public static var sharedCaches: [AnyHashable: Cache] = [:]
+	
+	open static func hasData(for url: URL) -> Bool {
+		for (_, cache) in self.sharedCaches {
+			if cache.hasData(for: url) { return true }
+		}
+		return false
+	}
+	
+	open static func fetch<T: HoardDiskCachable> (for url: URL, moreRecentThan: Date? = nil) -> T? {
+		for (_, cache) in self.sharedCaches {
+			if let item: T = cache.fetch(for: url, moreRecentThan: moreRecentThan) {
+				return item
+			}
+		}
+		return nil
+	}
+
 	
 	open class func sensibleMemorySizeForCurrentDevice() -> Int64 {
 		let info = ProcessInfo()
@@ -59,32 +86,21 @@ open class Cache: NSObject {
 	
 	init(diskCacheURL: URL? = nil, type: DiskCache.StorageFormat = .data, description desc: String? = nil) {
 		if let url = diskCacheURL {
-			diskCache = DiskCache(url: url, type: type, description: (desc ?? "") + " Disk Cache")
+			self.diskCache = DiskCache(url: url, type: type, description: (desc ?? "") + " Disk Cache")
 		} else {
-			diskCache = nil
+			self.diskCache = nil
 		}
 		
-		cacheDescription = desc
-		serialQueue = OperationQueue()
-		serialQueue.maxConcurrentOperationCount = 1
-		serialQueue.qualityOfService = .userInteractive
-		mapTable = NSMapTable(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options())
+		self.cacheDescription = desc
+		self.serialQueue = OperationQueue()
+		self.serialQueue.maxConcurrentOperationCount = 1
+		self.serialQueue.qualityOfService = .userInteractive
+		self.mapTable = NSMapTable(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options())
 		super.init()
 		#if os(iOS)
 			NotificationCenter.default.addObserver(self, selector: #selector(Cache.didReceiveMemoryWarning), name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
 		#endif
 	}
-	
-	open let diskCache: DiskCache?
-	open var currentSize: Int64 = 0
-	open var maxSize = Cache.sensibleMemorySizeForCurrentDevice() { didSet {
-			self.prune()
-		}
-	}
-	
-	let serialQueue: OperationQueue
-	var mapTable: NSMapTable<AnyObject, AnyObject>
-	let cacheDescription: String?
 	
 	func serialize(_ block: @escaping () -> Void) { self.serialQueue.addOperation(block) }
 	
@@ -100,6 +116,15 @@ open class Cache: NSObject {
 		self.diskCache?.clearOut()
 	}
 	
+	open func prefetch(from url: URL, validUntil: Date? = nil, completion: (() -> Void)? = nil) { self.prefetch(from: [url], validUntil: validUntil, completion: completion) }
+	open func prefetch(from urls: [URL], validUntil: Date? = nil, completion: (() -> Void)? = nil) {
+		guard let disk = self.diskCache else {
+			completion?()
+			return
+		}
+		disk.prefetch(from: urls, validUntil: validUntil, completion: completion)
+	}
+
 	open func store(object: HoardDiskCachable?, from url: URL, skipDisk: Bool = false, validUntil: Date? = nil) {
 		self.serialize {
 			var size = 0
@@ -134,7 +159,11 @@ open class Cache: NSObject {
 			}
 		}
 	}
-
+	
+	open func hasData(for url: URL) -> Bool {
+		return self.mapTable.object(forKey: url.cacheKey) != nil
+	}
+	
 	open func remove(_ url: URL) {
 		self.serialize {
 			let key = url.cacheKey as NSString
@@ -146,13 +175,15 @@ open class Cache: NSObject {
 		}
 	}
 	
-	open func fetch(for url: URL, moreRecentThan: Date? = nil) -> HoardDiskCachable? {
+	open func fetch<T: HoardDiskCachable>(for url: URL, moreRecentThan: Date? = nil) -> T? {
 		if let info = self.mapTable.object(forKey: url.cacheKey) as? CachedObjectInfo {
 			self.diskCache?.updateAccessedAtForRemoteURL(url)
 			info.accessedAt = Date().timeIntervalSinceReferenceDate
-			return info.object
+			return info.object as? T
 		}
-		return nil //self.diskCache?.fetchData(from)
+		
+		if let item: T = self.diskCache?.fetch(for: url, moreRecentThan: moreRecentThan) { return item }
+		return nil
 	}
 	
 	open func isCacheDataAvailable(for url: URL) -> Bool {
@@ -184,10 +215,10 @@ open class Cache: NSObject {
 	}
 	
 	public func fetchImage(for url: URL, moreRecentThan: Date? = nil) -> UXImage? {
-		if let image = self.fetch(for: url, moreRecentThan: moreRecentThan) as? UXImage {
+		if let image: UXImage = self.fetch(for: url, moreRecentThan: moreRecentThan) {
 			return image
 		}
-		if let cached = self.diskCache?.fetchImage(for: url, moreRecentThan: moreRecentThan) ?? self.fetch(for: url, moreRecentThan: moreRecentThan) as? UXImage {
+		if let cached: UXImage = self.diskCache?.fetchImage(for: url, moreRecentThan: moreRecentThan) ?? self.fetch(for: url, moreRecentThan: moreRecentThan) {
 			self.store(object: cached, from: url, skipDisk: true)
 			return cached
 		}
