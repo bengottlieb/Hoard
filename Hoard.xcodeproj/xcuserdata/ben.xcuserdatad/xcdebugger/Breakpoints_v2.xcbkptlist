@@ -20,7 +20,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hoard/Framework Code/HoardCache.swift"
-            timestampString = "534701662.376621"
+            timestampString = "534710771.219651"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "32"
@@ -36,7 +36,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hoard/Framework Code/HoardCache.swift"
-            timestampString = "534701662.376876"
+            timestampString = "534710771.219915"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "40"
@@ -52,61 +52,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hoard/Framework Code/HoardCache.swift"
-            timestampString = "534701662.376925"
+            timestampString = "534710771.219963"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "67"
             endingLineNumber = "67"
             landmarkName = "cache(for:type:description:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hoard/Framework Code/HoardDiskCache.swift"
-            timestampString = "534701662.376969"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "prefetch(from:validUntil:completion:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in Hoard.DiskCache.prefetch(from: Swift.Array&lt;Foundation.URL&gt;, validUntil: Swift.Optional&lt;Foundation.Date&gt;, completion: Swift.Optional&lt;() -&gt; ()&gt;) -&gt; ()"
-                  moduleName = "Hoard"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ben/Documents/ManagedProjects/Frameworks/Hoard/Hoard/Framework%20Code/HoardDiskCache.swift"
-                  timestampString = "534701662.517057"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "70"
-                  endingLineNumber = "70"
-                  offsetFromSymbolStart = "1644">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "implicit closure #1 : @autoclosure () throws -&gt; Swift.Optional&lt;Plug.Connection&gt; in closure #1 () -&gt; () in Hoard.DiskCache.prefetch(from: Swift.Array&lt;Foundation.URL&gt;, validUntil: Swift.Optional&lt;Foundation.Date&gt;, completion: Swift.Optional&lt;() -&gt; ()&gt;) -&gt; ()"
-                  moduleName = "Hoard"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ben/Documents/ManagedProjects/Frameworks/Hoard/Hoard/Framework%20Code/HoardDiskCache.swift"
-                  timestampString = "534701662.519607"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "70"
-                  endingLineNumber = "70"
-                  offsetFromSymbolStart = "17">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -117,12 +117,12 @@ open class Cache: NSObject {
 	}
 	
 	open func prefetch(from url: URL, validUntil: Date? = nil, completion: (() -> Void)? = nil) { self.prefetch(from: [url], validUntil: validUntil, completion: completion) }
-	open func prefetch(from urls: [URL], validUntil: Date? = nil, completion: (() -> Void)? = nil) {
+	open func prefetch(from urls: [URL], validUntil: Date? = nil, progress: ((Int) -> Void)? = nil, completion: (() -> Void)? = nil) {
 		guard let disk = self.diskCache else {
 			completion?()
 			return
 		}
-		disk.prefetch(from: urls, validUntil: validUntil, completion: completion)
+		disk.prefetch(from: urls, validUntil: validUntil, progress: progress, completion: completion)
 	}
 
 	open func store(object: HoardDiskCachable?, from url: URL, skipDisk: Bool = false, validUntil: Date? = nil) {

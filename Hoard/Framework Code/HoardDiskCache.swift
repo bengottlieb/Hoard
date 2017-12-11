@@ -55,27 +55,39 @@ open class DiskCache: Cache {
 		}
 	}
 	
-	open override func prefetch(from urls: [URL], validUntil: Date? = nil, completion: (() -> Void)? = nil) {
+	open override func prefetch(from urls: [URL], validUntil: Date? = nil, progress: ((Int) -> Void)? = nil, completion: (() -> Void)? = nil) {
 		self.serialize {
 			let completionQueue = DispatchQueue(label: "fetchAll", qos: .utility)
 			completionQueue.suspend()
-			if let comp = completion { completionQueue.async(execute: comp) }
+			if let comp = completion { completionQueue.async {
+				progress?(urls.count)
+				comp()
+			} }
+			var count = 0
 			
 			for url in urls {
-				if !self.hasData(for: url) {
-					if let data: Data = Cache.fetch(for: url) {
-						self.storeData(data, from: url)
-						continue
-					}
-					guard let connection = self.delegate?.connection(for: url) ?? Connection(url: url) else { continue }
-					completionQueue.suspend()
-					connection.completion() { conn, data in
-						self.storeData(data.data, from: url)
-						completionQueue.resume()
-					}.error() { conn, error in
-						print("Error while downloading: \(error) from \(url)")
-						completionQueue.resume()
-					}
+				if self.hasData(for: url) {
+					count += 1
+					continue
+				}
+				if let data: Data = Cache.fetch(for: url) {
+					self.storeData(data, from: url)
+					count += 1
+					progress?(count)
+					continue
+				}
+				guard let connection = self.delegate?.connection(for: url) ?? Connection(url: url) else { continue }
+				completionQueue.suspend()
+				connection.completion() { conn, data in
+					count += 1
+					progress?(count)
+					self.storeData(data.data, from: url)
+					completionQueue.resume()
+				}.error() { conn, error in
+					count += 1
+					progress?(count)
+					print("Error while downloading: \(error) from \(url)")
+					completionQueue.resume()
 				}
 			}
 			

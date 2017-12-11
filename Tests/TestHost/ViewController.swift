@@ -71,7 +71,7 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 			let cacheURL = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, [.userDomainMask], true).first!).appendingPathComponent("TestPreCache.cache")
 			let testCache = Hoard.Cache.cache(for: cacheURL)
 			//testCache.prefetch(from: urls) { print("Prefetch completed") }
-			Cache.defaultImageCache.diskCache?.prefetch(from: urls) { print("Prefetch completed") }
+			Cache.defaultImageCache.diskCache?.prefetch(from: urls, progress: { ct in print("\(ct)/\(urls.count)") }) { print("Prefetch completed") }
 			return
 			
 			let cache = Cache.defaultImageCache.diskCache
