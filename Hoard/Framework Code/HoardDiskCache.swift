@@ -78,6 +78,7 @@ open class DiskCache: Cache {
 				}
 				guard let connection = self.delegate?.connection(for: url) ?? Connection(url: url) else { continue }
 				completionQueue.suspend()
+				
 				connection.completion() { conn, data in
 					count += 1
 					progress?(count)
@@ -89,6 +90,8 @@ open class DiskCache: Cache {
 					print("Error while downloading: \(error) from \(url)")
 					completionQueue.resume()
 				}
+				
+				connection.start()
 			}
 			
 			completionQueue.resume()
