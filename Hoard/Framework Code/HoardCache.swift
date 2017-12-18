@@ -250,4 +250,20 @@ extension Cache {
 			key = cacheKey
 		}
 	}
+	
+	public func prefetchImage(for url: URL) {
+		_ = PendingImage.request(from: url, source: self, cache: self)
+	}
 }
+
+extension Cache: HoardImageSource {
+	public func generateImage(for url: URL) -> UXImage? {
+		return self.fetchImage(for: url)
+	}
+	
+	public func isFastImageGenerator(for url: URL) -> Bool {
+		return self.hasData(for: url)
+	}
+}
+
+
