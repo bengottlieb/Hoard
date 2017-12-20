@@ -28,14 +28,11 @@ open class DiskCache: Cache {
 	open let baseURL: URL
 	open let valid: Bool
 	open var imageStorageQuality: CGFloat = 0.9
-	var diskQueue: OperationQueue
-	
+	let diskSemaphore = DispatchSemaphore(value: 1)
+
 	public init(url: URL, type: StorageFormat = .png, description: String?) {
 		baseURL = url
 		storageFormat = type
-		diskQueue = OperationQueue()
-		diskQueue.maxConcurrentOperationCount = 1
-		diskQueue.qualityOfService = .utility
 
 		do {
 			try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
@@ -47,55 +44,57 @@ open class DiskCache: Cache {
 		super.init(description: description)
 		self.maxSize = self.optimalCacheSize()
 		self.cacheLimitSize = Int64(Double(self.maxSize) * 1.25)
-		self.performDiskOperation {
-			self.currentSize = self.onDiskSize()
-			if HoardState.debugLevel != .none {
-				print("Current cache size: \(self.currentSize)")
-			}
+		self.diskSemaphore.wait()
+		defer { self.diskSemaphore.signal() }
+		self.currentSize = self.onDiskSize()
+		if HoardState.debugLevel != .none {
+			print("Current cache size: \(self.currentSize)")
 		}
 	}
 	
 	open override func prefetch(from urls: [URL], validUntil: Date? = nil, progress: ((Int) -> Void)? = nil, completion: (() -> Void)? = nil) {
-		self.serialize {
-			let completionQueue = DispatchQueue(label: "fetchAll", qos: .utility)
+
+		self.semaphore.wait()
+		defer { self.semaphore.signal() }
+
+		let completionQueue = DispatchQueue(label: "fetchAll", qos: .utility)
+		completionQueue.suspend()
+		if let comp = completion { completionQueue.async {
+			progress?(urls.count)
+			comp()
+		} }
+		var count = 0
+		
+		for url in urls {
+			if self.hasData(for: url) {
+				count += 1
+				continue
+			}
+			if let data: Data = Cache.fetch(for: url) {
+				self.storeData(data, from: url)
+				count += 1
+				progress?(count)
+				continue
+			}
+			guard let connection = self.delegate?.connection(for: url) ?? Connection(url: url) else { continue }
 			completionQueue.suspend()
-			if let comp = completion { completionQueue.async {
-				progress?(urls.count)
-				comp()
-			} }
-			var count = 0
 			
-			for url in urls {
-				if self.hasData(for: url) {
-					count += 1
-					continue
-				}
-				if let data: Data = Cache.fetch(for: url) {
-					self.storeData(data, from: url)
-					count += 1
-					progress?(count)
-					continue
-				}
-				guard let connection = self.delegate?.connection(for: url) ?? Connection(url: url) else { continue }
-				completionQueue.suspend()
-				
-				connection.completion() { conn, data in
-					count += 1
-					progress?(count)
-					self.storeData(data.data, from: url)
-					completionQueue.resume()
-				}.error() { conn, error in
-					count += 1
-					progress?(count)
-					print("Error while downloading: \(error) from \(url)")
-					completionQueue.resume()
-				}
-				
-				connection.start()
+			connection.completion() { conn, data in
+				count += 1
+				progress?(count)
+				self.storeData(data.data, from: url)
+				completionQueue.resume()
+			}.error() { conn, error in
+				count += 1
+				progress?(count)
+				print("Error while downloading: \(error) from \(url)")
+				completionQueue.resume()
 			}
 			
-			completionQueue.resume()
+			connection.start()
 		}
+		
+		completionQueue.resume()
 	}
 	
 	open override func hasData(for url: URL) -> Bool {
@@ -103,19 +102,17 @@ open class DiskCache: Cache {
 		return FileManager.default.fileExists(atPath: cacheURL.path)
 	}
 	
-	func performDiskOperation(_ block: @escaping () -> Void) { self.diskQueue.addOperation(block) }
-
 	var cacheLimitSize: Int64 = 0		//what size do we start pruning the cache at?
 	
 	func clearOut() {
-		self.performDiskOperation {
-			do {
-				try FileManager.default.removeItem(at: self.baseURL)
-				try FileManager.default.createDirectory(at: self.baseURL, withIntermediateDirectories: true, attributes: nil)
-				self.currentSize = 0
-			} catch let error as NSError {
-				print("Error while clearing Hoard cache: \(error)")
-			}
+		self.diskSemaphore.wait()
+		defer { self.diskSemaphore.signal() }
+		do {
+			try FileManager.default.removeItem(at: self.baseURL)
+			try FileManager.default.createDirectory(at: self.baseURL, withIntermediateDirectories: true, attributes: nil)
+			self.currentSize = 0
+		} catch let error as NSError {
+			print("Error while clearing Hoard cache: \(error)")
 		}
 	}
 	
@@ -146,27 +143,27 @@ open class DiskCache: Cache {
 	open func storeData(_ data: Data?, from url: URL, suggestedFileExtension: String? = nil, validUntil: Date? = nil) {
 		if !self.valid { return }
 	
-		self.performDiskOperation {
-			if let data = data {
-				var cacheURL = self.localURLForURL(url)
-				if (try? data.write(to: cacheURL, options: [.atomic])) != nil {
-					cacheURL.storedAt = Date()
-					self.currentSize += Int64(data.count)
-					if let date = validUntil { cacheURL.expiresAt = date }
-				}
-				
-				if self.currentSize > self.cacheLimitSize { self.prune() }
-			} else {
-				self.remove(url)
+		self.diskSemaphore.wait()
+		defer { self.diskSemaphore.signal() }
+		if let data = data {
+			var cacheURL = self.localURLForURL(url)
+			if (try? data.write(to: cacheURL, options: [.atomic])) != nil {
+				cacheURL.storedAt = Date()
+				self.currentSize += Int64(data.count)
+				if let date = validUntil { cacheURL.expiresAt = date }
 			}
+			
+			if self.currentSize > self.cacheLimitSize { self.prune() }
+		} else {
+			self.remove(url)
 		}
 	}
 	
 	func updateAccessedAtForRemoteURL(_ url: URL) {
-		self.performDiskOperation {
-			var cachedURL = self.localURLForURL(url)
-			cachedURL.accessedAt = Date()
-		}
+		self.diskSemaphore.wait()
+		defer { self.diskSemaphore.signal() }
+		var cachedURL = self.localURLForURL(url)
+		cachedURL.accessedAt = Date()
 	}
 	
 	open override func fetch<T: HoardDiskCachable>(for url: URL, moreRecentThan: Date? = nil) -> T? {
@@ -238,15 +235,15 @@ open class DiskCache: Cache {
 	}
 
 	open override func remove(_ url: URL) {
-		self.performDiskOperation {
-			let cacheURL = self.localURLForURL(url)
-			
-			self.currentSize -= FileManager.default.fileSizeAtURL(cacheURL)
-			do {
-				try FileManager.default.removeItem(at: cacheURL)
-			} catch let error {
-				print("Failed to remove cached data for URL \(url.path): \(error)")
-			}
+		self.diskSemaphore.wait()
+		defer { self.diskSemaphore.signal() }
+		let cacheURL = self.localURLForURL(url)
+		
+		self.currentSize -= FileManager.default.fileSizeAtURL(cacheURL)
+		do {
+			try FileManager.default.removeItem(at: cacheURL)
+		} catch let error {
+			print("Failed to remove cached data for URL \(url.path): \(error)")
 		}
 	}
 

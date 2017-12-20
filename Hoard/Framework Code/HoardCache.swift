@@ -14,6 +14,7 @@ open class Cache: NSObject {
 	public static var defaultImageCache = Cache.cache(for: Cache.mainImageCacheKey)
 	public static let mainImageCacheKey = "main-hoard-cache"
 
+	let semaphore = DispatchSemaphore(value: 1)
 	public let diskCache: DiskCache?
 	public weak var delegate: HoardCacheDelegate?
 	public var currentSize: Int64 = 0
@@ -22,7 +23,6 @@ open class Cache: NSObject {
 		}
 	}
 	
-	let serialQueue: OperationQueue
 	var mapTable: NSMapTable<AnyObject, AnyObject>
 	let cacheDescription: String?
 	
@@ -44,6 +44,12 @@ open class Cache: NSObject {
 		return nil
 	}
 
+	open static func removeData(for url: URL) {
+		for (_, cache) in self.sharedCaches {
+			cache.remove(url)
+			cache.diskCache?.remove(url)
+		}
+	}
 	
 	open class func sensibleMemorySizeForCurrentDevice() -> Int64 {
 		let info = ProcessInfo()
@@ -92,9 +98,6 @@ open class Cache: NSObject {
 		}
 		
 		self.cacheDescription = desc
-		self.serialQueue = OperationQueue()
-		self.serialQueue.maxConcurrentOperationCount = 1
-		self.serialQueue.qualityOfService = .userInteractive
 		self.mapTable = NSMapTable(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options())
 		super.init()
 		#if os(iOS)
@@ -102,13 +105,11 @@ open class Cache: NSObject {
 		#endif
 	}
 	
-	func serialize(_ block: @escaping () -> Void) { self.serialQueue.addOperation(block) }
-	
 	open func flushCache() {
-		self.serialize {
-			self.mapTable = NSMapTable(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options())
-			self.currentSize = 0
-		}
+		self.semaphore.wait()
+		defer { self.semaphore.signal() }
+		self.mapTable = NSMapTable(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options())
+		self.currentSize = 0
 	}
 	
 	public func nuke() {
@@ -126,37 +127,37 @@ open class Cache: NSObject {
 	}
 
 	open func store(object: HoardDiskCachable?, from url: URL, skipDisk: Bool = false, validUntil: Date? = nil) {
-		self.serialize {
-			var size = 0
-			if let object = object {
-				let key = url.cacheKey as NSString
-				if let existing = self.mapTable.object(forKey: key) as? CachedObjectInfo {
-					if existing.object == object { return }
-					
-					self.currentSize -= Int64(existing.size)
-					self.mapTable.removeObject(forKey: key)
-				}
-
-				if let cached = object as? CacheStoredObject {
-					size = cached.hoardCacheSize
-				} else if let image = object as? UXImage {
-					size = image.hoardCacheSize
-				} else {
-					print("not a cachable object")
-				}
-				self.currentSize += Int64(size)
-				self.mapTable.setObject(CachedObjectInfo(object: object, size: size, key: key), forKey: key)
+		self.semaphore.wait()
+		defer { self.semaphore.signal() }
+		var size = 0
+		if let object = object {
+			let key = url.cacheKey as NSString
+			if let existing = self.mapTable.object(forKey: key) as? CachedObjectInfo {
+				if existing.object == object { return }
 				
-				if !skipDisk, let cache = self.diskCache {
-					cache.storeData(object.hoardCacheData, from: url)
-					return
-				}
-				
-				self.prune()
-				self.diskCache?.store(object: object, from: url, validUntil: validUntil)
-			} else {
-				self.remove(url)
+				self.currentSize -= Int64(existing.size)
+				self.mapTable.removeObject(forKey: key)
 			}
+
+			if let cached = object as? CacheStoredObject {
+				size = cached.hoardCacheSize
+			} else if let image = object as? UXImage {
+				size = image.hoardCacheSize
+			} else {
+				print("not a cachable object")
+			}
+			self.currentSize += Int64(size)
+			self.mapTable.setObject(CachedObjectInfo(object: object, size: size, key: key), forKey: key)
+			
+			if !skipDisk, let cache = self.diskCache {
+				cache.storeData(object.hoardCacheData, from: url)
+				return
+			}
+			
+			self.prune()
+			self.diskCache?.store(object: object, from: url, validUntil: validUntil)
+		} else {
+			self.remove(url)
 		}
 	}
 	
@@ -165,13 +166,13 @@ open class Cache: NSObject {
 	}
 	
 	open func remove(_ url: URL) {
-		self.serialize {
-			let key = url.cacheKey as NSString
-			if let current = self.mapTable.object(forKey: key) as? CachedObjectInfo {
-				self.currentSize -= Int64(current.size)
-				self.mapTable.removeObject(forKey: key)
-				self.diskCache?.remove(url)
-			}
+		self.semaphore.wait()
+		defer { self.semaphore.signal() }
+		let key = url.cacheKey as NSString
+		if let current = self.mapTable.object(forKey: key) as? CachedObjectInfo {
+			self.currentSize -= Int64(current.size)
+			self.mapTable.removeObject(forKey: key)
+			self.diskCache?.remove(url)
 		}
 	}
 	
@@ -193,20 +194,20 @@ open class Cache: NSObject {
 	
 	open func prune(to size: Int64? = nil) {
 		HoardState.addMaintenance {
-			self.serialize {
-				let limit = size ?? self.maxSize
-				if self.currentSize < limit { return }
-			
-				let current = self.objectsSortedByLastAccess
-				var index = 0
-			
-				while self.currentSize >= limit && index < current.count && current.count > 1 {
-					let oldest = current[index]
-					self.currentSize -= Int64(oldest.size)
-					self.mapTable.removeObject(forKey: oldest.key as AnyObject?)
-				}
-				index += 1
+			self.semaphore.wait()
+			defer { self.semaphore.signal() }
+			let limit = size ?? self.maxSize
+			if self.currentSize < limit { return }
+		
+			let current = self.objectsSortedByLastAccess
+			var index = 0
+		
+			while self.currentSize >= limit && index < current.count && current.count > 1 {
+				let oldest = current[index]
+				self.currentSize -= Int64(oldest.size)
+				self.mapTable.removeObject(forKey: oldest.key as AnyObject?)
 			}
+			index += 1
 		}
 	}
 	

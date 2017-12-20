@@ -36,29 +36,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hoard/Framework Code/HoardCache.swift"
-            timestampString = "534710771.219915"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "fetch(for:moreRecentThan:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hoard/Framework Code/HoardCache.swift"
             timestampString = "534710771.219963"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "67"
             endingLineNumber = "67"
-            landmarkName = "cache(for:type:description:)"
-            landmarkType = "7">
+            landmarkName = "description"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
