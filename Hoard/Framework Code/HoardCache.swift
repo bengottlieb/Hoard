@@ -24,6 +24,7 @@ open class Cache: NSObject {
 	}
 	
 	var mapTable: NSMapTable<AnyObject, AnyObject>
+	var prefetchCancelled = false
 	let cacheDescription: String?
 	
 	public static var sharedCaches: [AnyHashable: Cache] = [:]
@@ -113,8 +114,14 @@ open class Cache: NSObject {
 	}
 	
 	public func nuke() {
+		self.cancelPrefetch()
 		self.flushCache()
 		self.diskCache?.clearOut()
+	}
+	
+	open func cancelPrefetch() {
+		self.prefetchCancelled = true
+		self.diskCache?.prefetchCancelled = true
 	}
 	
 	open func prefetch(from url: URL, validUntil: Date? = nil, completion: (() -> Void)? = nil) { self.prefetch(from: [url], validUntil: validUntil, completion: completion) }
@@ -123,6 +130,7 @@ open class Cache: NSObject {
 			completion?()
 			return
 		}
+		self.prefetchCancelled = false
 		disk.prefetch(from: urls, validUntil: validUntil, progress: progress, completion: completion)
 	}
 

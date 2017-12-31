@@ -54,6 +54,7 @@ open class DiskCache: Cache {
 	
 	open override func prefetch(from urls: [URL], validUntil: Date? = nil, progress: ((Int) -> Void)? = nil, completion: (() -> Void)? = nil) {
 
+		self.prefetchCancelled = false
 		self.semaphore.wait()
 		defer { self.semaphore.signal() }
 
@@ -71,6 +72,7 @@ open class DiskCache: Cache {
 				continue
 			}
 			if let data: Data = Cache.fetch(for: url) {
+				if self.prefetchCancelled { return }
 				self.storeData(data, from: url)
 				count += 1
 				progress?(count)
@@ -80,11 +82,13 @@ open class DiskCache: Cache {
 			completionQueue.suspend()
 			
 			connection.completion() { conn, data in
+				if self.prefetchCancelled { return }
 				count += 1
 				progress?(count)
 				self.storeData(data.data, from: url)
 				completionQueue.resume()
 			}.error() { conn, error in
+				if self.prefetchCancelled { return }
 				count += 1
 				progress?(count)
 				print("Error while downloading: \(error) from \(url)")
