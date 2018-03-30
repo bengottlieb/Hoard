@@ -25,7 +25,6 @@
 		B544A57C1E1EB30300EEA266 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
 		B55CCDDC1FDCAFBA00C0C892 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */; };
 		B55CCDDD1FDCAFBA00C0C892 /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */; };
-		B55CCDDE1FDCAFBA00C0C892 /* GulliverUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDA1FDCAFBA00C0C892 /* GulliverUI.framework */; };
 		B55CCDDF1FDCAFBA00C0C892 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; };
 		B55CCDE41FDCAFC200C0C892 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE11FDCAFC200C0C892 /* CrossPlatformKit.framework */; };
 		B55CCDE51FDCAFC200C0C892 /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */; };
@@ -38,7 +37,6 @@
 		B57B7DA51FDED7DF0095DB12 /* SwearKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */; };
 		B57B7DA81FDED7E20095DB12 /* SwearKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B57B7DA91FDED7FA0095DB12 /* Gulliver.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B57B7DAA1FDED7FA0095DB12 /* GulliverUI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDDA1FDCAFBA00C0C892 /* GulliverUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B57B7DAC1FDEE82E0095DB12 /* SwearKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57B7DAB1FDEE82E0095DB12 /* SwearKit.framework */; };
 		B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B586AF411EFAD67B00CA72CE /* IncomingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586AF401EFAD67B00CA72CE /* IncomingImage.swift */; };
@@ -85,7 +83,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B57B7DA91FDED7FA0095DB12 /* Gulliver.framework in CopyFiles */,
-				B57B7DAA1FDED7FA0095DB12 /* GulliverUI.framework in CopyFiles */,
 				B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */,
 				B57B7DA31FDED7AA0095DB12 /* CrossPlatformKit.framework in CopyFiles */,
 				B57B7DA21FDED7A60095DB12 /* Plug.framework in CopyFiles */,
@@ -105,7 +102,6 @@
 		B504E6AF1A898110001B414B /* Hoard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hoard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
 		B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gulliver.framework; sourceTree = "<group>"; };
-		B55CCDDA1FDCAFBA00C0C892 /* GulliverUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GulliverUI.framework; sourceTree = "<group>"; };
 		B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
 		B55CCDE11FDCAFC200C0C892 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
 		B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gulliver.framework; sourceTree = "<group>"; };
@@ -150,7 +146,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B55CCDDE1FDCAFBA00C0C892 /* GulliverUI.framework in Frameworks */,
 				B55CCDDD1FDCAFBA00C0C892 /* Gulliver.framework in Frameworks */,
 				B55CCDDF1FDCAFBA00C0C892 /* Plug.framework in Frameworks */,
 				B55CCDDC1FDCAFBA00C0C892 /* CrossPlatformKit.framework in Frameworks */,
@@ -217,7 +212,6 @@
 				B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */,
 				B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */,
 				B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */,
-				B55CCDDA1FDCAFBA00C0C892 /* GulliverUI.framework */,
 				B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */,
 			);
 			name = iOS;

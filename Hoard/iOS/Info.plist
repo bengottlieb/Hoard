@@ -22,13 +22,5 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
-	<key>branch</key>
-	<string>master</string>
-	<key>built</key>
-	<string>Mon Dec 11 10:22:12 20171211102212</string>
-	<key>git_number</key>
-	<string>123</string>
-	<key>rev</key>
-	<string>afbed8e</string>
 </dict>
 </plist>
