@@ -43,7 +43,9 @@ open class HoardState: NSObject {
 	open var maxConcurrentDownloads = 400
 	open var active = Set<PendingImage>()
 	open var pending = Array<PendingImage>()
-	open static var debugLevel = DebugLevel.none
+	open static var debugLevel = DebugLevel.none { didSet {
+		if self.debugLevel != .none { print("Hoard debug level set to: \(self.debugLevel.rawValue)") }
+	}}
 	open weak var source: HoardImageSource?
 	
 	//=============================================================================================

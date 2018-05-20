@@ -36,6 +36,8 @@ extension URL {
 }
 
 class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSource, UICollectionViewDelegate {
+	@IBOutlet var imageView: HoardImageView!
+	
 	let pendingImage = IncomingImage(url: URL(string: "http://www.nationalgeographic.com/content/dam/photography/photos/000/953/95377.ngsversion.1471316919695.adapt.1900.1.jpg")!)
 	func generateImage(for: URL) -> UIImage? {
 		return UIImage(named: "screen_shot")
@@ -49,6 +51,8 @@ class ViewController: UIViewController, HoardImageSource, UICollectionViewDataSo
 		
 		Cache.defaultImageCache.maxSize = 100000
 		self.view.backgroundColor = UIColor.green
+		
+		self.imageView.url = URL(string: "https://sportform.ca/c/ryff/images/sponsors/subway.jpg")
 	
 	}
 
