@@ -143,7 +143,7 @@ open class ImageView: UIView {
 		if let url = self.displayedURL {
 			self.urlLabel?.text = url.absoluteString
 		} else {
-			self.backgroundColor = UIColor.black
+		//	self.backgroundColor = UIColor.black
 		}
 	}}
 	var placeholder: UIImage?
@@ -166,6 +166,7 @@ open class ImageView: UIView {
 					self.layer.addSublayer(self.imageLayer)
 				}
 				
+				self.imageLayer.backgroundColor = self.backgroundColor?.cgColor
 				self.imageLayer.opacity = 1.0
 				self.imageLayer.contents = image.cgImage
 				self.imageLayer.frame = self.frame(for: image.size)
