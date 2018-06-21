@@ -18,7 +18,7 @@ let HoardErrorLogPrefix = "** HOARD ** "
 
 open class HoardState: NSObject {
 	public enum DebugLevel: Int { case none, low, high }
-	open static var instance = HoardState()
+	public static var instance = HoardState()
 	
 	override init() {
 		serializerQueue.maxConcurrentOperationCount = 1;
@@ -43,7 +43,7 @@ open class HoardState: NSObject {
 	open var maxConcurrentDownloads = 400
 	open var active = Set<PendingImage>()
 	open var pending = Array<PendingImage>()
-	open static var debugLevel = DebugLevel.none { didSet {
+	public static var debugLevel = DebugLevel.none { didSet {
 		if self.debugLevel != .none { print("Hoard debug level set to: \(self.debugLevel.rawValue)") }
 	}}
 	open weak var source: HoardImageSource?

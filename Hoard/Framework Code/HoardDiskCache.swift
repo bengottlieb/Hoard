@@ -25,8 +25,8 @@ open class DiskCache: Cache {
 	}
 	
 	open var storageFormat = StorageFormat.png
-	open let baseURL: URL
-	open let valid: Bool
+	public let baseURL: URL
+	public let valid: Bool
 	open var imageStorageQuality: CGFloat = 0.9
 	let diskSemaphore = DispatchSemaphore(value: 1)
 

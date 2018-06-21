@@ -15,10 +15,10 @@ public typealias ImageCompletion = (_ image: UXImage?, _ error: Error?, _ fromCa
 open class PendingImage: NSObject {
 	open class var defaultPriority: Int { return 10 }
 	
-	open let url: URL
-	open let completion: ImageCompletion?
-	open let priority: Int
-	open var error: Error?
+	public let url: URL
+	public let completion: ImageCompletion?
+	public let priority: Int
+	public var error: Error?
 	
 	open class func request(from url: URL, source: HoardImageSource? = nil, cache: Cache? = nil, completion: ImageCompletion? = nil) -> PendingImage {
 		let pending = PendingImage(url: url, cache: cache, completion: completion)

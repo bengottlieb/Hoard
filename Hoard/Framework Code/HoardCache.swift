@@ -29,14 +29,14 @@ open class Cache: NSObject {
 	
 	public static var sharedCaches: [AnyHashable: Cache] = [:]
 	
-	open static func hasData(for url: URL) -> Bool {
+	public static func hasData(for url: URL) -> Bool {
 		for (_, cache) in self.sharedCaches {
 			if cache.hasData(for: url) { return true }
 		}
 		return false
 	}
 	
-	open static func fetch<T: HoardDiskCachable> (for url: URL, moreRecentThan: Date? = nil) -> T? {
+	public static func fetch<T: HoardDiskCachable> (for url: URL, moreRecentThan: Date? = nil) -> T? {
 		for (_, cache) in self.sharedCaches {
 			if let item: T = cache.fetch(for: url, moreRecentThan: moreRecentThan) {
 				return item
@@ -45,7 +45,7 @@ open class Cache: NSObject {
 		return nil
 	}
 
-	open static func removeData(for url: URL) {
+	public static func removeData(for url: URL) {
 		for (_, cache) in self.sharedCaches {
 			cache.remove(url)
 			cache.diskCache?.remove(url)
