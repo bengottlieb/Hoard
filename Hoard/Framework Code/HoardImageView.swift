@@ -89,7 +89,7 @@ open class ImageView: UIView {
 			self.displayedURL = nil
 			self.pendingImage = PendingImage.request(from: url, source: self.imageSource, cache: self.imageCache, completion: { [weak self] image, error, fromCache in
 				if let imageView = self {
-					if let error = error { print(HoardErrorLogPrefix + "error downloading from \(url): \(error.localizedDescription)") }
+					if let error = error, !url.isFileURL { print(HoardErrorLogPrefix + "error downloading from \(url): \(error.localizedDescription)") }
 					imageView.hideActivityIndicator()
 					
 					if let image = image, let view = self {
