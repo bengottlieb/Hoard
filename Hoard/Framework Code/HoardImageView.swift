@@ -46,6 +46,7 @@ open class ImageView: UIView {
 	var imageURL: URL?
 	open var url: URL? {
 		set {
+			if self.url == nil { self.pendingImage?.cancel(); self.pendingImage = nil }
 			if newValue == self.displayedURL && (self.image != nil || self.pendingImage != nil)  { return }
 			if let pendingURL = self.pendingImage?.url, let actualURL = newValue, actualURL == pendingURL { return }
 			self.shouldFadeIn = false
@@ -82,6 +83,8 @@ open class ImageView: UIView {
 		if let pending = self.pendingImage, pending.dupes.count == 0, cancellingOld { pending.cancel() }
 		
 		if let url = url {
+			if url.isFileURL, !FileManager.default.fileExists(atPath: url.path) { return }
+			
 			self.showActivityIndicator()
 			
 			if HoardState.debugLevel != .none { self.backgroundColor = UIColor(red: CGFloat(url.absoluteString.hash % 255) / 255.0, green: CGFloat(url.absoluteString.hash % 253) / 255.0, blue: CGFloat(url.absoluteString.hash % 254) / 255.0, alpha: 1.0) }
@@ -92,12 +95,12 @@ open class ImageView: UIView {
 					if let error = error, !url.isFileURL { print(HoardErrorLogPrefix + "error downloading from \(url): \(error.localizedDescription)") }
 					imageView.hideActivityIndicator()
 					
-					if let image = image, let view = self {
+					if let actual = image, let view = self {
 						imageView.displayedURL = url
 
-						if imageView.imageURL == tempURL && image != imageView.image {
+						if imageView.imageURL == tempURL && actual != imageView.image {
 							//println("received image: \(imageView.URL) at \(imageView.galleryIndex)")
-							imageView.image = image
+							imageView.image = actual
 							if imageView.revealAnimationDuration > 0.0 && !fromCache && view.shouldFadeIn {
 								let anim = CABasicAnimation(keyPath: "opacity")
 								anim.duration = imageView.revealAnimationDuration
@@ -112,7 +115,7 @@ open class ImageView: UIView {
 						imageView.displayedURL = nil
 						imageView.image = nil
 						if let slf = self as? HoardImageView { slf.imageViewDelegate?.failedToFetchImage(for: url, in: slf, withError: error) }
-						if self?.imageViewDelegate == nil, !url.isFileURL { print(HoardErrorLogPrefix + "Failed to load image: \(tempURL)") }
+						if self?.imageViewDelegate == nil, !tempURL.isFileURL { print(HoardErrorLogPrefix + "Failed to load image: \(tempURL)") }
 					}
 				}
 			})
