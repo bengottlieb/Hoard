@@ -66,7 +66,7 @@ open class ImageView: UIView {
 	var loadingIndicator: UIActivityIndicatorView!
 	func showActivityIndicator() {
 		if self.loadingIndicator == nil {
-			self.loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+			self.loadingIndicator = UIActivityIndicatorView(style: .gray)
 			self.loadingIndicator.hidesWhenStopped = true
 			self.addSubview(self.loadingIndicator)
 		}
@@ -240,9 +240,9 @@ open class ImageView: UIView {
 	
 	func updateDeviceOrientationNotifications() {
 		if self.useDeviceOrientation {
-			NotificationCenter.default.addObserver(self, selector: #selector(ImageView.orientationChanged), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+			NotificationCenter.default.addObserver(self, selector: #selector(ImageView.orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
 		} else {
-			NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+			NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
 		}
 	}
 	
@@ -274,9 +274,9 @@ open class ImageView: UIView {
 			self.fullScreenView?.alpha = 1.0
 			self.fullScreenView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 			host?.addSubview(self.fullScreenView!)
-			host?.bringSubview(toFront: self.fullScreenView!)
+			host?.bringSubviewToFront(self.fullScreenView!)
 
-			UIView.animate(withDuration: 0.25 * (HoardState.debugLevel != .none ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+			UIView.animate(withDuration: 0.25 * (HoardState.debugLevel != .none ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {
 				self.alpha = 0.0
 				self.fullScreenView?.alpha = 1.0
 				self.fullScreenView?.frame = (host?.frame)!
@@ -303,7 +303,7 @@ open class ImageView: UIView {
 		self.parentGallery?.setCurrent(index: self.fullScreenView!.currentIndex, animated: false)
 		if let host = self.fullScreenView?.superview {
 			let newFrame = self.convert(self.bounds, to: host)
-			UIView.animate(withDuration: 0.25 * (HoardState.debugLevel != .none ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+			UIView.animate(withDuration: 0.25 * (HoardState.debugLevel != .none ? 1.0 : 1.0), delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {
 				self.alpha = 1.0
 				self.fullScreenView?.alpha = 0.0
 				if self.superview != nil { self.fullScreenView?.frame = newFrame }

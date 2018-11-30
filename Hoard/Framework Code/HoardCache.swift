@@ -102,7 +102,7 @@ open class Cache: NSObject {
 		self.mapTable = NSMapTable(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options())
 		super.init()
 		#if os(iOS)
-			NotificationCenter.default.addObserver(self, selector: #selector(Cache.didReceiveMemoryWarning), name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(Cache.didReceiveMemoryWarning), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
 		#endif
 	}
 	
