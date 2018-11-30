@@ -112,7 +112,7 @@ open class ImageView: UIView {
 						imageView.displayedURL = nil
 						imageView.image = nil
 						if let slf = self as? HoardImageView { slf.imageViewDelegate?.failedToFetchImage(for: url, in: slf, withError: error) }
-						if self?.imageViewDelegate == nil { print(HoardErrorLogPrefix + "Failed to load image: \(tempURL)") }
+						if self?.imageViewDelegate == nil, !url.isFileURL { print(HoardErrorLogPrefix + "Failed to load image: \(tempURL)") }
 					}
 				}
 			})

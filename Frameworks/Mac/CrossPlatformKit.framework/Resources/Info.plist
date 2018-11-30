@@ -29,26 +29,26 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>10A254a</string>
+	<string>10B61</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>18A384</string>
+	<string>18B71</string>
 	<key>DTSDKName</key>
 	<string>macosx10.14</string>
 	<key>DTXcode</key>
-	<string>1000</string>
+	<string>1010</string>
 	<key>DTXcodeBuild</key>
-	<string>10A254a</string>
+	<string>10B61</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2015 Stand Alone, inc. All rights reserved.</string>
 	<key>branch</key>
 	<string>master</string>
 	<key>built</key>
-	<string>Thu Sep 13 08:20:40 20180913082040</string>
+	<string>Sun Nov 11 13:36:57 20181111133657</string>
 	<key>git_number</key>
-	<string>23</string>
+	<string>25</string>
 	<key>rev</key>
-	<string>0ee19b3</string>
+	<string>35d82f2</string>
 </dict>
 </plist>
