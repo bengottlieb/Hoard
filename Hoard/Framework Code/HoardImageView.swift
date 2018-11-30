@@ -46,6 +46,7 @@ open class ImageView: UIView {
 	var imageURL: URL?
 	open var url: URL? {
 		set {
+			if self.url == nil { self.pendingImage?.cancel(); self.pendingImage = nil }
 			if newValue == self.displayedURL && (self.image != nil || self.pendingImage != nil)  { return }
 			if let pendingURL = self.pendingImage?.url, let actualURL = newValue, actualURL == pendingURL { return }
 			self.shouldFadeIn = false
