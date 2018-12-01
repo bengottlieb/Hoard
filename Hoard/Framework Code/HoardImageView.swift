@@ -26,6 +26,7 @@ open class ImageView: UIView {
 	weak public var imageViewDelegate: HoardImageViewDelegate?
 	open var imageSource: HoardImageSource?
 	open var imageCache: Cache?
+	open var lastFileModificationDate: Date?
 	open var useDeviceOrientation = false { didSet { self.updateDeviceOrientationNotifications() }}
 	open var tapForFullScreen = false { didSet { self.updateTapForFullScren() }}
 	open var incomingImage: IncomingImage? { didSet {
@@ -47,7 +48,10 @@ open class ImageView: UIView {
 	open var url: URL? {
 		set {
 			if self.url == nil { self.pendingImage?.cancel(); self.pendingImage = nil }
-			if newValue == self.displayedURL && (self.image != nil || self.pendingImage != nil)  { return }
+			if newValue == self.displayedURL && (self.image != nil || self.pendingImage != nil) {
+				if let newMod = newValue?.lastModifiedOnDiskAt, let myMod = self.lastFileModificationDate, newMod <= myMod { return }
+			}
+			
 			if let pendingURL = self.pendingImage?.url, let actualURL = newValue, actualURL == pendingURL { return }
 			self.shouldFadeIn = false
 			self.set(url: newValue)
@@ -143,6 +147,7 @@ open class ImageView: UIView {
 	}
 	
 	var displayedURL: URL? { didSet {
+		self.lastFileModificationDate = self.displayedURL?.lastModifiedOnDiskAt
 		if let url = self.displayedURL {
 			self.urlLabel?.text = url.absoluteString
 		} else {

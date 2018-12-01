@@ -59,6 +59,8 @@
 		B5A482461AE5B390001636BE /* HoardPendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482451AE5B390001636BE /* HoardPendingImage.swift */; };
 		B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */; };
 		B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
+		B5C6F2ED21B2B784002E2DD5 /* URL+Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6F2EC21B2B783002E2DD5 /* URL+Hoard.swift */; };
+		B5C6F2EE21B2B784002E2DD5 /* URL+Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6F2EC21B2B783002E2DD5 /* URL+Hoard.swift */; };
 		B5CB6F9D1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */; };
 		B5CB6F9E1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */; };
 		B5CB6F9F1E1E7B8600116EB6 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */; };
@@ -128,6 +130,7 @@
 		B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardProtocols.swift; sourceTree = "<group>"; };
 		B5A482451AE5B390001636BE /* HoardPendingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardPendingImage.swift; sourceTree = "<group>"; };
 		B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageView.swift; sourceTree = "<group>"; };
+		B5C6F2EC21B2B783002E2DD5 /* URL+Hoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Hoard.swift"; sourceTree = "<group>"; };
 		B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardPrimitiveImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -265,6 +268,7 @@
 		B58D64741A898F81005A0002 /* Framework Code */ = {
 			isa = PBXGroup;
 			children = (
+				B5C6F2EC21B2B783002E2DD5 /* URL+Hoard.swift */,
 				B58D64751A898F81005A0002 /* Hoard.swift */,
 				B5A482451AE5B390001636BE /* HoardPendingImage.swift */,
 				B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */,
@@ -493,6 +497,7 @@
 				B57B7DA01FDED1840095DB12 /* Delegates.swift in Sources */,
 				B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */,
 				B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */,
+				B5C6F2ED21B2B784002E2DD5 /* URL+Hoard.swift in Sources */,
 				B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */,
 				B5A0005D1B907AAD00FF4576 /* HoardCache+iOS.swift in Sources */,
 				B586AF411EFAD67B00CA72CE /* IncomingImage.swift in Sources */,
@@ -505,6 +510,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5C6F2EE21B2B784002E2DD5 /* URL+Hoard.swift in Sources */,
 				B57B7DA11FDED1840095DB12 /* Delegates.swift in Sources */,
 				B5CB6FA01E1E7C9A00116EB6 /* HoardPendingImage.swift in Sources */,
 				B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */,
