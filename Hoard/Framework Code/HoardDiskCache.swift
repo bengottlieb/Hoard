@@ -145,7 +145,7 @@ open class DiskCache: Cache {
 	}
 	
 	open func storeData(_ data: Data?, from url: URL, suggestedFileExtension: String? = nil, validUntil: Date? = nil) {
-		if !self.valid { return }
+		if !self.valid || url.isFileURL { return }
 	
 		self.diskSemaphore.wait()
 		defer { self.diskSemaphore.signal() }
@@ -180,7 +180,7 @@ open class DiskCache: Cache {
 	}
 	
 	open func fetchData(for url: URL, moreRecentThan: Date? = nil) -> Data? {
-		var cachedURL = self.localURLForURL(url)
+		var cachedURL = url.isFileURL ? url : self.localURLForURL(url)
 		
 		if let date = moreRecentThan, let storedAt = cachedURL.storedAt, storedAt < date { return nil }
 		
