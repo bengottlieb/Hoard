@@ -24,7 +24,6 @@
 		B5040ECA1AEF1599008DBB12 /* HoardImageGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */; };
 		B544A57C1E1EB30300EEA266 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
 		B55CCDDC1FDCAFBA00C0C892 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */; };
-		B55CCDDD1FDCAFBA00C0C892 /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */; };
 		B55CCDDF1FDCAFBA00C0C892 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; };
 		B55CCDE41FDCAFC200C0C892 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE11FDCAFC200C0C892 /* CrossPlatformKit.framework */; };
 		B55CCDE51FDCAFC200C0C892 /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */; };
@@ -149,7 +148,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B55CCDDD1FDCAFBA00C0C892 /* Gulliver.framework in Frameworks */,
 				B55CCDDF1FDCAFBA00C0C892 /* Plug.framework in Frameworks */,
 				B55CCDDC1FDCAFBA00C0C892 /* CrossPlatformKit.framework in Frameworks */,
 			);
