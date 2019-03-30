@@ -151,7 +151,7 @@ open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
 		
 		for view in self.usedImageViews {
 			if let url = view.url , visibleURLs.contains(url) {
-				if let index = removeThese.index(of: view) { removeThese.remove(at: index) }
+				if let index = removeThese.firstIndex(of: view) { removeThese.remove(at: index) }
 				instantiatedURLs.append(url)
 			}
 		}
@@ -159,7 +159,7 @@ open class ImageGalleryView: UIImageView, UIScrollViewDelegate {
 		for view in removeThese {
 			view.removeFromSuperview()
 			view.prepareForReuse()
-			if let index = usedImageViews.index(of: view) { usedImageViews.remove(at: index) }
+			if let index = usedImageViews.firstIndex(of: view) { usedImageViews.remove(at: index) }
 			self.availableImageViews.insert(view)
 		}
 		

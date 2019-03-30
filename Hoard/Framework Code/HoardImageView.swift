@@ -255,7 +255,7 @@ open class ImageView: UIView {
 	
 	var parentGallery: ImageGalleryView?
 	var galleryIndex: Int? {
-		return self.parentGallery?.imageURLs.index(of: self.url!)
+		return self.parentGallery?.imageURLs.firstIndex(of: self.url!)
 	}
 	
 	open func makeFullScreen() -> ImageGalleryView? {
@@ -267,7 +267,7 @@ open class ImageView: UIView {
 			
 			if let parent = self.parentGallery {
 				self.fullScreenView!.load(urls: parent.imageURLs, placeholder: self.placeholder)
-				self.fullScreenView!.setCurrent(index: parent.imageURLs.index(of: self.url!) ?? 0, animated: false)
+				self.fullScreenView!.setCurrent(index: parent.imageURLs.firstIndex(of: self.url!) ?? 0, animated: false)
 			} else {
 				self.fullScreenView?.load(urls: self.parentGallery?.imageURLs ?? [self.url!], placeholder: self.placeholder)
 			}

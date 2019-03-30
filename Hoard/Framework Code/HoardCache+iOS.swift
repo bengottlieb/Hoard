@@ -17,7 +17,7 @@ public extension DiskCache {
 }
 
 public extension UXImage {
-	public class func decompressedImage(with data: Data) -> UXImage? {
+	class func decompressedImage(with data: Data) -> UXImage? {
 		let options = [String(kCGImageSourceShouldCache): true]
 		if let source = CGImageSourceCreateWithData(data as CFData, nil), let cgImage = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary?) {
 			return UXImage(cgImage: cgImage)
@@ -27,7 +27,7 @@ public extension UXImage {
 	}
 
 	@nonobjc
-	public class func decompressedImage(with url: URL) -> UXImage? {
+	class func decompressedImage(with url: URL) -> UXImage? {
 		let options = [String(kCGImageSourceShouldCache): true]
 		if let data = try? Data(contentsOf: url), let source = CGImageSourceCreateWithData(data as CFData, nil), let cgImage = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary?) {
 			return UXImage(cgImage: cgImage)
@@ -36,7 +36,7 @@ public extension UXImage {
 		return nil
 	}
 
-	convenience public init?(decompressableData data: Data) {
+	convenience init?(decompressableData data: Data) {
 		let options = [String(kCGImageSourceShouldCache): true]
 		if let source = CGImageSourceCreateWithData(data as CFData, nil), let cgImage = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary?) {
 			self.init(cgImage: cgImage)
@@ -44,7 +44,7 @@ public extension UXImage {
 		return nil
 	}
 
-	convenience public init?(decompressableURL url: URL) {
+	convenience init?(decompressableURL url: URL) {
 		let options = [String(kCGImageSourceShouldCache): true]
 		if let source = CGImageSourceCreateWithURL(url as CFURL, nil), let cgImage = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary?) {
 			self.init(cgImage: cgImage)

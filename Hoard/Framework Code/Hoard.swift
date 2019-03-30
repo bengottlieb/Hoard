@@ -76,7 +76,7 @@ open class HoardState: NSObject {
 	}
 	
 	func completed(image: PendingImage) {
-		if let index = self.pending.index(of: image) {
+		if let index = self.pending.firstIndex(of: image) {
 			self.pending.remove(at: index)
 		}
 		
