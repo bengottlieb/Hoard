@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		B5040ECA1AEF1599008DBB12 /* HoardImageGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */; };
+		B5390A6822D03870001AD88D /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57B7D9F1FDED1840095DB12 /* Delegates.swift */; };
 		B544A57C1E1EB30300EEA266 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
 		B55CCDDC1FDCAFBA00C0C892 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */; };
 		B55CCDDF1FDCAFBA00C0C892 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; };
@@ -30,7 +31,6 @@
 		B55CCDE61FDCAFC200C0C892 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE31FDCAFC200C0C892 /* Plug.framework */; };
 		B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */; };
 		B57B7DA01FDED1840095DB12 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57B7D9F1FDED1840095DB12 /* Delegates.swift */; };
-		B57B7DA11FDED1840095DB12 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57B7D9F1FDED1840095DB12 /* Delegates.swift */; };
 		B57B7DA21FDED7A60095DB12 /* Plug.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B57B7DA31FDED7AA0095DB12 /* CrossPlatformKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B57B7DA51FDED7DF0095DB12 /* SwearKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */; };
@@ -511,13 +511,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5C6F2EE21B2B784002E2DD5 /* URL+Hoard.swift in Sources */,
-				B57B7DA11FDED1840095DB12 /* Delegates.swift in Sources */,
 				B5CB6FA01E1E7C9A00116EB6 /* HoardPendingImage.swift in Sources */,
 				B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */,
 				B58D64831A898FBE005A0002 /* Hoard.swift in Sources */,
 				B5CB6F9F1E1E7B8600116EB6 /* HoardCache+iOS.swift in Sources */,
 				B5CB6F9E1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */,
 				B5A0006A1B9461BB00FF4576 /* HoardCache.swift in Sources */,
+				B5390A6822D03870001AD88D /* Delegates.swift in Sources */,
 				B544A57C1E1EB30300EEA266 /* HoardDiskCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -660,7 +660,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ben Gottlieb (JW8DK48L4U)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/TestHost/Info.plist";
@@ -676,7 +675,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/TestHost/Info.plist";
@@ -786,7 +784,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/Mac",
-					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -824,7 +821,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/Mac",
-					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Hoard/Mac/Info.plist;

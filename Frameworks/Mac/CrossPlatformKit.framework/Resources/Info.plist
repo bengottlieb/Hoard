@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>18D109</string>
+	<string>19A501i</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -29,7 +29,7 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>10E125</string>
+	<string>10E1001</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -39,16 +39,16 @@
 	<key>DTXcode</key>
 	<string>1020</string>
 	<key>DTXcodeBuild</key>
-	<string>10E125</string>
+	<string>10E1001</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2015 Stand Alone, inc. All rights reserved.</string>
 	<key>branch</key>
 	<string>master</string>
 	<key>built</key>
-	<string>Sat Mar 30 18:13:27 20190330181327</string>
+	<string>Fri Jul  5 20:26:13 20190705202613</string>
 	<key>git_number</key>
-	<string>26</string>
+	<string>33</string>
 	<key>rev</key>
-	<string>4efad87</string>
+	<string>a81e7f6</string>
 </dict>
 </plist>
