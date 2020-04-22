@@ -33,10 +33,7 @@
 		B57B7DA01FDED1840095DB12 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57B7D9F1FDED1840095DB12 /* Delegates.swift */; };
 		B57B7DA21FDED7A60095DB12 /* Plug.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B57B7DA31FDED7AA0095DB12 /* CrossPlatformKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B57B7DA51FDED7DF0095DB12 /* SwearKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */; };
-		B57B7DA81FDED7E20095DB12 /* SwearKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B57B7DA91FDED7FA0095DB12 /* Gulliver.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B57B7DAC1FDEE82E0095DB12 /* SwearKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57B7DAB1FDEE82E0095DB12 /* SwearKit.framework */; };
 		B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B586AF411EFAD67B00CA72CE /* IncomingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586AF401EFAD67B00CA72CE /* IncomingImage.swift */; };
 		B5883EE61FDEAC5B00D051C9 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; };
@@ -87,7 +84,6 @@
 				B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */,
 				B57B7DA31FDED7AA0095DB12 /* CrossPlatformKit.framework in CopyFiles */,
 				B57B7DA21FDED7A60095DB12 /* Plug.framework in CopyFiles */,
-				B57B7DA81FDED7E20095DB12 /* SwearKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,8 +105,6 @@
 		B55CCDE31FDCAFC200C0C892 /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
 		B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageCountView.swift; sourceTree = "<group>"; };
 		B57B7D9F1FDED1840095DB12 /* Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegates.swift; sourceTree = "<group>"; };
-		B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwearKit.framework; sourceTree = "<group>"; };
-		B57B7DAB1FDEE82E0095DB12 /* SwearKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwearKit.framework; sourceTree = "<group>"; };
 		B586AF401EFAD67B00CA72CE /* IncomingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomingImage.swift; sourceTree = "<group>"; };
 		B58D64671A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D64681A898F81005A0002 /* Hoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hoard.h; sourceTree = "<group>"; };
@@ -140,7 +134,6 @@
 			files = (
 				B5883EE61FDEAC5B00D051C9 /* Plug.framework in Frameworks */,
 				B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */,
-				B57B7DA51FDED7DF0095DB12 /* SwearKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,7 +150,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B57B7DAC1FDEE82E0095DB12 /* SwearKit.framework in Frameworks */,
 				B55CCDE51FDCAFC200C0C892 /* Gulliver.framework in Frameworks */,
 				B55CCDE41FDCAFC200C0C892 /* CrossPlatformKit.framework in Frameworks */,
 				B55CCDE61FDCAFC200C0C892 /* Plug.framework in Frameworks */,
@@ -210,7 +202,6 @@
 		B55CCDD71FDCAFBA00C0C892 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				B57B7DA41FDED7DF0095DB12 /* SwearKit.framework */,
 				B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */,
 				B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */,
 				B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */,
@@ -222,7 +213,6 @@
 		B55CCDE01FDCAFC200C0C892 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				B57B7DAB1FDEE82E0095DB12 /* SwearKit.framework */,
 				B55CCDE11FDCAFC200C0C892 /* CrossPlatformKit.framework */,
 				B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */,
 				B55CCDE31FDCAFC200C0C892 /* Plug.framework */,
@@ -388,7 +378,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Stand Alone, inc.";
 				TargetAttributes = {
 					B504E6121A89230F001B414B = {
@@ -688,7 +678,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -713,6 +703,7 @@
 				PRODUCT_NAME = Hoard;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -724,7 +715,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -745,6 +736,7 @@
 				PRODUCT_NAME = Hoard;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
