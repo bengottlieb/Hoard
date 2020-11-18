@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -21,46 +21,45 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		B5040ECA1AEF1599008DBB12 /* HoardImageGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */; };
-		B5390A6822D03870001AD88D /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57B7D9F1FDED1840095DB12 /* Delegates.swift */; };
-		B544A57C1E1EB30300EEA266 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
-		B55CCDDC1FDCAFBA00C0C892 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */; };
-		B55CCDDF1FDCAFBA00C0C892 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; };
-		B55CCDE41FDCAFC200C0C892 /* CrossPlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE11FDCAFC200C0C892 /* CrossPlatformKit.framework */; };
-		B55CCDE51FDCAFC200C0C892 /* Gulliver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */; };
-		B55CCDE61FDCAFC200C0C892 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDE31FDCAFC200C0C892 /* Plug.framework */; };
-		B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */; };
-		B57B7DA01FDED1840095DB12 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57B7D9F1FDED1840095DB12 /* Delegates.swift */; };
-		B57B7DA21FDED7A60095DB12 /* Plug.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B57B7DA31FDED7AA0095DB12 /* CrossPlatformKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B57B7DA91FDED7FA0095DB12 /* Gulliver.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B586AF411EFAD67B00CA72CE /* IncomingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586AF401EFAD67B00CA72CE /* IncomingImage.swift */; };
-		B5883EE61FDEAC5B00D051C9 /* Plug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */; };
 		B58D64791A898F89005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D64681A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
-		B58D64831A898FBE005A0002 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64751A898F81005A0002 /* Hoard.swift */; };
 		B58D64901A899094005A0002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D64881A899094005A0002 /* AppDelegate.swift */; };
 		B58D64911A899094005A0002 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B58D64891A899094005A0002 /* LaunchScreen.xib */; };
 		B58D64921A899094005A0002 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B58D648B1A899094005A0002 /* Main.storyboard */; };
 		B58D64931A899094005A0002 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B58D648D1A899094005A0002 /* Images.xcassets */; };
 		B58D64951A899094005A0002 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D648F1A899094005A0002 /* ViewController.swift */; };
 		B58D64961A899285005A0002 /* Hoard.h in Headers */ = {isa = PBXBuildFile; fileRef = B58D646B1A898F81005A0002 /* Hoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000591B90752B00FF4576 /* HoardDiskCache.swift */; };
-		B5A0005D1B907AAD00FF4576 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */; };
-		B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; };
-		B5A0006A1B9461BB00FF4576 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A000681B9461BB00FF4576 /* HoardCache.swift */; };
-		B5A0006F1B946EB400FF4576 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */; };
-		B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */; };
-		B5A482461AE5B390001636BE /* HoardPendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482451AE5B390001636BE /* HoardPendingImage.swift */; };
-		B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */; };
 		B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E6461A8968DC001B414B /* Hoard.framework */; };
-		B5C6F2ED21B2B784002E2DD5 /* URL+Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6F2EC21B2B783002E2DD5 /* URL+Hoard.swift */; };
-		B5C6F2EE21B2B784002E2DD5 /* URL+Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6F2EC21B2B783002E2DD5 /* URL+Hoard.swift */; };
-		B5CB6F9D1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */; };
-		B5CB6F9E1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */; };
-		B5CB6F9F1E1E7B8600116EB6 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */; };
-		B5CB6FA01E1E7C9A00116EB6 /* HoardPendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A482451AE5B390001636BE /* HoardPendingImage.swift */; };
+		B5DB415B256557450014BFE8 /* CrossPlatformKit in Frameworks */ = {isa = PBXBuildFile; productRef = B5DB415A256557450014BFE8 /* CrossPlatformKit */; };
+		B5DB415D256557450014BFE8 /* Plug in Frameworks */ = {isa = PBXBuildFile; productRef = B5DB415C256557450014BFE8 /* Plug */; };
+		B5DB415F2565574A0014BFE8 /* CrossPlatformKit in Frameworks */ = {isa = PBXBuildFile; productRef = B5DB415E2565574A0014BFE8 /* CrossPlatformKit */; };
+		B5DB41612565574A0014BFE8 /* Plug in Frameworks */ = {isa = PBXBuildFile; productRef = B5DB41602565574A0014BFE8 /* Plug */; };
+		B5DB417A256558820014BFE8 /* HoardPrimitiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB416D256558820014BFE8 /* HoardPrimitiveImage.swift */; };
+		B5DB417B256558820014BFE8 /* HoardPrimitiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB416D256558820014BFE8 /* HoardPrimitiveImage.swift */; };
+		B5DB417C256558820014BFE8 /* HoardImageGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB416E256558820014BFE8 /* HoardImageGalleryView.swift */; };
+		B5DB417D256558820014BFE8 /* HoardImageGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB416E256558820014BFE8 /* HoardImageGalleryView.swift */; };
+		B5DB417E256558820014BFE8 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB416F256558820014BFE8 /* HoardCache.swift */; };
+		B5DB417F256558820014BFE8 /* HoardCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB416F256558820014BFE8 /* HoardCache.swift */; };
+		B5DB4180256558820014BFE8 /* IncomingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4170256558820014BFE8 /* IncomingImage.swift */; };
+		B5DB4181256558820014BFE8 /* IncomingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4170256558820014BFE8 /* IncomingImage.swift */; };
+		B5DB4182256558820014BFE8 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4171256558820014BFE8 /* Hoard.swift */; };
+		B5DB4183256558820014BFE8 /* Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4171256558820014BFE8 /* Hoard.swift */; };
+		B5DB4184256558820014BFE8 /* URL+Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4172256558820014BFE8 /* URL+Hoard.swift */; };
+		B5DB4185256558820014BFE8 /* URL+Hoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4172256558820014BFE8 /* URL+Hoard.swift */; };
+		B5DB4186256558820014BFE8 /* HoardImageCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4173256558820014BFE8 /* HoardImageCountView.swift */; };
+		B5DB4187256558820014BFE8 /* HoardImageCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4173256558820014BFE8 /* HoardImageCountView.swift */; };
+		B5DB4188256558820014BFE8 /* HoardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4174256558820014BFE8 /* HoardImageView.swift */; };
+		B5DB4189256558820014BFE8 /* HoardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4174256558820014BFE8 /* HoardImageView.swift */; };
+		B5DB418A256558820014BFE8 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4175256558820014BFE8 /* HoardCache+iOS.swift */; };
+		B5DB418B256558820014BFE8 /* HoardCache+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4175256558820014BFE8 /* HoardCache+iOS.swift */; };
+		B5DB418C256558820014BFE8 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4176256558820014BFE8 /* Delegates.swift */; };
+		B5DB418D256558820014BFE8 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4176256558820014BFE8 /* Delegates.swift */; };
+		B5DB418E256558820014BFE8 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4177256558820014BFE8 /* HoardProtocols.swift */; };
+		B5DB418F256558820014BFE8 /* HoardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4177256558820014BFE8 /* HoardProtocols.swift */; };
+		B5DB4190256558820014BFE8 /* HoardPendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4178256558820014BFE8 /* HoardPendingImage.swift */; };
+		B5DB4191256558820014BFE8 /* HoardPendingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4178256558820014BFE8 /* HoardPendingImage.swift */; };
+		B5DB4192256558820014BFE8 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4179256558820014BFE8 /* HoardDiskCache.swift */; };
+		B5DB4193256558820014BFE8 /* HoardDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB4179256558820014BFE8 /* HoardDiskCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -80,51 +79,42 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B57B7DA91FDED7FA0095DB12 /* Gulliver.framework in CopyFiles */,
 				B583A78A1CB4951C00AF73BA /* Hoard.framework in CopyFiles */,
-				B57B7DA31FDED7AA0095DB12 /* CrossPlatformKit.framework in CopyFiles */,
-				B57B7DA21FDED7A60095DB12 /* Plug.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageGalleryView.swift; sourceTree = "<group>"; };
 		B504E6131A89230F001B414B /* HoardTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoardTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B504E6461A8968DC001B414B /* Hoard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hoard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B504E66A1A896980001B414B /* BuildFramework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BuildFramework.sh; path = Hoard/BuildFramework.sh; sourceTree = "<group>"; };
 		B504E69B1A896E82001B414B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B504E69C1A896E82001B414B /* Hoard_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hoard_Tests.swift; sourceTree = "<group>"; };
 		B504E6AF1A898110001B414B /* Hoard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hoard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
-		B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gulliver.framework; sourceTree = "<group>"; };
-		B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
-		B55CCDE11FDCAFC200C0C892 /* CrossPlatformKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrossPlatformKit.framework; sourceTree = "<group>"; };
-		B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gulliver.framework; sourceTree = "<group>"; };
-		B55CCDE31FDCAFC200C0C892 /* Plug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plug.framework; sourceTree = "<group>"; };
-		B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageCountView.swift; sourceTree = "<group>"; };
-		B57B7D9F1FDED1840095DB12 /* Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegates.swift; sourceTree = "<group>"; };
-		B586AF401EFAD67B00CA72CE /* IncomingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomingImage.swift; sourceTree = "<group>"; };
 		B58D64671A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D64681A898F81005A0002 /* Hoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hoard.h; sourceTree = "<group>"; };
 		B58D646A1A898F81005A0002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D646B1A898F81005A0002 /* Hoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hoard.h; sourceTree = "<group>"; };
-		B58D64751A898F81005A0002 /* Hoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hoard.swift; sourceTree = "<group>"; };
 		B58D64881A899094005A0002 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B58D648A1A899094005A0002 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		B58D648C1A899094005A0002 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B58D648D1A899094005A0002 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B58D648E1A899094005A0002 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B58D648F1A899094005A0002 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B5A000591B90752B00FF4576 /* HoardDiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardDiskCache.swift; sourceTree = "<group>"; };
-		B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HoardCache+iOS.swift"; sourceTree = "<group>"; };
-		B5A000681B9461BB00FF4576 /* HoardCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardCache.swift; sourceTree = "<group>"; };
-		B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardProtocols.swift; sourceTree = "<group>"; };
-		B5A482451AE5B390001636BE /* HoardPendingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardPendingImage.swift; sourceTree = "<group>"; };
-		B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageView.swift; sourceTree = "<group>"; };
-		B5C6F2EC21B2B783002E2DD5 /* URL+Hoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Hoard.swift"; sourceTree = "<group>"; };
-		B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardPrimitiveImage.swift; sourceTree = "<group>"; };
+		B5DB416D256558820014BFE8 /* HoardPrimitiveImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardPrimitiveImage.swift; sourceTree = "<group>"; };
+		B5DB416E256558820014BFE8 /* HoardImageGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageGalleryView.swift; sourceTree = "<group>"; };
+		B5DB416F256558820014BFE8 /* HoardCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardCache.swift; sourceTree = "<group>"; };
+		B5DB4170256558820014BFE8 /* IncomingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomingImage.swift; sourceTree = "<group>"; };
+		B5DB4171256558820014BFE8 /* Hoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hoard.swift; sourceTree = "<group>"; };
+		B5DB4172256558820014BFE8 /* URL+Hoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Hoard.swift"; sourceTree = "<group>"; };
+		B5DB4173256558820014BFE8 /* HoardImageCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageCountView.swift; sourceTree = "<group>"; };
+		B5DB4174256558820014BFE8 /* HoardImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardImageView.swift; sourceTree = "<group>"; };
+		B5DB4175256558820014BFE8 /* HoardCache+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HoardCache+iOS.swift"; sourceTree = "<group>"; };
+		B5DB4176256558820014BFE8 /* Delegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Delegates.swift; sourceTree = "<group>"; };
+		B5DB4177256558820014BFE8 /* HoardProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardProtocols.swift; sourceTree = "<group>"; };
+		B5DB4178256558820014BFE8 /* HoardPendingImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardPendingImage.swift; sourceTree = "<group>"; };
+		B5DB4179256558820014BFE8 /* HoardDiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoardDiskCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +122,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5883EE61FDEAC5B00D051C9 /* Plug.framework in Frameworks */,
 				B5A482511AE5DCCC001636BE /* Hoard.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,8 +130,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B55CCDDF1FDCAFBA00C0C892 /* Plug.framework in Frameworks */,
-				B55CCDDC1FDCAFBA00C0C892 /* CrossPlatformKit.framework in Frameworks */,
+				B5DB415D256557450014BFE8 /* Plug in Frameworks */,
+				B5DB415B256557450014BFE8 /* CrossPlatformKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,9 +139,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B55CCDE51FDCAFC200C0C892 /* Gulliver.framework in Frameworks */,
-				B55CCDE41FDCAFC200C0C892 /* CrossPlatformKit.framework in Frameworks */,
-				B55CCDE61FDCAFC200C0C892 /* Plug.framework in Frameworks */,
+				B5DB41612565574A0014BFE8 /* Plug in Frameworks */,
+				B5DB415F2565574A0014BFE8 /* CrossPlatformKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,10 +151,11 @@
 			isa = PBXGroup;
 			children = (
 				B504E66A1A896980001B414B /* BuildFramework.sh */,
-				B58D64741A898F81005A0002 /* Framework Code */,
+				B5DB416B256558820014BFE8 /* Sources */,
 				B586AF3E1EFAD3E300CA72CE /* Infrastructure */,
 				B504E6991A896E82001B414B /* Hoard Tests */,
 				B504E6141A89230F001B414B /* Products */,
+				B5DB4159256557450014BFE8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -199,33 +188,9 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B55CCDD71FDCAFBA00C0C892 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				B55CCDD81FDCAFBA00C0C892 /* CrossPlatformKit.framework */,
-				B55CCDD91FDCAFBA00C0C892 /* Gulliver.framework */,
-				B55CCDDB1FDCAFBA00C0C892 /* Plug.framework */,
-			);
-			name = iOS;
-			path = Frameworks/iOS;
-			sourceTree = "<group>";
-		};
-		B55CCDE01FDCAFC200C0C892 /* Mac */ = {
-			isa = PBXGroup;
-			children = (
-				B55CCDE11FDCAFC200C0C892 /* CrossPlatformKit.framework */,
-				B55CCDE21FDCAFC200C0C892 /* Gulliver.framework */,
-				B55CCDE31FDCAFC200C0C892 /* Plug.framework */,
-			);
-			name = Mac;
-			path = Frameworks/Mac;
-			sourceTree = "<group>";
-		};
 		B586AF3E1EFAD3E300CA72CE /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
-				B55CCDD71FDCAFBA00C0C892 /* iOS */,
-				B55CCDE01FDCAFC200C0C892 /* Mac */,
 				B58D64661A898F81005A0002 /* Hoard_Mac */,
 				B58D64691A898F81005A0002 /* Hoard_iOS */,
 				B5A482401AE5838F001636BE /* Frameworks */,
@@ -253,27 +218,6 @@
 			path = Hoard/iOS;
 			sourceTree = "<group>";
 		};
-		B58D64741A898F81005A0002 /* Framework Code */ = {
-			isa = PBXGroup;
-			children = (
-				B5C6F2EC21B2B783002E2DD5 /* URL+Hoard.swift */,
-				B58D64751A898F81005A0002 /* Hoard.swift */,
-				B5A482451AE5B390001636BE /* HoardPendingImage.swift */,
-				B5CB6F9C1E1E792700116EB6 /* HoardPrimitiveImage.swift */,
-				B5A4824C1AE5DB6A001636BE /* HoardImageView.swift */,
-				B5A000681B9461BB00FF4576 /* HoardCache.swift */,
-				B57B7D9F1FDED1840095DB12 /* Delegates.swift */,
-				B5A0005C1B907AAD00FF4576 /* HoardCache+iOS.swift */,
-				B5A000591B90752B00FF4576 /* HoardDiskCache.swift */,
-				B5040EC91AEF1599008DBB12 /* HoardImageGalleryView.swift */,
-				B5A0006E1B946EB400FF4576 /* HoardProtocols.swift */,
-				B574D1A81B195C71008BEC56 /* HoardImageCountView.swift */,
-				B586AF401EFAD67B00CA72CE /* IncomingImage.swift */,
-			);
-			name = "Framework Code";
-			path = "Hoard/Framework Code";
-			sourceTree = "<group>";
-		};
 		B58D64871A899094005A0002 /* TestHost */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +236,41 @@
 			children = (
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		B5DB4159256557450014BFE8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B5DB416B256558820014BFE8 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B5DB416C256558820014BFE8 /* Hoard */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		B5DB416C256558820014BFE8 /* Hoard */ = {
+			isa = PBXGroup;
+			children = (
+				B5DB416D256558820014BFE8 /* HoardPrimitiveImage.swift */,
+				B5DB416E256558820014BFE8 /* HoardImageGalleryView.swift */,
+				B5DB416F256558820014BFE8 /* HoardCache.swift */,
+				B5DB4170256558820014BFE8 /* IncomingImage.swift */,
+				B5DB4171256558820014BFE8 /* Hoard.swift */,
+				B5DB4172256558820014BFE8 /* URL+Hoard.swift */,
+				B5DB4173256558820014BFE8 /* HoardImageCountView.swift */,
+				B5DB4174256558820014BFE8 /* HoardImageView.swift */,
+				B5DB4175256558820014BFE8 /* HoardCache+iOS.swift */,
+				B5DB4176256558820014BFE8 /* Delegates.swift */,
+				B5DB4177256558820014BFE8 /* HoardProtocols.swift */,
+				B5DB4178256558820014BFE8 /* HoardPendingImage.swift */,
+				B5DB4179256558820014BFE8 /* HoardDiskCache.swift */,
+			);
+			path = Hoard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,6 +309,8 @@
 			dependencies = (
 			);
 			name = HoardTest;
+			packageProductDependencies = (
+			);
 			productName = Hoard;
 			productReference = B504E6131A89230F001B414B /* HoardTest.app */;
 			productType = "com.apple.product-type.application";
@@ -349,6 +330,10 @@
 			dependencies = (
 			);
 			name = Hoard_iOS;
+			packageProductDependencies = (
+				B5DB415A256557450014BFE8 /* CrossPlatformKit */,
+				B5DB415C256557450014BFE8 /* Plug */,
+			);
 			productName = Hoard;
 			productReference = B504E6461A8968DC001B414B /* Hoard.framework */;
 			productType = "com.apple.product-type.framework";
@@ -367,6 +352,10 @@
 			dependencies = (
 			);
 			name = Hoard_Mac;
+			packageProductDependencies = (
+				B5DB415E2565574A0014BFE8 /* CrossPlatformKit */,
+				B5DB41602565574A0014BFE8 /* Plug */,
+			);
 			productName = Hoard_Mac;
 			productReference = B504E6AF1A898110001B414B /* Hoard.framework */;
 			productType = "com.apple.product-type.framework";
@@ -411,6 +400,10 @@
 				Base,
 			);
 			mainGroup = B504E60A1A89230F001B414B;
+			packageReferences = (
+				B5DB414D256557000014BFE8 /* XCRemoteSwiftPackageReference "crossplatformkit" */,
+				B5DB4152256557230014BFE8 /* XCRemoteSwiftPackageReference "plug" */,
+			);
 			productRefGroup = B504E6141A89230F001B414B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -480,19 +473,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5040ECA1AEF1599008DBB12 /* HoardImageGalleryView.swift in Sources */,
-				B574D1A91B195C71008BEC56 /* HoardImageCountView.swift in Sources */,
-				B58D647F1A898FBD005A0002 /* Hoard.swift in Sources */,
-				B5A0006F1B946EB400FF4576 /* HoardProtocols.swift in Sources */,
-				B57B7DA01FDED1840095DB12 /* Delegates.swift in Sources */,
-				B5A000691B9461BB00FF4576 /* HoardCache.swift in Sources */,
-				B5A0005A1B90752B00FF4576 /* HoardDiskCache.swift in Sources */,
-				B5C6F2ED21B2B784002E2DD5 /* URL+Hoard.swift in Sources */,
-				B5A4824D1AE5DB6A001636BE /* HoardImageView.swift in Sources */,
-				B5A0005D1B907AAD00FF4576 /* HoardCache+iOS.swift in Sources */,
-				B586AF411EFAD67B00CA72CE /* IncomingImage.swift in Sources */,
-				B5CB6F9D1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */,
-				B5A482461AE5B390001636BE /* HoardPendingImage.swift in Sources */,
+				B5DB4190256558820014BFE8 /* HoardPendingImage.swift in Sources */,
+				B5DB4184256558820014BFE8 /* URL+Hoard.swift in Sources */,
+				B5DB4186256558820014BFE8 /* HoardImageCountView.swift in Sources */,
+				B5DB417C256558820014BFE8 /* HoardImageGalleryView.swift in Sources */,
+				B5DB418E256558820014BFE8 /* HoardProtocols.swift in Sources */,
+				B5DB4188256558820014BFE8 /* HoardImageView.swift in Sources */,
+				B5DB4192256558820014BFE8 /* HoardDiskCache.swift in Sources */,
+				B5DB4180256558820014BFE8 /* IncomingImage.swift in Sources */,
+				B5DB418A256558820014BFE8 /* HoardCache+iOS.swift in Sources */,
+				B5DB418C256558820014BFE8 /* Delegates.swift in Sources */,
+				B5DB4182256558820014BFE8 /* Hoard.swift in Sources */,
+				B5DB417A256558820014BFE8 /* HoardPrimitiveImage.swift in Sources */,
+				B5DB417E256558820014BFE8 /* HoardCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,15 +493,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5C6F2EE21B2B784002E2DD5 /* URL+Hoard.swift in Sources */,
-				B5CB6FA01E1E7C9A00116EB6 /* HoardPendingImage.swift in Sources */,
-				B5A000701B946EB400FF4576 /* HoardProtocols.swift in Sources */,
-				B58D64831A898FBE005A0002 /* Hoard.swift in Sources */,
-				B5CB6F9F1E1E7B8600116EB6 /* HoardCache+iOS.swift in Sources */,
-				B5CB6F9E1E1E792700116EB6 /* HoardPrimitiveImage.swift in Sources */,
-				B5A0006A1B9461BB00FF4576 /* HoardCache.swift in Sources */,
-				B5390A6822D03870001AD88D /* Delegates.swift in Sources */,
-				B544A57C1E1EB30300EEA266 /* HoardDiskCache.swift in Sources */,
+				B5DB4191256558820014BFE8 /* HoardPendingImage.swift in Sources */,
+				B5DB4185256558820014BFE8 /* URL+Hoard.swift in Sources */,
+				B5DB4187256558820014BFE8 /* HoardImageCountView.swift in Sources */,
+				B5DB417D256558820014BFE8 /* HoardImageGalleryView.swift in Sources */,
+				B5DB418F256558820014BFE8 /* HoardProtocols.swift in Sources */,
+				B5DB4189256558820014BFE8 /* HoardImageView.swift in Sources */,
+				B5DB4193256558820014BFE8 /* HoardDiskCache.swift in Sources */,
+				B5DB4181256558820014BFE8 /* IncomingImage.swift in Sources */,
+				B5DB418B256558820014BFE8 /* HoardCache+iOS.swift in Sources */,
+				B5DB418D256558820014BFE8 /* Delegates.swift in Sources */,
+				B5DB4183256558820014BFE8 /* Hoard.swift in Sources */,
+				B5DB417B256558820014BFE8 /* HoardPrimitiveImage.swift in Sources */,
+				B5DB417F256558820014BFE8 /* HoardCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,7 +634,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -646,6 +644,7 @@
 		B504E6331A89230F001B414B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ben Gottlieb (JW8DK48L4U)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -653,7 +652,10 @@
 					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/TestHost/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -662,13 +664,17 @@
 		B504E6341A89230F001B414B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/TestHost/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -698,7 +704,11 @@
 				);
 				INFOPLIST_FILE = Hoard/iOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hoard;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -731,13 +741,18 @@
 				);
 				INFOPLIST_FILE = Hoard/iOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hoard;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -784,7 +799,11 @@
 				);
 				INFOPLIST_FILE = Hoard/Mac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hoard;
@@ -817,7 +836,11 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Hoard/Mac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.standalone.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hoard;
@@ -879,6 +902,48 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B5DB414D256557000014BFE8 /* XCRemoteSwiftPackageReference "crossplatformkit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bengottlieb/crossplatformkit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		B5DB4152256557230014BFE8 /* XCRemoteSwiftPackageReference "plug" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bengottlieb/plug";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B5DB415A256557450014BFE8 /* CrossPlatformKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5DB414D256557000014BFE8 /* XCRemoteSwiftPackageReference "crossplatformkit" */;
+			productName = CrossPlatformKit;
+		};
+		B5DB415C256557450014BFE8 /* Plug */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5DB4152256557230014BFE8 /* XCRemoteSwiftPackageReference "plug" */;
+			productName = Plug;
+		};
+		B5DB415E2565574A0014BFE8 /* CrossPlatformKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5DB414D256557000014BFE8 /* XCRemoteSwiftPackageReference "crossplatformkit" */;
+			productName = CrossPlatformKit;
+		};
+		B5DB41602565574A0014BFE8 /* Plug */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5DB4152256557230014BFE8 /* XCRemoteSwiftPackageReference "plug" */;
+			productName = Plug;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B504E60B1A89230F001B414B /* Project object */;
 }

@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CrossPlatformKit",
+        "repositoryURL": "https://github.com/bengottlieb/CrossPlatformKit",
+        "state": {
+          "branch": null,
+          "revision": "94243baffde14adb5efb08f8c0af6ecd1ce683fb",
+          "version": "1.0.2"
+        }
+      },
+      {
+        "package": "Plug",
+        "repositoryURL": "https://github.com/bengottlieb/Plug",
+        "state": {
+          "branch": null,
+          "revision": "b6af31a11c516000182af73a8333306c1d4b65ba",
+          "version": "1.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
