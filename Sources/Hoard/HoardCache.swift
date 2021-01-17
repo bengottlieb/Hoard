@@ -10,6 +10,10 @@ import Foundation
 import CrossPlatformKit
 import Plug
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 open class Cache: NSObject {
 	public static var defaultImageCache = Cache.cache(for: Cache.mainImageCacheKey)
 	public static let mainImageCacheKey = "main-hoard-cache"
